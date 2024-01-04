@@ -11,12 +11,13 @@ import requests
 #import matplotlib.pyplot as plt
 #import seaborn as sns
 
-st.write("Crédit Score Dashboard")
+st.title("Credit Score Dashboard")
+
+#st.write("Crédit Score Dashboard")
 ##################################################
 # Page configuration inistiatlisation
-#st.set_page_config(page_title="Credit Score Dashboard", page_icon="💳💵", layout="wide", initial_sidebar_state="expanded")
-
-#alt.themes.enable("dark")
+st.set_page_config(page_title="Credit Score Dashboard", page_icon="💳💵", layout="wide", initial_sidebar_state="expanded", menu_items=None))
+alt.themes.enable("dark")
 
 
 ##################################################
