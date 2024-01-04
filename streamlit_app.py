@@ -1,7 +1,6 @@
 # Import des librairies
 import streamlit as st
 from PIL import Image
-import shap
 import requests
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import plotly.graph_objects as go
