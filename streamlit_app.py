@@ -19,7 +19,7 @@ import seaborn as sns
 
 st.set_page_config(
     page_titile="Credit Score Dashboard",
-    page_icon="c:\Users\bishn\Desktop\open class room\8 Nov 2022 - DATA SCIENTIST\Projet 7\bank loan image.jpg",
+    page_icon="💳💵",
     layout="wide",
     initial_sidebar_state="expanded")
 
