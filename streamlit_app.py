@@ -13,12 +13,7 @@ import requests
 
 ##################################################
 # Page configuration inistiatlisation
-st.set_page_config(
-    page_titile="Credit Score Dashboard",
-    page_icon="💳💵",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="Credit Score Dashboard", page_icon="💳💵", layout="wide", initial_sidebar_state="expanded")
 
 alt.themes.enables("dark")
 
