@@ -16,7 +16,7 @@ st.title("Credit Score Dashboard")
 #st.write("Crédit Score Dashboard")
 ##################################################
 # Page configuration inistiatlisation
-st.set_page_config(page_title="Credit Score Dashboard", page_icon="💳💵", layout="wide", initial_sidebar_state="expanded", menu_items=None))
+st.set_page_config(page_title="Credit Score Dashboard", page_icon="💳💵", layout="wide", initial_sidebar_state="expanded", menu_items=None)
 alt.themes.enable("dark")
 
 
