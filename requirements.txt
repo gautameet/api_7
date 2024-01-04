@@ -1,7 +1,8 @@
 streamlit
 requests
-plotly.graph_objects
+plotly
 plotly.express
+plotly.graph_objects
 plotly.figure_factory
 json
 pandas
