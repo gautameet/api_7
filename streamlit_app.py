@@ -11,7 +11,7 @@ import requests
 #import matplotlib.pyplot as plt
 #import seaborn as sns
 
-st.title("Credit Score Dashboard")
+st.title("💳💵 Credit Score Dashboard")
 
 #st.write("💳💵 Crédit Score Dashboard")
 ##################################################
