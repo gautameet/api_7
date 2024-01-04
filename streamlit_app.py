@@ -2,8 +2,8 @@
 import streamlit as st
 from PIL import Image
 import requests
-import plotly.graph_objects as go
 import plotly.express as px
+import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import json
 import pandas as pd
