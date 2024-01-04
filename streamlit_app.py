@@ -1,5 +1,4 @@
 # Import des librairies
-pip install streamlit
 import streamlit as st
 from PIL import Image
 import requests
@@ -13,9 +12,7 @@ import requests
 #import seaborn as sns
 
 ##################################################
-
 # Page configuration inistiatlisation
-
 st.set_page_config(
     page_titile="Credit Score Dashboard",
     page_icon="💳💵",
