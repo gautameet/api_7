@@ -1,1 +1,10 @@
-
+streamlit
+requests
+plotly.graph_objects
+plotly.express
+plotly.figure_factory
+json
+pandas
+numpy
+matplotlib.pyplot
+seaborn
