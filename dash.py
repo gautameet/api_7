@@ -17,7 +17,7 @@ import pandas as pd
 
 #st.title("💳💵 Credit Score Dashboard")
 
-st.write("💳💵 Crédit Score Dashboard")
+#st.write("💳💵 Crédit Score Dashboard")
 ##################################################
 
 # Page configuration inistiatlisation
