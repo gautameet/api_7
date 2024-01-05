@@ -31,9 +31,16 @@ alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
-  logo_path = "api_7/logo.png"
-  logo = Image.open(logo_path)
-  st.image(logo, width=200)
+logo_path = "api_7/logo.png"
+try:
+    logo = Image.open(logo_path)
+    st.image(logo, width=200)
+except FileNotFoundError:
+    st.error(f"Error: Logo file not found at {logo_path}")
+
+  #logo_path = "api_7/logo.png"
+  #logo = Image.open(logo_path)
+  #st.image(logo, width=200)
   #logo = "💵"
   #logo = Image.open("api_7/img/logo pret à dépenser.png")
   #st.image(logo, width=200)
