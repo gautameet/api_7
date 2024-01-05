@@ -46,7 +46,7 @@ alt.themes.enable("dark")
   #st.image(logo, width=200)
 
   # Page selection
-  page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
+page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
   
   #Id selection
   st.markdown("""---""")
