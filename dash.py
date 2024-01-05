@@ -30,7 +30,7 @@ st.set_page_config(
 alt.themes.enable("dark")
 
 # Sidebar
-with st.sidebar:
+  with st.sidebar:
     logo_path = "logo.png"
     try:
       logo = Image.open(logo_path)
