@@ -27,7 +27,7 @@ st.set_page_config(
   layout="wide",
   #initial_sidebar_state="expanded",
   #menu_items=None)
-#alt.themes.enable("dark")
+alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
