@@ -29,12 +29,12 @@ st.set_page_config(
 
 # Sidebar
 with st.sidebar:
-  logo_path = "logo.png"
-  try:
-      logo = Image.open(logo_path)
-      st.image(logo, width=150)
-  except FileNotFoundError:
-      st.error(f"Error: Logo file not found at {logo_path}")
+    logo_path = "logo.png"
+    try:
+        logo = Image.open(logo_path)
+        st.image(logo, width=150)
+    except FileNotFoundError:
+        st.error(f"Error: Logo file not found at {logo_path}")
 
 
 # Page selection
