@@ -38,15 +38,28 @@ with st.sidebar:
 
 
 # Page selection
-page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
+page =  st.selectbox("Navigation", ["Home", "Customer Information", "Local interpretation", "Global interpretation"])
   
 #Id selection
 st.markdown("""---""")
   
-  #list_id_client = list(data_test['SK_ID_CURR'])
-  #list_id_client.insert(0, '<Select>')
-  #id_client_dash = st.selectbox("ID Client", list_id_client)
-  #st.write('Vous avez choisi le client ID : '+str(id_client_dash))
+#list_id_client = list(data_test['SK_ID_CURR'])
+#list_id_client.insert(0, '<Select>')
+#id_client_dash = st.selectbox("ID Client", list_id_client)
+#st.write('Vous avez choisi le client ID : '+str(id_client_dash))
 
 st.markdown("""---""")
 st.write("By Amit GAUTAM")
+
+if page == "Home":
+    st.title("Credit Score Dashboard - Home Page")
+    st.markdown("This is an interactive dashboard website which lets the clients to know about their credit demands\n"
+                "approved ou refused.\n"
+                
+                "\nThis automatique predictions are calculted with the help of machine learning algorith, "
+                                
+                "\nThis dashboard is composed of following pages :\n"
+                "- **Client Information**: to find out all the information related to the customer "
+                "- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
+                "- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
+
