@@ -17,7 +17,7 @@ import pandas as pd
 
 ##################################################
 
-# Page configuration initiatlisation
+# Page configuration initialisation
 st.set_page_config(
   page_title="Credit Score Dashboard", 
   page_icon="💳💵",
@@ -25,7 +25,7 @@ st.set_page_config(
   initial_sidebar_state="expanded",
   menu_items=None)
 
-alt.themes.enable("dark")
+#alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
@@ -40,7 +40,7 @@ with st.sidebar:
 # Page selection
 page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
   
-  Id selection
+#Id selection
 st.markdown("""---""")
   
   #list_id_client = list(data_test['SK_ID_CURR'])
