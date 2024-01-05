@@ -31,9 +31,12 @@ alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
-  logo = "💵"
-  #logo = Image.open("api_7/img/logo pret à dépenser.png")
+  logo_path = "img/logo.png"
+  logo = Image.open(logo_path)
   st.image(logo, width=200)
+  #logo = "💵"
+  #logo = Image.open("api_7/img/logo pret à dépenser.png")
+  #st.image(logo, width=200)
 
   # Page selection
   page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
