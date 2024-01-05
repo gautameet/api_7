@@ -43,11 +43,6 @@ page =  st.selectbox("Navigation", ["Home", "Customer Information", "Local inter
 #Id selection
 st.markdown("""---""")
   
-#list_id_client = list(data_test['SK_ID_CURR'])
-#list_id_client.insert(0, '<Select>')
-#id_client_dash = st.selectbox("ID Client", list_id_client)
-#st.write('Vous avez choisi le client ID : '+str(id_client_dash))
-
 st.markdown("""---""")
 st.write("By Amit GAUTAM")
 
