@@ -1,4 +1,4 @@
-# Import des librairies
+## Import des librairies
 import streamlit as st
 import altair as alt
 from sklearn.preprocessing import StandardScaler
@@ -53,7 +53,7 @@ with st.sidebar:
   
   #list_id_client = list(data_test['SK_ID_CURR'])
   #list_id_client.insert(0, '<Select>')
-  "id_client_dash = st.selectbox("ID Client", list_id_client)
+  #id_client_dash = st.selectbox("ID Client", list_id_client)
   #st.write('Vous avez choisi le client ID : '+str(id_client_dash))
 
   st.markdown("""---""")
