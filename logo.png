@@ -1,3 +1,1 @@
-logo_path = "img/logo.png"
-logo = Image.open(logo_path)
-st.image(logo, width=200)
+💰
