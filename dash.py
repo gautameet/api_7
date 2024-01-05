@@ -23,12 +23,12 @@ st.set_page_config(
   page_icon="💳💵",
   layout="wide",
   initial_sidebar_state="expanded",
-  #menu_items=None)
+  menu_items=None)
 
 #alt.themes.enable("dark")
 
 # Sidebar
-with st.sidebar:
+  with st.sidebar:
     logo_path = "logo.png"
     try:
       logo = Image.open(logo_path)
