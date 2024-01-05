@@ -1,6 +1,6 @@
 # Import des librairies
 import streamlit as st
-"from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler
 #from PIL import Image
 #import requests
 import plotly
