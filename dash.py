@@ -44,11 +44,7 @@ with st.sidebar:
   
     #st.markdown("""---""")
     
-
-
-
-
-    st.write("By Amit GAUTAM")
+    #st.write("By Amit GAUTAM")
 
 if page == "Home":
     st.title("💳💵 Credit Score Dashboard - Home Page")
