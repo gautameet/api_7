@@ -15,7 +15,7 @@ import pandas as pd
 #import seaborn as sns
 #import pickle
 
-#st.title("💳💵 Credit Score Dashboard")
+st.title("💳💵 Credit Score Dashboard")
 
 #st.write("💳💵 Crédit Score Dashboard")
 ##################################################
@@ -40,7 +40,7 @@ with st.sidebar:
 
   #logo_path = "api_7/logo.png"
   #logo = Image.open(logo_path)
-  #st.image(logo, width=200)
+  #st.image(logo, width=150)
   #logo = "💵"
   #logo = Image.open("api_7/pret à dépenser.png")
   #st.image(logo, width=200)
