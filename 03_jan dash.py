@@ -1,16 +1,18 @@
 # Import des librairies
 import streamlit as st
-from PIL import Image
-import requests
-import plotly.express as px
+from sklearn.preprocessing import StandardScaler
+#from PIL import Image
+#import requests
+import plotly
+#import plotly.express as px
 #import plotly.graph_objects as go
-import plotly.figure_factory as ff
-import json
+#import plotly.figure_factory as ff
+#import json
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pickle
+#import numpy as np
+#import matplotlib.pyplot as plt
+#import seaborn as sns
+#import pickle
 
 #st.title("💳💵 Credit Score Dashboard")
 
