@@ -25,7 +25,7 @@ st.set_page_config(
   initial_sidebar_state="expanded",
   menu_items=None)
 
-#alt.themes.enable("dark")
+alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
@@ -36,15 +36,14 @@ with st.sidebar:
     except FileNotFoundError:
         st.error(f"Error: Logo file not found at {logo_path}")
 
-
 # Page selection
-page =  st.selectbox("Navigation", ["Home", "Customer Information", "Local interpretation", "Global interpretation"])
+  page =  st.selectbox("Navigation", ["Home", "Customer Information", "Local interpretation", "Global interpretation"])
   
 #Id selection
-st.markdown("""---""")
+  st.markdown("""---""")
   
-st.markdown("""---""")
-st.write("By Amit GAUTAM")
+  st.markdown("""---""")
+  st.write("By Amit GAUTAM")
 
 if page == "Home":
     st.title("💳💵 Credit Score Dashboard - Home Page")
