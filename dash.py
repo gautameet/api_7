@@ -20,7 +20,7 @@ st.title("💳💵 Credit Score Dashboard")
 #st.write("💳💵 Crédit Score Dashboard")
 ##################################################
 
-# Page configuration inistiatlisation
+# Page configuration initiatlisation
 st.set_page_config(
   page_title="Credit Score Dashboard", 
   page_icon="💳💵",
@@ -30,13 +30,13 @@ st.set_page_config(
 alt.themes.enable("dark")
 
 # Sidebar
-with st.sidebar:
-  logo_path = "logo.png"
-  try:
-    logo = Image.open(logo_path)
-    st.image(logo, width=150)
-  except FileNotFoundError:
-    st.error(f"Error: Logo file not found at {logo_path}")
+#with st.sidebar:
+  #logo_path = "logo.png"
+  #try:
+    #logo = Image.open(logo_path)
+    #st.image(logo, width=150)
+  #except FileNotFoundError:
+    #st.error(f"Error: Logo file not found at {logo_path}")
 
   #logo_path = "api_7/logo.png"
   #logo = Image.open(logo_path)
