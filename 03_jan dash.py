@@ -16,7 +16,7 @@ import pickle
 
 st.title("💳💵 Credit Score Dashboard")
 
-#st.write("💳💵 Crédit Score Dashboard")
+st.write("💳💵 Crédit Score Dashboard")
 ##################################################
 
 # Page configuration inistiatlisation
