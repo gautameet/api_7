@@ -31,7 +31,7 @@ alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
-  logo_path = "api_7/logo.png"
+  logo_path = "api_7/pret à dépenser.png"
   try:
     logo = Image.open(logo_path)
     st.image(logo, width=200)
@@ -42,7 +42,7 @@ with st.sidebar:
   #logo = Image.open(logo_path)
   #st.image(logo, width=200)
   #logo = "💵"
-  #logo = Image.open("api_7/img/logo pret à dépenser.png")
+  #logo = Image.open("api_7/pret à dépenser.png")
   #st.image(logo, width=200)
 
   # Page selection
