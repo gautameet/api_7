@@ -15,7 +15,7 @@ import pandas as pd
 #import seaborn as sns
 #import pickle
 
-st.title("💳💵 Credit Score Dashboard")
+#st.title("💳💵 Credit Score Dashboard")
 
 #st.write("💳💵 Crédit Score Dashboard")
 ##################################################
@@ -49,12 +49,12 @@ alt.themes.enable("dark")
 page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
   
   #Id selection
-  st.markdown("""---""")
+st.markdown("""---""")
   
   #list_id_client = list(data_test['SK_ID_CURR'])
   #list_id_client.insert(0, '<Select>')
   #id_client_dash = st.selectbox("ID Client", list_id_client)
   #st.write('Vous avez choisi le client ID : '+str(id_client_dash))
 
-  st.markdown("""---""")
-  st.write("By Amit GAUTAM")
+st.markdown("""---""")
+st.write("By Amit GAUTAM")
