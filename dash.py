@@ -24,6 +24,7 @@ st.set_page_config(
   layout="wide",
   initial_sidebar_state="expanded",
   menu_items=None)
+
 alt.themes.enable("dark")
 
 # Sidebar
@@ -35,17 +36,11 @@ with st.sidebar:
     except FileNotFoundError:
       st.error(f"Error: Logo file not found at {logo_path}")
 
-  #logo_path = "api_7/logo.png"
-  #logo = Image.open(logo_path)
-  #st.image(logo, width=180)
-  #logo = "💵"
-  #logo = Image.open("api_7/pret à dépenser.png")
-  #st.image(logo, width=200)
 
-  # Page selection
+# Page selection
 page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
   
-  #Id selection
+  Id selection
 st.markdown("""---""")
   
   #list_id_client = list(data_test['SK_ID_CURR'])
