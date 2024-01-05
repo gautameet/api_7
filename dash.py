@@ -54,7 +54,7 @@ st.write("By Amit GAUTAM")
 if page == "Home":
     st.title("💳💵 Credit Score Dashboard - Home Page")
     st.markdown("This is an interactive dashboard website which lets the clients to know about their credit demands\n"
-                "approved ou refused.The predictions are calculted automatically with the help of machine learning algorithm.\n"
+                "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                 
                 "\nThis dashboard is composed of following pages :\n"
                 "- **Client Information**: to find out all the information related to the customer.\n"
