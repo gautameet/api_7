@@ -31,7 +31,7 @@ alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
-  logo_path = "img/logo.png"
+  logo_path = "api_7/logo.png"
   logo = Image.open(logo_path)
   st.image(logo, width=200)
   #logo = "💵"
