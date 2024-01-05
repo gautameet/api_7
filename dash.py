@@ -1,5 +1,6 @@
 # Import des librairies
 import streamlit as st
+import altair as alt
 from sklearn.preprocessing import StandardScaler
 #from PIL import Image
 #import requests
