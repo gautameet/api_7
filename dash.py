@@ -59,3 +59,21 @@ if page == "Home":
                 "- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
                 "- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
 
+if page == "Client Information":
+    st.title(""💳💵 Credit Score Dashboard - Client Information - Page")
+
+    st.write("To analyse your demand, please click the button below :")
+    button_start = st.button("Demand Status")
+    if button_start:
+        if id_client_dash != '<Select>':
+            # Calculates the prediction and displays the results"
+            st.markdown("Result of your request")
+            probability, decision = get_prediction(id_client_dash)
+
+            if decision == 'Approved':
+                st.success("Loan approved")
+            else:
+                st.error("Loan refused")
+
+            # Affichage de la jauge
+            jauge_score(probability)
