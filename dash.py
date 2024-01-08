@@ -47,7 +47,7 @@ with st.sidebar:
     #st.write("By Amit GAUTAM")
 
 if page == "Home":
-    st.title("Credit Score Dashboard - Home Page")
+    st.title("💳💵 Credit Score Dashboard - Home Page")
     ".\n"
     #.\n"
   
@@ -60,7 +60,7 @@ if page == "Home":
                 "- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
 
 if page == "Client Information":
-    st.title("Credit Score Dashboard - Client Information - Page")
+    st.title("💳💵 Credit Score Dashboard - Client Information - Page")
 
     st.write("To analyse your demand, please click the button below :")
     button_start = st.button("Demand Status")
