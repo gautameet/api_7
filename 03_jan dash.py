@@ -1,43 +1,57 @@
-# Import des librairies
 import streamlit as st
-"from sklearn.preprocessing import StandardScaler
-#from PIL import Image
-#import requests
-import plotly
-#import plotly.express as px
-#import plotly.graph_objects as go
-#import plotly.figure_factory as ff
-#import json
+import json
+import requests
 import pandas as pd
-#import numpy as np
-#import matplotlib.pyplot as plt
-#import seaborn as sns
-#import pickle
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import shap  
 
-st.title("💳💵 Credit Score Dashboard")
+st.set_page_config(page_title="Prédiction de la capacité de remboursement d'un demandeur de prêt",
+                   page_icon="🏦",
+                   layout="wide",
+                   initial_sidebar_state="expanded")
 
-st.write("💳💵 Crédit Score Dashboard")
-##################################################
+with st.container():
+    st.title("Prédiction de la capacité de remboursement d'un demandeur de prêt")
+    st.markdown("❗*Cet outil permet d'assister à la prise de décision et doit être utilisé conjointement avec une analyse approfondie réalisée par un professionel*❗")
+    st.markdown('##')
 
-# Page configuration inistiatlisation
-st.set_page_config(page_title="Credit Score Dashboard", page_icon="💳💵", layout="wide", initial_sidebar_state="expanded", menu_items=None)
-alt.themes.enable("dark")
+req_i = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/id_client")
+resultat_i = req_i.json()
 
-# Sidebar
-with st.sidebar:
-  logo = Image.open("img/logo pret à dépenser.png")
-  st.image(logo, width=200)
+st.sidebar.markdown("Selection du client")
+option = st.sidebar.selectbox("Veuillez spécifier le numéro d'identification du demandeur de prêt",(resultat_i["list_id"]))
 
-  # Page selection
-  page =  st.selectbox("Navigation", ["Home", "Client Information", "Local interpretation", "Global interpretation"])
-  
-  #Id selection
-  st.markdown("""---""")
-  
-  list_id_client = list(data_test['SK_ID_CURR'])
-  list_id_client.insert(0, '<Select>')
-  id_client_dash = st.selectbox("ID Client", list_id_client)
-  st.write('Vous avez choisi le client ID : '+str(id_client_dash))
+    
+if st.button("Prediction"):
 
-  st.markdown("""---""")
-  st.write("By Amit GAUTAM")
+    schema = {"num_client": option, "feat":"string"}
+        
+    req = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/perso_info", json=schema)
+    resultat = req.json()
+    if resultat["gender"] == 0:
+        st.sidebar.write(f"Genre:   Female")
+    else:
+        st.sidebar.write(f"Genre:   Male")
+    st.sidebar.write(f"Situation familiale:   {resultat['family']}")
+    st.sidebar.write(f"Nombre d'enfants:   {resultat['nb_child']}")
+    st.sidebar.write(f"Montant du crédit demandé:   {round(resultat['credit']):,}")
+    st.sidebar.write(f"Revenu:   {round(resultat['income_amount']):,}")
+    st.sidebar.write(f"Source du revenu:   {resultat['income_type']}")
+
+                
+    req1 = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/predict", json=schema)
+    resultat1 = req1.json()
+    st.write(resultat1["verdict"])
+    st.write(resultat1["proba"])
+            
+    req2 = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/gauge", json=schema)
+    resultat2 = req2.json()
+    st.components.v1.html(resultat2["fig"], height=500)
+
+
+    req3 = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/explanation", json=schema)
+    resultat3 = req3.json()
+    st.dataframe(resultat3["df_feat"])  
+
+    st.components.v1.html(resultat3["fig"], height=50
