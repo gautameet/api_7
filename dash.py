@@ -75,5 +75,6 @@ if page == "Client Information":
             else:
                 st.error("Loan refused")
 
+          
             # Affichage de la jauge
             jauge_score(probability)
