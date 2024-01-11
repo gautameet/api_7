@@ -83,3 +83,20 @@ if page == "Customer Information":
     with st.expander("Display customer information", expanded=False):
         st.info("The customer information are:")
         #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
+
+
+if page == "local interpretation":
+    st.title("💳💵 Credit Score Dashboard - Local Interpretation - Page")
+
+    locale = st.checkbox("Local Interpretation")
+    if locale:
+        st.info("Local Interpretation prediction")
+        #shap_val = get_shap_val_local(id_client_dash)
+        nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
+        
+      # Diplaying waterfall plot : shap local
+        #fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
+        #st.pyplot(fig)
+
+        with st.expander("Graphical presentation", expanded=False):
+            st.caption("Displaying the features that influence the decision locally (for a particular custimer)
