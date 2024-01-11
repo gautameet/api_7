@@ -92,7 +92,7 @@ if page == "Local interpretation":
     if locale:
         st.info("Local Interpretation prediction")
         #shap_val = get_shap_val_local(id_client_dash)
-        nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
+        nb_features = st.slider("Number of variables to display", 0, 20, 10)
         
       # Diplaying waterfall plot : shap local
         #fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
@@ -100,3 +100,59 @@ if page == "Local interpretation":
 
         with st.expander("Graphical presentation", expanded=False):
             st.caption("Displaying the features that influence the decision locally (for a particular custimer)")
+
+if page == "Global interpretation":
+    st.title("💳💵 Credit Score Dashboard - Global interpretation - Page")
+   
+  # Création du dataframe de voisins similaires
+    data_voisins = df_voisins(id_client_dash)
+
+    globale = st.checkbox("Global Importance")
+    if globale:
+        st.info("Global Importance")
+        #shap_values = get_shap_val()
+        #data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
+        nb_features = st.slider("Number of varaibles to display", 0, 20, 10)
+        #fig, ax = plt.subplots()
+       
+      # Displaying summary plot : shap global
+        #ax = shap.summary_plot(shap_values[1], data_test_std, plot_type='bar', max_display=nb_features)
+        #st.pyplot(fig)
+
+        with st.expander("Graphical presentation", expanded=False):
+            st.caption("Displaying the features that influence the decision in global scenario.")
+
+    distrib = st.checkbox("Distribution comparision")
+    if distrib:
+        st.info("Disptribution comparaison wtih other variables from the data")
+      
+        # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
+        distrib_compa = st.radio("Choose the type of comparision :", ('All', 'Similar clients'), key='distrib')
+
+        #list_features = list(data_train.columns)
+        #list_features.remove('SK_ID_CURR')
+       
+        # Affichage des distributions des variables renseignées
+        with st.spinner(text="Charging graphs..."):
+            col1, col2 = st.columns(2)
+            with col1:
+                feature1 = st.selectbox("Please choose one feature", list_features,
+                                        index=list_features.index('AMT_CREDIT'))
+                if distrib_compa == 'All':
+                    distribution(feature1, id_client_dash, data_train)
+                else:
+                    distribution(feature1, id_client_dash, data_voisins)
+            with col2:
+                feature2 = st.selectbox("Please choose one feature", list_features,
+                                        index=list_features.index('EXT_SOURCE_2'))
+                if distrib_compa == 'All':
+                    distribution(feature2, id_client_dash, data_train)
+                else:
+                    distribution(feature2, id_client_dash, data_voisins)
+
+            with st.expander("Distribution explication", expanded=False):
+                #st.caption("You can select the featurethat you like to observe the distribution. "
+                           "En bleu est affichée la distribution des clients qui ne sont pas considérés en défaut et "
+                           "dont le prêt est donc jugé comme accordé. En orange, à l'inverse, est affichée la "
+                           "distribution des clients considérés comme faisant défaut et dont le prêt leur est refusé. "
+                           "La ligne pointillée verte indique où se situe le client par rapport aux autres clients.")
