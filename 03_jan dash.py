@@ -16,8 +16,8 @@ with st.container():
     st.markdown("❗*Cet outil permet d'assister à la prise de décision et doit être utilisé conjointement avec une analyse approfondie réalisée par un professionel*❗")
     st.markdown('##')
 
-req_i = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/id_client")
-resultat_i = req_i.json()
+#req_i = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/id_client")
+#resultat_i = req_i.json()
 
 st.sidebar.markdown("Selection du client")
 option = st.sidebar.selectbox("Veuillez spécifier le numéro d'identification du demandeur de prêt",(resultat_i["list_id"]))
