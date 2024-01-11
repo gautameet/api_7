@@ -85,7 +85,7 @@ if page == "Customer Information":
         #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
 
-if page == "local interpretation":
+if page == "Local interpretation":
     st.title("💳💵 Credit Score Dashboard - Local Interpretation - Page")
 
     locale = st.checkbox("Local Interpretation")
