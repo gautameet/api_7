@@ -105,7 +105,7 @@ if page == "Global interpretation":
     st.title("💳💵 Credit Score Dashboard - Global interpretation - Page")
    
   # Création du dataframe de voisins similaires
-    data_voisins = df_voisins(id_client_dash)
+    #data_voisins = df_voisins(id_client_dash)
 
     globale = st.checkbox("Global Importance")
     if globale:
