@@ -55,12 +55,12 @@ if page == "Home":
                 "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                 
                 "\nThis dashboard is composed of following pages :\n"
-                "- **Client Information**: to find out all the information related to the customer.\n"
+                "- **Customer Information**: to find out all the information related to the customer.\n"
                 "- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
                 "- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
 
-if page == "Client Information":
-    st.title("💳💵 Credit Score Dashboard - Client Information - Page")
+if page == "Customer Information":
+    st.title("💳💵 Credit Score Dashboard - Customer Information - Page")
 
     st.write("To analyse your demand, please click the button below :")
     button_start = st.button("Demand Status")
