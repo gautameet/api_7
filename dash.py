@@ -151,7 +151,7 @@ if page == "Global interpretation":
                     distribution(feature2, id_client_dash, data_voisins)
 
             with st.expander("Distribution explication", expanded=False):
-                #st.caption("You can select the featurethat you like to observe the distribution. "
+                st.caption("You can select the featurethat you like to observe the distribution. "
                            "En bleu est affichée la distribution des clients qui ne sont pas considérés en défaut et "
                            "dont le prêt est donc jugé comme accordé. En orange, à l'inverse, est affichée la "
                            "distribution des clients considérés comme faisant défaut et dont le prêt leur est refusé. "
