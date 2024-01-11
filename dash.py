@@ -99,4 +99,4 @@ if page == "local interpretation":
         #st.pyplot(fig)
 
         with st.expander("Graphical presentation", expanded=False):
-            st.caption("Displaying the features that influence the decision locally (for a particular custimer)
+            st.caption("Displaying the features that influence the decision locally (for a particular custimer)")
