@@ -17,7 +17,8 @@ import pandas as pd
 
 
 ## Importing model 
-model = pickel.load(open("Results/model.pkl","rb")
+pk_model=open('./Results/model.pkl','rb')
+model = pickel.load(pk_model)
               
 # Page configuration initialisation
 st.set_page_config(
