@@ -64,7 +64,12 @@ if page == "Home":
 
 if page == "Customer Information":
     st.title("💳💵 Credit Score Dashboard - Customer Information - Page")
-
+    
+  # Display customer information
+    with st.expander("Display customer information", expanded=False):
+        st.info("The customer information are:")
+    
+  
     st.write("To analyse your demand, please click the button below :")
     button_start = st.button("Demand Status")
     if button_start:
@@ -83,8 +88,8 @@ if page == "Customer Information":
             jauge_score(probability)
           
    # Display customer information
-    with st.expander("Display customer information", expanded=False):
-        st.info("The customer information are:")
+    #with st.expander("Display customer information", expanded=False):
+        #st.info("The customer information are:")
         #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
 
