@@ -65,7 +65,7 @@ if page == "Customer":
     st.title("💳💵 Credit Score Dashboard - Customer")
     
   # Display customer information
-    
+    ".\n"
     st.title("Welcome to the customer page")
     
   
