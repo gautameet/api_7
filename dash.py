@@ -68,15 +68,15 @@ if page == "Customer Information":
     
     st.title("Welcome to the customer page")
     
-    st.write("Please click the button below to enter in your page:")
+    #st.write("Please click the button below to enter in your page:")
   
     #with st.expander("Display customer information", expanded=False):
     #st.expander("Display customer information", expanded=False):
         #st.info("The customer information are:")
     
   
-    st.write("To analyse your demand, please click the button below :")
-    button_start = st.button("Demand Status")
+    st.write("Please click "Your ID" button below to enter:")
+    button_start = st.button("Your ID")
     if button_start:
         if id_client_dash != '<Select>':
             # Calculates the prediction and displays the results"
