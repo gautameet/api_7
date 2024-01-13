@@ -18,6 +18,7 @@ import pandas as pd
 #import matplotlib.pyplot as plt
 #import seaborn as sns
 
+
 ## Importing model 
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
