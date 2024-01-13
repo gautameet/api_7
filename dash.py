@@ -66,7 +66,7 @@ if page == "Customer Information":
     
   # Display customer information
     
-    st.markdown("Welcome to the customer page\n"
+    st.write("Welcome to the customer page"
     
     #st.write("Please click the button below to enter in your page:")
   
