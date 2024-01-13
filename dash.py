@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from PIL import Image
 import requests
 import plotly
+import os
 #import plotly.express as px
 #import plotly.graph_objects as go
 #import plotly.figure_factory as ff
@@ -17,8 +18,8 @@ import pickle
 
 
 ## Importing model 
-pkl_model=open("/.model.pkl","rb")
-model = pickel.load(pkl_model)
+pkl_model="/.model.pkl"
+model = pickel.load(open(pkl_model, "rb")
               
 # Page configuration initialisation
 st.set_page_config(
