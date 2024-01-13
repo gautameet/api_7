@@ -21,13 +21,12 @@ model = pickel.load(open("./Results/model.pkl","wb")
 
                     
 # Page configuration initialisation
-st.set_page_config(page_title="Credit Score Dashboard",
-                   page_icon="💳💵",
-                   layout="wide",
-                   initial_sidebar_state="expanded",
-                   menu_items=None)
-
- alt.themes.enable("dark")
+st.set_page_config(
+  page_title="Credit Score Dashboard",
+  page_icon="💳💵",
+  layout="wide",
+  initial_sidebar_state="expanded")
+alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
