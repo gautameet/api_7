@@ -19,7 +19,7 @@ import pickle
 
 ## Importing model 
 pkl_model= open("./model.pkl","rb")
-model = pickel.load(pkl_model)
+model = pickle.load(pkl_model)
               
 ## Page configuration initialisation
 st.set_page_config(page_title="Credit Score Dashboard",page_icon="💳💵",layout="wide",initial_sidebar_state="expanded")
