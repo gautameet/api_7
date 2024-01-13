@@ -68,12 +68,6 @@ if page == "Customer Information":
     
     st.title("Welcome to the customer page")
     
-    #st.write("Please click the button below to enter in your page:")
-  
-    #with st.expander("Display customer information", expanded=False):
-    #st.expander("Display customer information", expanded=False):
-        #st.info("The customer information are:")
-    
   
     st.write("Please click the below button to enter:")
     button_start = st.button("Your ID number")
@@ -93,8 +87,8 @@ if page == "Customer Information":
             jauge_score(probability)
           
    # Display customer information
-    with st.expander("Display customer information", expanded=False):
-        st.info("The customer information are:")
+    #with st.expander("Display customer information", expanded=False):
+        #st.info("The customer information are:")
         #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
 
