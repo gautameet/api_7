@@ -20,7 +20,9 @@ import pickle
 ## Importing model 
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
-              
+
+zip_train=pd.read_csv(zip_train.open('./data_train.zip/data_train.csv'))
+
 ## Page configuration initialisation
 st.set_page_config(page_title="Credit Score Dashboard",page_icon="💳💵",layout="wide",initial_sidebar_state="expanded")
 #alt.themes.enable("dark")
