@@ -75,7 +75,7 @@ if page == "Customer Information":
         #st.info("The customer information are:")
     
   
-    st.write("Please click "Your ID" button below to enter:")
+    st.write("Please click Your ID button below to enter:")
     button_start = st.button("Your ID")
     if button_start:
         if id_client_dash != '<Select>':
