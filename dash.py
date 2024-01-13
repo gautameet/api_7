@@ -75,8 +75,8 @@ if page == "Customer Information":
         #st.info("The customer information are:")
     
   
-    st.write("Please click Your ID button below to enter:")
-    button_start = st.button("Your ID")
+    st.write("Please click the below button to enter:")
+    button_start = st.button("Your ID number")
     if button_start:
         if id_client_dash != '<Select>':
             # Calculates the prediction and displays the results"
