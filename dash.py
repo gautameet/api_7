@@ -1,4 +1,5 @@
 ## Import des librairies
+import shap
 import streamlit as st
 import altair as alt
 from sklearn.preprocessing import StandardScaler
@@ -7,7 +8,6 @@ import requests
 import plotly
 import os
 from zipfile import ZipFile
-import shap
 import pickle
 #import plotly.express as px
 #import plotly.graph_objects as go
