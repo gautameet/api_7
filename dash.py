@@ -16,7 +16,10 @@ import pandas as pd
 #import pickle
 
 ##################################################
+## Importing model 
+model = pickel.load(open("./Results/model.pkl","wb")
 
+                    
 # Page configuration initialisation
 st.set_page_config(
   page_title="Credit Score Dashboard", 
