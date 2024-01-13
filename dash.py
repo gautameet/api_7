@@ -65,6 +65,10 @@ if page == "Customer Information":
     st.title("💳💵 Credit Score Dashboard - Customer Information - Page")
     
   # Display customer information
+    
+    st.markdown("Welcome to the customer page\n"
+    st.write("Please click the button below to enter in your page:")
+  
     with st.expander("Display customer information", expanded=False):
         st.info("The customer information are:")
     
