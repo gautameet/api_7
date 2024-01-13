@@ -15,10 +15,10 @@ import pandas as pd
 #import seaborn as sns
 #import pickle
 
-########################################
+
 ## Importing model 
 model = pickel.load(open("Results/model.pkl","rb")
-##################################################
+
 
 ###########################################                  
 # Page configuration initialisation
