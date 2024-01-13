@@ -68,7 +68,7 @@ if page == "Customer Information":
     
     st.write("Welcome to the customer page"
     
-    #st.write("Please click the button below to enter in your page:")
+    st.write("Please click the button below to enter in your page:")
   
     #with st.expander("Display customer information", expanded=False):
     #st.expander("Display customer information", expanded=False):
