@@ -17,7 +17,7 @@ import pickle
 
 
 ## Importing model 
-pkl_model=open(model.pkl,'rb')
+pkl_model=open("/.model.pkl","rb")
 model = pickel.load(pkl_model)
               
 # Page configuration initialisation
