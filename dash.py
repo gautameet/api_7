@@ -25,6 +25,11 @@ model = pickle.load(pkl_model)
 with ZipFile('./data_train.zip','r') as zip_train:
     df_train=pd.read_csv(zip_train.open('data_train.csv'))
 
+X_train= shap.TreeExplainer(model,df_train)
+
+
+
+
 ## Page configuration initialisation
 st.set_page_config(page_title="Credit Score Dashboard",page_icon="💳💵",layout="wide",initial_sidebar_state="expanded")
 #alt.themes.enable("dark")
