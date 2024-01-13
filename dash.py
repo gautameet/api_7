@@ -68,7 +68,7 @@ if page == "Customer":
     ".\n"
     st.title("Welcome to the customer page")
     
-  
+    ".\n"
     st.write("Please click the below button to enter:")
     button_start = st.button("Your ID number")
     if button_start:
