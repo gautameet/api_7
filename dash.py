@@ -72,7 +72,7 @@ if page == "Customer Information":
   
     with st.expander("Display customer information", expanded=False):
     #st.expander("Display customer information", expanded=False):
-    st.info("The customer information are:")
+        st.info("The customer information are:")
     
   
     st.write("To analyse your demand, please click the button below :")
