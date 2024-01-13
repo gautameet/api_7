@@ -6,6 +6,7 @@ from PIL import Image
 import requests
 import plotly
 import os
+from zipfile import ZipFile
 #import plotly.express as px
 #import plotly.graph_objects as go
 #import plotly.figure_factory as ff
@@ -21,7 +22,8 @@ import pickle
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
 
-zip_train=pd.read_csv(zip_train.open('./data_train.zip/data_train.csv'))
+with ZipFile('./data_train.zip','r') as zip_train:
+    df_train=pd.read_csv(zip_train.open('data_train.csv'))
 
 ## Page configuration initialisation
 st.set_page_config(page_title="Credit Score Dashboard",page_icon="💳💵",layout="wide",initial_sidebar_state="expanded")
