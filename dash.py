@@ -18,9 +18,7 @@ import pandas as pd
 
 ## Importing model 
 model = pickel.load(open("Results/model.pkl","rb")
-
-
-###########################################                  
+              
 # Page configuration initialisation
 st.set_page_config(
   page_title="Credit Score Dashboard",
