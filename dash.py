@@ -71,7 +71,7 @@ if page == "Customer Information":
     #st.write("Please click the button below to enter in your page:")
   
     #with st.expander("Display customer information", expanded=False):
-    expander.write("Display customer information"):
+    expander.write("Display customer information")
       st.info("The customer information are:")
     
   
