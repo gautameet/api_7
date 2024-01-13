@@ -15,6 +15,11 @@ import pandas as pd
 #import seaborn as sns
 #import pickle
 
+########################################
+## Importing model 
+model = pickel.load(open("Results/model.pkl","rb")
+##################################################
+
 ###########################################                  
 # Page configuration initialisation
 st.set_page_config(
@@ -42,12 +47,7 @@ with st.sidebar:
     #st.markdown("""---""")
     
     #st.write("By Amit GAUTAM")
-
-########################################
-## Importing model 
-model = pickel.load(open("./Results/model.pkl","rb")
-##################################################
-                    
+                   
 if page == "Home":
     st.title("💳💵 Credit Score Dashboard - Home Page")
     ".\n"
