@@ -249,4 +249,5 @@ try:
         with st.expander("Explaining box plot", expanded=False):
             st.caption("The boxplot permits an observer on the distribution of known variable."
                        "A star viol one star violet which represent a customer."
-                       "Its nearest neighbour also undertaken on colour form - red for qualified by default but green not-.")
+                       "Its nearest neighbour also undertaken on colour form - red for qualified by default but green not-."
+                      )
