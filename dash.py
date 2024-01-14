@@ -38,6 +38,7 @@ with ZipFile(zip_file_train, 'r') as zip_train:
 
 #with ZipFile('./data_train.zip','r') as zip_train:
     df_train=pd.read_csv(zip_train.open('data_train.csv'))
+with ZipFile(zip_file_test, 'r') as zip_test:
     df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
     X_train= shap.TreeExplainer(model, df_train)
