@@ -102,8 +102,11 @@ if page == "Customer":
     
     ".\n"
 
-    cust_id = selectbox()
-    
+    #cust_id = selectbox()
+    st.write("Please insert you ID:")
+    button_start = st.button("Submit")
+
+        
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
     tab1, tab2 = st.tabs(["My personal information", "My financial information"])
     # Customer information
@@ -124,8 +127,7 @@ if page == "Customer":
   
     #customer_id_list = list(df_test['SK_ID_CURR'])
     #customer_id_list.insert(0, '<Select>')
-    st.write("Please insert you ID:")
-    button_start = st.button("Submit")
+    
     
     
     #customer_id_list = list(df_test['SK_ID_CURR'])
