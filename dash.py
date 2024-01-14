@@ -108,7 +108,7 @@ if page == "Customer":
 
         
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
-    tab1, tab2 = st.tabs(["My personal information", "My financial information"])
+    tab1, tab2 = st.tabs(["My personal information",                               "My financial information"])
     # Customer information
     with tab1:
         st.write("Age : " + str(int(age)) + " ans")
