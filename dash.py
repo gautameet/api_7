@@ -91,13 +91,14 @@ if page == "Customer":
     
     ".\n"
     st.write("Please click the below button to enter:")
+    
     button_start = st.button("Your ID number")
     if button_start:
         if id_client_dash != '<Select>':
             # Calculates the prediction and displays the results"
             st.markdown("Result of your request")
             probability, decision = get_prediction(id_client_dash)
-
+            
             if decision == 'Approved':
                 st.success("Loan approved")
             else:
