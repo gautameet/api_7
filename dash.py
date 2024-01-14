@@ -27,11 +27,12 @@ model = pickle.load(pkl_model)
 zip_file_train = './data_train.zip'
 zip_file_test = './data_test.zip'
 
-with ZipFile(zip_file_train, 'r') as zip_train:
-    df_train=pd.read_csv(zip_train.open('data_train.csv'))
+try:
+    with ZipFile(zip_file_train, 'r') as zip_train:
+        df_train=pd.read_csv(zip_train.open('data_train.csv'))
 
-with ZipFile(zip_file_test, 'r') as zip_test:
-    df_test=pd.read_csv(zip_test.open('data_test.csv'))    
+    with ZipFile(zip_file_test, 'r') as zip_test:
+        df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
 explainer = shap.TreeExplainer(model, df_train)
 
