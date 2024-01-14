@@ -40,8 +40,8 @@ try:
         df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
 # Modele voisin
-knn = NearestNeighbors(n_neighbors=10)
-knn.fit(df_train.drop(['SK_ID_CURR','TARGET'], axis=1))
+#knn = NearestNeighbors(n_neighbors=10)
+#knn.fit(df_train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 
 #Importing model 
