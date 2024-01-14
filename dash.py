@@ -21,8 +21,8 @@ import pandas as pd
 
 
 ## Importing model 
-pkl_model= open("./model.pkl","rb")
-model = pickle.load(pkl_model)
+#pkl_model= open("./model.pkl","rb")
+#model = pickle.load(pkl_model)
 
 zip_file_train = './data_train.zip'
 zip_file_test = './data_test.zip'
