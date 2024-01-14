@@ -20,9 +20,9 @@ import pandas as pd
 #import seaborn as sns
 
 
-## Importing model 
-#pkl_model= open("./model.pkl","rb")
-#model = pickle.load(pkl_model)
+#Importing model 
+pkl_model= open("./model.pkl","rb")
+model = pickle.load(pkl_model)
 
 zip_file_train = './data_train.zip'
 zip_file_test = './data_test.zip'
@@ -39,12 +39,12 @@ try:
 
 
 ## Page configuration initialisation
-st.set_page_config(
-    page_title="Credit Score Dashboard",
-    page_icon="💳💵",
-    layout="wide",
-    #initial_sidebar_state="expanded"
-)
+    st.set_page_config(
+        page_title="Credit Score Dashboard",
+        page_icon="💳💵",
+        layout="wide",
+        #initial_sidebar_state="expanded"
+    )
 
 # Sidebar
     with st.sidebar:
