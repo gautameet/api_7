@@ -247,5 +247,6 @@ try:
         # Affichage des boxplot
         boxplot_graph(id_client_dash, features, data_voisins)
         with st.expander("Explaining box plot", expanded=False):
-            st.caption("Tje boxplot permits an observer on the distribution of known variable. "
-                       "A star viol one star violet which represent a customer. Its nearest neighbour also undertaken on colour form(red for qualified but other colour for trying ne things)          "étant en défaut et vert pour les autres).")
+            st.caption("The boxplot permits an observer on the distribution of known variable. "
+                       "A star viol one star violet which represent a customer. Its nearest neighbour also undertaken on colour form(red for qualified but other colour for trying ne things)"
+                       "étant en défaut et vert pour les autres).")
