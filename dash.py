@@ -27,7 +27,7 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
         'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
                 
 # Nombre de ligne
-num_rows = 150000
+#num_rows = 150000
 
 zip_file_train = './data_train.zip'
 zip_file_test = './data_test.zip'
@@ -55,12 +55,12 @@ try:
 
 
 ## Page configuration initialisation
-    st.set_page_config(
+st.set_page_config(
         page_title="Credit Score Dashboard",
         page_icon="💳💵",
         layout="wide",
         #initial_sidebar_state="expanded"
-    )
+)
 
 # Sidebar
     with st.sidebar:
