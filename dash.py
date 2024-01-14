@@ -249,4 +249,4 @@ try:
                 "A star viol one star violet which represent a customer.",
                 "Its nearest neighbour also undertaken on colour form red for qualified by default but green not."
                 ''')
-                
+ 
