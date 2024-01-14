@@ -237,12 +237,10 @@ try:
             st.info("Comparing the distribution of many variables of the total data from the boxplot.")
             
             feat_quanti = data_train.select_dtypes(['float64']).columns
-        
             # Selection des features à afficher
             features = st.multiselect("Sélectionnez les caractéristiques à visualiser: ",
                                       sorted(feat_quanti),
                                       default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
-
             # Affichage des boxplot
             boxplot_graph(id_client_dash, features, data_voisins)
                 
