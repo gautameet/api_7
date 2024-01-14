@@ -101,11 +101,11 @@ if page == "Customer":
     st.title("Welcome to the customer page")
     
     ".\n"
-    st.write("Please click the below button to enter:")
+    
 
     customer_id_list = list(df_test['SK_ID_CURR'])
     customer_id_list.insert(0, '<Select>')
-    #button_1 = st.button("
+    st.write("Please insert you ID:")
     button_start = st.button("Submit")
     
     
