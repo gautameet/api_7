@@ -34,7 +34,7 @@ try:
     with ZipFile(zip_file_test, 'r') as zip_test:
         df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
-explainer = shap.TreeExplainer(model, df_train)
+    explainer = shap.TreeExplainer(model, df_train)
 
 
 
