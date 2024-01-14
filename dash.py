@@ -83,9 +83,9 @@ with st.sidebar:
     #else:
          #st.info("Please select a customer ID.")
                             
-         st.markdown("""---""")
+    st.markdown("""---""")
     
-         st.write("By Amit GAUTAM")
+    st.write("By Amit GAUTAM")
                    
 if page == "Home":
     st.title("💳💵 Credit Score Dashboard - Home Page")
