@@ -183,4 +183,4 @@ try:
                         " Blue shows the clients distribution not having credit default and their loan is considered to be approved (Loan),\n"
                         "\nOrange shows the clients distribution having credit default and their loan is considered to be refused,\n"
                         "\nThe green dotted line indicates where the customer stands in relation to other customers."
-                        )
+                )
