@@ -180,7 +180,7 @@ try:
                     else:
                         distribution(feature2, id_client_dash, data_voisins)
 
-            with st.expander("Distribution explanation", expanded=False):
+        with st.expander("Distribution explanation", expanded=False):
             st.caption("You can select the feature that you like to observe the distribution. "
                        "Blue shows the clients distribution not having credit default and their "
                        "loan is considered to be approved (Loan). Orange shows the clients distribution "
