@@ -106,7 +106,8 @@ if page == "Customer":
     st.write("Please insert you ID:")
     button_start = st.button("Submit")
 
-        
+    col = st.columns((1.5, 4.5, 2), gap='medium')
+
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
     tab1, tab2 = st.tabs(["My personal information",                               "My financial information"])
     # Customer information
