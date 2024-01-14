@@ -24,7 +24,21 @@ import pandas as pd
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
 
-with ZipFile('./data_train.zip','r') as zip_train:
+zip_file_path = './data_train.zip'
+
+try:
+    with ZipFile(zip_file_path, 'r') as zip_train:
+        # Your code to handle the zip file
+        # For example, listing the contents of the zip file:
+        print(zip_train.namelist())
+except zipfile.BadZipFile:
+    print(f"Error: {zip_file_path} is not a valid zip file.")
+except FileNotFoundError:
+    print(f"Error: File not found at {zip_file_path}.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+#with ZipFile('./data_train.zip','r') as zip_train:
     df_train=pd.read_csv(zip_train.open('data_train.csv'))
 
     X_train= shap.TreeExplainer(model, df_train)
