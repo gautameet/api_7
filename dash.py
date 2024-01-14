@@ -129,9 +129,9 @@ if page == "Customer":
             jauge_score(probability)
           
     # Display customer information
-    with st.expander("Display customer information", expanded=False):
-        st.info("The customer information are:")
-        st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
+    #with st.expander("Display customer information", expanded=False):
+        #st.info("The customer information are:")
+        #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
 if page == "Local interpretation":
     st.title("💳💵 Credit Score Dashboard - Local Interpretation - Page")
