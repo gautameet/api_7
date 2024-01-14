@@ -178,7 +178,7 @@ try:
             with st.expander("Distribution explanation", expanded=False):
                 st.caption(
                     "You can select the feature that you like to observe the distribution,"
-                    "Blue shows the clients distribution not having credit default and their loan is considered to be approved (Loan),\n"
-                    "Orange shows the clients distribution having credit default and their loan is considered to be refused,\n"
+                    "Blue shows the clients distribution not having credit default and their loan is considered to be approved (Loan)"
+                    "Orange shows the clients distribution having credit default and their loan is considered to be refused"
                     "The green dotted line indicates where the customer stands in relation to other customers."
                 )
