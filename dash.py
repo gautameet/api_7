@@ -129,9 +129,9 @@ explainer = shap.TreeExplainer(model, df_train)
                 jauge_score(probability)
           
         # Display customer information
-        #with st.expander("Display customer information", expanded=False):
-            #st.info("The customer information are:")
-            #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
+        with st.expander("Display customer information", expanded=False):
+                st.info("The customer information are:")
+                st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
     if page == "Local interpretation":
         st.title("💳💵 Credit Score Dashboard - Local Interpretation - Page")
@@ -143,8 +143,8 @@ explainer = shap.TreeExplainer(model, df_train)
             nb_features = st.slider("Number of variables to display", 0, 20, 10)
         
         # Diplaying waterfall plot : shap local
-        #fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
-        #st.pyplot(fig)
+        fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
+        st.pyplot(fig)
 
             with st.expander("Graphical presentation", expanded=False):
                 st.caption("Displaying the features that influence the decision locally (for a particular customer)")
@@ -153,19 +153,19 @@ explainer = shap.TreeExplainer(model, df_train)
         st.title("💳💵 Credit Score Dashboard - Global interpretation - Page")
    
         # Création du dataframe de voisins similaires
-         #data_voisins = df_voisins(id_client_dash)
+        data_voisins = df_voisins(id_client_dash)
 
         globale = st.checkbox("Global Importance")
         if globale:
             st.info("Global Importance")
-            #shap_values = get_shap_val()
-            #data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
+            shap_values = get_shap_val()
+            data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
             nb_features = st.slider("Number of varaibles to display", 0, 20, 10)
-            #fig, ax = plt.subplots()
+            fig, ax = plt.subplots()
        
             # Displaying summary plot : shap global
-            #ax = shap.summary_plot(shap_values[1], data_test_std, plot_type='bar', max_display=nb_features)
-            #st.pyplot(fig)
+            ax = shap.summary_plot(shap_values[1], data_test_std, plot_type='bar', max_display=nb_features)
+            st.pyplot(fig)
     
             with st.expander("Graphical presentation", expanded=False):
                 st.caption("Displaying the features that influence the decision in global scenario.")
@@ -177,8 +177,8 @@ explainer = shap.TreeExplainer(model, df_train)
             #Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
             distrib_compa = st.radio("Choose the type of comparision :", ('All', 'Similar clients'), key='distrib')
     
-            #list_features = list(data_train.columns)
-            #list_features.remove('SK_ID_CURR')
+            list_features = list(data_train.columns)
+            list_features.remove('SK_ID_CURR')
            
             #Affichage des distributions des variables renseignées
             with st.spinner(text="Charging graphs..."):
@@ -203,3 +203,49 @@ explainer = shap.TreeExplainer(model, df_train)
                                "having credit default and their loan is considered to be refused. "
                                "The green dotted line indicates where the customer stands in relation to other customers."
                               )
+                        
+    bivar = st.checkbox("Bivariate Analysis")
+    if bivar:
+        st.info("Bivariate Analysis")
+        # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
+        bivar_compa = st.radio("Please choose a comprarision type :", ('All', 'Similar Clients'), key='bivar')
+
+        list_features = list(df_train.columns)
+        list_features.remove('SK_ID_CURR')
+        list_features.insert(0, '<Select>')
+
+        # Selection des features à afficher
+        c1, c2 = st.columns(2)
+        with c1:
+            feat1 = st.selectbox("Select a feature X ", list_features)
+        with c2:
+            feat2 = st.selectbox("Select one feature Y", list_features)
+        
+        # Affichage des nuages de points de la feature 2 en fonction de la feature 1
+        if (feat1 != '<Select>') & (feat2 != '<Select>'):
+            if bivar_compa == 'All':
+                scatter(customer_id_dash, feat1, feat2, data_train)
+            else:
+                scatter(customer_id_dash, feat1, feat2, data_voisins)
+            with st.expander("Explaining the scatter plot", expanded=False):
+                st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
+                           "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
+                           "accordé. En rouge, sont indiqués les clients faisant défaut et dont le prêt est jugé "
+                           "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
+                           "à la base de données clients.")
+
+    boxplot = st.checkbox("Boxplot analysis")
+    if boxplot:
+        st.info("Comparing the distribution of many variables of the total data from the boxplot.")
+
+        feat_quanti = data_train.select_dtypes(['float64']).columns
+        # Selection des features à afficher
+        features = st.multiselect("Sélectionnez les caractéristiques à visualiser: ",
+                                  sorted(feat_quanti),
+                                  default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
+
+        # Affichage des boxplot
+        boxplot_graph(id_client_dash, features, data_voisins)
+        with st.expander("Explaining box plot", expanded=False):
+            st.caption("Tje boxplot permits an observer on the distribution of known variable. "
+                       "A star viol one star violet which represent a customer. Its nearest neighbour also undertaken on colour form(red for qualified but other colour for trying ne things)          "étant en défaut et vert pour les autres).")
