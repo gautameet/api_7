@@ -1,6 +1,5 @@
 ## Import des librairies
-
-import shap
+#import shap
 import streamlit as st
 import altair as alt
 from sklearn.preprocessing import StandardScaler
