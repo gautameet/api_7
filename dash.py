@@ -105,6 +105,7 @@ if page == "Customer":
 
     customer_id_list = list(df_test['SK_ID_CURR'])
     customer_id_list.insert(0, '<Select>')
+    cust_id = load_selectbox()    
     st.write("Please insert you ID:")
     button_start = st.button("Submit")
     
