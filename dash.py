@@ -20,6 +20,16 @@ import pandas as pd
 #import seaborn as sns
 
 
+
+### Import des donnees
+# Features
+feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
+        'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
+                
+# Nombre de ligne
+num_rows = 150000
+
+
 #Importing model 
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
