@@ -107,13 +107,13 @@ if page == "Customer":
     button_start = st.button("Submit")
         
         #three columns
-    col = st.columns((1.5, 4.5, 2), gap='medium')
+    #col = st.columns((1.5, 4.5, 2), gap='medium')
     #with col[0]:
     #with col[1]:
     #with col[2]:
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
     tab1, tab2 = st.tabs(["My personal information",                               "My financial information"])
-    # Customer information
+    #Customer information
     with tab1:
         st.write("Age : " + str(int(age)) + " ans")
         st.write("Numéro de téléphone " + mobile)
