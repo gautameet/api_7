@@ -45,8 +45,8 @@ try:
 
 
 #Importing model 
-pkl_model= open("./model.pkl","rb")
-model = pickle.load(pkl_model)
+#pkl_model= open("./model.pkl","rb")
+#model = pickle.load(pkl_model)
 
 explainer = shap.TreeExplainer(model, df_train)
 
