@@ -180,4 +180,3 @@ try:
                                    "loan is considered to be approved (Loan). Orange shows the clients distribution "
                                    "having credit default and their loan is considered to be refused. "
                                    "The green dotted line indicates where the customer stands in relation to other customers.")
-    
