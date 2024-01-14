@@ -231,10 +231,9 @@ try:
                                "accordé. En rouge, sont indiqués les clients faisant défaut et dont le prêt est jugé "
                                "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
                                "à la base de données clients.")
-
-        boxplot = st.checkbox("Boxplot analysis")
-        if boxplot:
-            st.info("Comparing the distribution of many variables of the total data from the boxplot.")
+             boxplot = st.checkbox("Boxplot analysis")
+             if boxplot:
+                    st.info("Comparing the distribution of many variables of the total data from the boxplot.")
             
             feat_quanti = data_train.select_dtypes(['float64']).columns
             # Selection des features à afficher
