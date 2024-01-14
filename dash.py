@@ -143,8 +143,8 @@ try:
             nb_features = st.slider("Number of variables to display", 0, 20, 10)
         
         # Diplaying waterfall plot : shap local
-        fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
-        st.pyplot(fig)
+            fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
+            st.pyplot(fig)
 
             with st.expander("Graphical presentation", expanded=False):
                 st.caption("Displaying the features that influence the decision locally (for a particular customer)")
