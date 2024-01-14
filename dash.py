@@ -106,7 +106,7 @@ if page == "Customer":
     st.write("Please insert you ID:")
     button_start = st.button("Submit")
         
-        #three columns
+#three columns
     #col = st.columns((1.5, 4.5, 2), gap='medium')
     #with col[0]:
     #with col[1]:
