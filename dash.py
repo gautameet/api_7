@@ -102,6 +102,10 @@ if page == "Customer":
     
     ".\n"
     # Customer information
+        with tab1:
+            #st.write("Age : " + str(int(age)) + " ans")
+            #st.write("Numéro de téléphone " + mobile)
+            #st.write("Email " + email)
         with tab2:
             st.write("Age : " + str(int(age)) + " ans")
             st.write("Numéro de téléphone " + mobile)
