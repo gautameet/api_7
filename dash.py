@@ -203,53 +203,51 @@ try:
                                "having credit default and their loan is considered to be refused. "
                                "The green dotted line indicates where the customer stands in relation to other customers."
                               )
-                        
-    bivar = st.checkbox("Bivariate Analysis")
-    if bivar:
-        st.info("Bivariate Analysis")
-        # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
-        bivar_compa = st.radio("Please choose a comprarision type :", ('All', 'Similar Clients'), key='bivar')
+        bivar = st.checkbox("Bivariate Analysis")
+        if bivar:
+            st.info("Bivariate Analysis")
+            # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
+            bivar_compa = st.radio("Please choose a comprarision type :", ('All', 'Similar Clients'), key='bivar')
+            
+            list_features = list(df_train.columns)
+            list_features.remove('SK_ID_CURR')
+            list_features.insert(0, '<Select>')
+            
+            # Selection des features à afficher
+            c1, c2 = st.columns(2)
+            with c1:
+                feat1 = st.selectbox("Select a feature X ", list_features)
+            with c2:
+                feat2 = st.selectbox("Select one feature Y", list_features)
+                # Affichage des nuages de points de la feature 2 en fonction de la feature 1
+            if (feat1 != '<Select>') & (feat2 != '<Select>'):
+                if bivar_compa == 'All':
+                    scatter(customer_id_dash, feat1, feat2, data_train)
+                else:
+                    scatter(customer_id_dash, feat1, feat2, data_voisins)
+                with st.expander("Explaining the scatter plot", expanded=False):
+                    st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
+                               "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
+                               "accordé. En rouge, sont indiqués les clients faisant défaut et dont le prêt est jugé "
+                               "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
+                               "à la base de données clients.")
 
-        list_features = list(df_train.columns)
-        list_features.remove('SK_ID_CURR')
-        list_features.insert(0, '<Select>')
-
-        # Selection des features à afficher
-        c1, c2 = st.columns(2)
-        with c1:
-            feat1 = st.selectbox("Select a feature X ", list_features)
-        with c2:
-            feat2 = st.selectbox("Select one feature Y", list_features)
+        boxplot = st.checkbox("Boxplot analysis")
+        if boxplot:
+            st.info("Comparing the distribution of many variables of the total data from the boxplot.")
+            
+            feat_quanti = data_train.select_dtypes(['float64']).columns
         
-        # Affichage des nuages de points de la feature 2 en fonction de la feature 1
-        if (feat1 != '<Select>') & (feat2 != '<Select>'):
-            if bivar_compa == 'All':
-                scatter(customer_id_dash, feat1, feat2, data_train)
-            else:
-                scatter(customer_id_dash, feat1, feat2, data_voisins)
-            with st.expander("Explaining the scatter plot", expanded=False):
-                st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
-                           "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
-                           "accordé. En rouge, sont indiqués les clients faisant défaut et dont le prêt est jugé "
-                           "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
-                           "à la base de données clients.")
+            # Selection des features à afficher
+            features = st.multiselect("Sélectionnez les caractéristiques à visualiser: ",
+                                      sorted(feat_quanti),
+                                      default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
 
-    boxplot = st.checkbox("Boxplot analysis")
-    if boxplot:
-        st.info("Comparing the distribution of many variables of the total data from the boxplot.")
-
-        feat_quanti = data_train.select_dtypes(['float64']).columns
-        # Selection des features à afficher
-        features = st.multiselect("Sélectionnez les caractéristiques à visualiser: ",
-                                  sorted(feat_quanti),
-                                  default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
-
-        # Affichage des boxplot
-        boxplot_graph(id_client_dash, features, data_voisins)
-        
-        with st.expander("Explaining box plot", expanded=False):
-            st.caption(
-                    "The boxplot permits an observer on the distribution of known variable.",
-                    "A star viol one star violet which represent a customer.",
-                    "Its nearest neighbour also undertaken on colour form - red for qualified by default but green not-."
-                    )
+            # Affichage des boxplot
+            boxplot_graph(id_client_dash, features, data_voisins)
+                
+            with st.expander("Explaining box plot", expanded=False):
+                st.caption("The boxplot permits an observer on the distribution of known variable."
+                            "A star viol one star violet which represent a customer.",
+                            "Its nearest neighbour also undertaken on colour form - red for qualified by default but green not-."
+                            )
