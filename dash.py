@@ -56,11 +56,14 @@ try:
         page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
   
     #Id selection
-    #st.markdown("""---""")
-  
-    #st.markdown("""---""")
+    st.markdown("""---""")
+    customer_id_list=list(df_test['SK_ID_CURR']
+    customer_id_dash=st.selectbox("Customer_id_dash")
+    st.write('You have chosen the Customer ID:"+str("customer_id_dash"))
+                         
+    st.markdown("""---""")
     
-    #st.write("By Amit GAUTAM")
+    st.write("By Amit GAUTAM")
                    
     if page == "Home":
         st.title("💳💵 Credit Score Dashboard - Home Page")
