@@ -48,7 +48,7 @@ try:
 #pkl_model= open("./model.pkl","rb")
 #model = pickle.load(pkl_model)
 
-explainer = shap.TreeExplainer(model, df_train)
+#explainer = shap.TreeExplainer(model, df_train)
 
 # Features
 #features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
