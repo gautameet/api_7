@@ -29,12 +29,12 @@ zip_file_test = './data_test.zip'
 
 try:
     with ZipFile(zip_file_train, 'r') as zip_train:
-        df_train=pd.read_csv(zip_train.open('data_train.csv'))
+        df_train = pd.read_csv(zip_train.open('data_train.csv'))
 
     with ZipFile(zip_file_test, 'r') as zip_test:
         df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
-    explainer = shap.TreeExplainer(model, df_train)
+#explainer = shap.TreeExplainer(model, df_train)
 
 
 
@@ -45,7 +45,6 @@ st.set_page_config(
     layout="wide",
     #initial_sidebar_state="expanded"
 )
-alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
@@ -65,9 +64,11 @@ with st.sidebar:
     customer_id_list = list(df_test['SK_ID_CURR'])
     customer_id_list.insert(0, '<Select>')
     customer_id_dash = st.selectbox("Customer_id", customer_id_list)
-    st.write('You have chosen the Customer ID: ' + str(customer_id_dash))
-    #st.write('You have chosen the Customer ID: "+str(customer_id_dash))
-                         
+    if customer_id_dash != '<Select>':
+        st.write(f'You have chosen the Customer ID: {customer_id_dash}')
+    else:
+        st.info("Please select a customer ID.")
+                            
     st.markdown("""---""")
     
     st.write("By Amit GAUTAM")
