@@ -148,29 +148,36 @@ try:
             with st.expander("Graphical presentation", expanded=False):
                 st.caption("Displaying the features that influence the decision in global scenario.")
 
-        distrib = st.checkbox("Distribution comparision")
-        if distrib:
-            st.info("Disptribution comparaison wtih other variables from the data")
+            distrib = st.checkbox("Distribution comparision")
+            if distrib:
+                st.info("Disptribution comparaison wtih other variables from the data")
           
             # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
-            distrib_compa = st.radio("Choose the type of comparision :", ('All', 'Similar clients'), key='distrib')
+                distrib_compa = st.radio("Choose the type of comparision :", ('All', 'Similar clients'), key='distrib')
     
             #list_features = list(data_train.columns)
             #list_features.remove('SK_ID_CURR')
            
             # Affichage des distributions des variables renseignées
-            with st.spinner(text="Charging graphs..."):
-                col1, col2 = st.columns(2)
-                with col1:
-                    feature1 = st.selectbox("Please choose one feature", list_features, index=list_features.index('AMT_CREDIT'))
-                    if distrib_compa == 'All':
-                        distribution(feature1, id_client_dash, df_train)
-                    else:
-                        distribution(feature1, id_client_dash, data_voisins)
-                with col2:
-                    feature2 = st.selectbox("Please choose one feature", list_features, index=list_features.index('EXT_SOURCE_2'))
-                    if distrib_compa == 'All':
-                        distribution(feature2, id_client_dash, df_train)
-                    else:
-                        distribution(feature2, id_client_dash, data_voisins)
+                with st.spinner(text="Charging graphs..."):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        feature1 = st.selectbox("Please choose one feature", list_features, index=list_features.index('AMT_CREDIT'))
+                        if distrib_compa == 'All':
+                            distribution(feature1, id_client_dash, df_train)
+                        else:
+                            distribution(feature1, id_client_dash, data_voisins)
+                    with col2:
+                        feature2 = st.selectbox("Please choose one feature", list_features, index=list_features.index('EXT_SOURCE_2'))
+                        if distrib_compa == 'All':
+                            distribution(feature2, id_client_dash, df_train)
+                        else:
+                            distribution(feature2, id_client_dash, data_voisins)
+
+                    with st.expander("Distribution explanation", expanded=False):
+                        st.caption("You can select the feature that you like to observe the distribution. "
+                                   "Blue shows the clients distribution not having credit default and their "
+                                   "loan is considered to be approved (Loan). Orange shows the clients distribution "
+                                   "having credit default and their loan is considered to be refused. "
+                                   "The green dotted line indicates where the customer stands in relation to other customers.")
     
