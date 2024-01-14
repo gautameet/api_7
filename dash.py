@@ -101,8 +101,18 @@ if page == "Customer":
     st.title("Welcome to the customer page")
     
     ".\n"
-    
+    # Customer information
+        with tab2:
+            st.write("Age : " + str(int(age)) + " ans")
+            st.write("Numéro de téléphone " + mobile)
+            st.write("Email " + email)
+            st.write("Statut Familiale : " + family_status)
+            st.write("Nombre d'enfants : " + str(int(childs)))
+            st.write("Secteur d'activité : " + work_org)
+            st.write("Années travaillées : " +  str(int(work_years)))
+            st.write("Revenu : " + str(int(income)) +" €/an")
 
+  
     #customer_id_list = list(df_test['SK_ID_CURR'])
     #customer_id_list.insert(0, '<Select>')
     cust_id = selectbox()    
