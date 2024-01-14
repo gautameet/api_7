@@ -77,7 +77,7 @@ with st.sidebar:
 
     customer_id_list = list(df_test['SK_ID_CURR'])
     customer_id_list.insert(0, '<Select>')
-    customer_id_dash = st.selectbox("Customer_id", customer_id_list)
+    #customer_id_dash = st.selectbox("Customer_id", customer_id_list)
     #if customer_id_dash != '<Select>':
          #st.write(f'You have chosen the Customer ID: {customer_id_dash}')
     #else:
