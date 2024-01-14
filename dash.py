@@ -57,9 +57,11 @@ try:
   
     #Id selection
     st.markdown("""---""")
-    customer_id_list=list(df_test['SK_ID_CURR']
-    customer_id_dash=st.selectbox("Customer_id_dash")
-    st.write('You have chosen the Customer ID:"+str("Customer_id_dash"))
+    
+    customer_id_list = list(df_test['SK_ID_CURR'])
+    customer_id_list.insert(0, '<Select>')
+    customer_id_dash = st.selectbox("Customer_id_dash", customer_id_list)
+    st.write('You have chosen the Customer ID: "+str(customer_id_dash))
                          
     st.markdown("""---""")
     
