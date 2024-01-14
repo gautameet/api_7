@@ -70,10 +70,10 @@ with st.sidebar:
         st.error(f"Error: Logo file not found at {logo_path}")
       
 # Page selection
-        page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
+    page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
   
 #Id selection
-st.markdown("""---""")
+    st.markdown("""---""")
 
 customer_id_list = list(df_test['SK_ID_CURR'])
 customer_id_list.insert(0, '<Select>')
