@@ -43,9 +43,9 @@ st.set_page_config(
     page_title="Credit Score Dashboard",
     page_icon="💳💵",
     layout="wide",
-    initial_sidebar_state="expanded"
+    #initial_sidebar_state="expanded"
 )
-#alt.themes.enable("dark")
+alt.themes.enable("dark")
 
 # Sidebar
 with st.sidebar:
