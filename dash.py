@@ -231,9 +231,9 @@ try:
                                "accordé. En rouge, sont indiqués les clients faisant défaut et dont le prêt est jugé "
                                "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
                                "à la base de données clients.")
-             boxplot = st.checkbox("Boxplot analysis")
-             if boxplot:
-                    st.info("Comparing the distribution of many variables of the total data from the boxplot.")
+        boxplot = st.checkbox("Boxplot analysis")
+        if boxplot:
+            st.info("Comparing the distribution of many variables of the total data from the boxplot.")
             
             feat_quanti = data_train.select_dtypes(['float64']).columns
             # Selection des features à afficher
@@ -243,10 +243,10 @@ try:
             # Affichage des boxplot
             boxplot_graph(id_client_dash, features, data_voisins)
                 
-            with st.expander("Explaining box plot", expanded=True):
-                st.write(
-                        "The boxplot permits an observer on the distribution of known variable.",
-                        "A star viol one star violet which represent a customer.",
-                        "Its nearest neighbour also undertaken on colour form red for qualified by default but green not."
-                        )
+        with st.expander("Explaining box plot", expanded=True):
+            st.write('''
+                "The boxplot permits an observer on the distribution of known variable.",
+                "A star viol one star violet which represent a customer.",
+                "Its nearest neighbour also undertaken on colour form red for qualified by default but green not."
+                ''')
                 
