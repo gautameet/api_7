@@ -41,7 +41,8 @@ with ZipFile(zip_file_train, 'r') as zip_train:
 with ZipFile(zip_file_test, 'r') as zip_test:
     df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
-#X_train= shap.TreeExplainer(model, df_train)
+#X_train= list(
+explainer = shap.TreeExplainer(model, df_train)
 
 
 
@@ -187,5 +188,5 @@ if page == "Global interpretation":
 
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+        #app.run(debug=True)
