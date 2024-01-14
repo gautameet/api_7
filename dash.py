@@ -1,5 +1,5 @@
 ## Import des librairies
-import shap
+#import shap
 import streamlit as st
 import altair as alt
 from sklearn.preprocessing import StandardScaler
@@ -70,7 +70,7 @@ with st.sidebar:
         st.error(f"Error: Logo file not found at {logo_path}")
       
 # Page selection
-page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
+        page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
   
 #Id selection
 st.markdown("""---""")
