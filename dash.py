@@ -59,25 +59,25 @@ try:
         page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
   
     #Id selection
-    st.markdown("""---""")
+        st.markdown("""---""")
     
-    customer_id_list = list(df_test['SK_ID_CURR'])
-    customer_id_list.insert(0, '<Select>')
-    customer_id_dash = st.selectbox("Customer_id", customer_id_list)
-    if customer_id_dash != '<Select>':
-        st.write(f'You have chosen the Customer ID: {customer_id_dash}')
-    else:
-        st.info("Please select a customer ID.")
+        customer_id_list = list(df_test['SK_ID_CURR'])
+        customer_id_list.insert(0, '<Select>')
+        customer_id_dash = st.selectbox("Customer_id", customer_id_list)
+        if customer_id_dash != '<Select>':
+            st.write(f'You have chosen the Customer ID: {customer_id_dash}')
+        else:
+            st.info("Please select a customer ID.")
                             
-    st.markdown("""---""")
+        st.markdown("""---""")
     
-    st.write("By Amit GAUTAM")
+        st.write("By Amit GAUTAM")
                    
     if page == "Home":
         st.title("💳💵 Credit Score Dashboard - Home Page")
         ".\n"
         #.\n"
-  
+    
         st.markdown("This is an interactive dashboard website which lets the clients to know about their credit demands\n"
                     "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                 
@@ -85,11 +85,11 @@ try:
                     "- **Customer**: to find out all the information related to the customer.\n"
                     "- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
                     "- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
-
+    
     if page == "Customer":
         st.title("💳💵 Credit Score Dashboard - Customer")
     
-    # Display customer information
+    #Display customer information
         ".\n"
         st.title("Welcome to the customer page")
     
@@ -131,7 +131,7 @@ try:
         #st.pyplot(fig)
 
             with st.expander("Graphical presentation", expanded=False):
-                st.caption("Displaying the features that influence the decision locally (for a particular custimer)")
+                st.caption("Displaying the features that influence the decision locally (for a particular customer)")
 
     if page == "Global interpretation":
         st.title("💳💵 Credit Score Dashboard - Global interpretation - Page")
