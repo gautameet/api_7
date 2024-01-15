@@ -56,8 +56,8 @@ if page == "Home":
 
 if page == "Customer":
     st.title("💳💵 Credit Score Dashboard - Customer Page")
-    with st.sidebar:
-        cust_id = st.selectbox("Enter your ID")
+with st.sidebar:
+    cust_id = st.selectbox("Enter your ID", "Navigation")
     
     
 #Display customer information
@@ -72,7 +72,7 @@ if page == "Customer":
     if button_start:
         # Use the entered customer_id to fetch and display relevant information
         # Add your logic here
-        customer_info = fetch_customer_info(customer_id)
+        customer_info = fetch_customer_info("Navigation")
         st.write(customer_info)
         
     st.markdown("""---""")
