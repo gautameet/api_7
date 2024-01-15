@@ -20,3 +20,12 @@ st.set_page_config(
     page_icon="💳💵",
     layout="wide",
     initial_sidebar_state="expanded")
+
+# Sidebar
+with st.sidebar:
+    logo_path = "logo.png"
+    try:
+        logo = Image.open(logo_path)
+        st.image(logo, width=180)
+    except FileNotFoundError:
+        st.error(f"Error: Logo file not found at {logo_path}")
