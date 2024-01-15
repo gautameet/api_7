@@ -238,31 +238,32 @@ if page == "Customer":
 
     #cust_id = selectbox()
     st.write("Please insert you ID:")
+    ID = st.sidebar.number_input(" ", min_value=100002, max_value=456255) 
     button_start = st.button("Submit")
-    
+    id_raw_app=get_data(raw_app, ID)
+    with st.spinner("Customer analysis"):
+        st.write("Customber Analysis)
+        with st.container():
+            col1, col2 = st.columns([1.5,2.5], gap ="medium")
+            with col1:
+                st.write("Age : " + str(int(age)) + " ans")
+                st.write("Numéro de téléphone " + mobile)
+                st.write("Email " + email)
+                st.write("Secteur d'activité : " + work_org)
+                st.write("Années travaillées : " +  str(int(work_years)))
+                st.write("Revenu : " + str(int(income)) +" €/an")          
+            
+            with col2:
+                fig = plt.figure(figsize=(2,2))
+                st.pyplot(radat_id_plot(ID,fig))
+
+        st.markdown("""---""")
+
+        
         #customer_id = st.sidebar.number_input('Enter Customer ID:', min_value=1, max_value=df_train['Customer_ID'].max())
     
-#three columns
-    #col = st.columns((1.5, 4.5, 2), gap='medium')
-    #with col[0]:
-    #with col[1]:
-    #with col[2]:
-    #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
-    tab1, tab2 = st.tabs(["My personal information", "My financial information"])
-    #Customer information
-    with tab1:
-        st.write("Age : " + str(int(age)) + " ans")
-        st.write("Numéro de téléphone " + mobile)
-        st.write("Email " + email)
-        st.write("Statut Familiale : " + family_status)
-        st.write("Nombre d'enfants : " + str(int(childs)))
-    with tab2:
-        st.write("Age : " + str(int(age)) + " ans")
-        st.write("Numéro de téléphone " + mobile)
-        st.write("Email " + email)
-        st.write("Secteur d'activité : " + work_org)
-        st.write("Années travaillées : " +  str(int(work_years)))
-        st.write("Revenu : " + str(int(income)) +" €/an")
+
+    
 
   
     #customer_id_list = list(df_test['SK_ID_CURR'])
