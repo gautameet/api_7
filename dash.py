@@ -47,7 +47,7 @@ knn.fit(df_train.drop(['SK_ID_CURR','TARGET'], axis=1))
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
 
-explainer = shap.TreeExplainer(model, df_train)
+#explainer = shap.TreeExplainer(model, df_train)
 
 # Features
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
