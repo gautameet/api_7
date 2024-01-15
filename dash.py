@@ -233,13 +233,13 @@ if page == "Customer":
 #Display customer information
     ".\n"
     st.title("Welcome to the customer page")
+    ".\n"    
     
-    ".\n"
-
-    #cust_id = selectbox()
+    
     st.write("Please insert you ID:")
-    ID = st.sidebar.number_input(" ", min_value=100002, max_value=456255) 
     button_start = st.button("Submit")
+    ID = st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+    
     id_raw_app=get_data(raw_app, ID)
     with st.spinner("Customer analysis"):
         st.write("## Customber analysis")
