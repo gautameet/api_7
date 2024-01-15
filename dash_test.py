@@ -64,7 +64,7 @@ if page == "Customer":
     
     
     st.write("Please insert you ID:")
-    customer_id = st.number_input('Enter Customer ID:', min_value=1)
+    #customer_id = st.number_input('Enter Customer ID:', min_value=1)
     button_start = st.button("Submit")
 
 
