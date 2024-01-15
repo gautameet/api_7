@@ -53,3 +53,18 @@ if page == "Home":
                 "- **Customer**: to find out all the information related to the customer.\n")
                 #"- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
                 #"- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
+
+if page == "Customer":
+    st.title("💳💵 Credit Score Dashboard - Customer")
+    
+#Display customer information
+    ".\n"
+    st.title("Welcome to the customer page")
+    ".\n"    
+    
+    
+    st.write("Please insert you ID:")
+    customer_id = st.number_input('Enter Customer ID:', min_value=1)
+    button_start = st.button("Submit")
+
+
