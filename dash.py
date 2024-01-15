@@ -42,7 +42,6 @@ with ZipFile(zip_file_test, 'r') as zip_test:
 knn = NearestNeighbors(n_neighbors=10)
 knn.fit(df_train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
-
 #Importing model 
 pkl_model= open("./model.pkl","rb")
 model = pickle.load(pkl_model)
