@@ -49,7 +49,7 @@ if page == "Home":
 if page == "Customer":
     st.title("💳💵 Credit Score Dashboard - Customer Page")
 with st.sidebar:
-    st.write("Please insert you ID:")
+    #st.write("Please insert you ID:")
     #customer_id = st.number_input('Enter Customer ID:', min_value=1)
     cust_id = st.selectbox("Enter your ID", "...............")
     button_start = st.button("Submit")
