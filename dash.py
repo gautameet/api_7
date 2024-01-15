@@ -259,7 +259,7 @@ if page == "Customer":
 
         st.markdown("""---""")
 
-        
+        st.write("By Amit GAUTAM")
         #customer_id = st.sidebar.number_input('Enter Customer ID:', min_value=1, max_value=df_train['Customer_ID'].max())
     
 
