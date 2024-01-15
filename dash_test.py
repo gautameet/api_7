@@ -49,19 +49,17 @@ if page == "Home":
 if page == "Customer":
     st.title("💳💵 Credit Score Dashboard - Customer Page")
 with st.sidebar:
+    st.write("Please insert you ID:")
+    #customer_id = st.number_input('Enter Customer ID:', min_value=1)
     cust_id = st.selectbox("Enter your ID", "...............")
-    
+    button_start = st.button("Submit")
     
 #Display customer information
 st.title("Welcome et Bienvenue")
     ".\n"    
     
     
-    st.write("Please insert you ID:")
-    #customer_id = st.number_input('Enter Customer ID:', min_value=1)
-    button_start = st.button("Submit")
-
-    if button_start:
+        if button_start:
         # Use the entered customer_id to fetch and display relevant information
         # Add your logic here
         customer_info = fetch_customer_info("Navigation")
