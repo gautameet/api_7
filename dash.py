@@ -21,18 +21,18 @@ import pandas as pd
 #import seaborn as sns
 
 
-zip_file_train = './data_train.zip'
-zip_file_test = './data_test.zip'
+#zip_file_train = './data_train.zip'
+#zip_file_test = './data_test.zip'
 
-with ZipFile(zip_file_train, 'r') as zip_train:
-    df_train = pd.read_csv(zip_train.open('data_train.csv'))
+#with ZipFile(zip_file_train, 'r') as zip_train:
+    #df_train = pd.read_csv(zip_train.open('data_train.csv'))
 
-with ZipFile(zip_file_test, 'r') as zip_test:
-    df_test=pd.read_csv(zip_test.open('data_test.csv'))    
+#with ZipFile(zip_file_test, 'r') as zip_test:
+    #df_test=pd.read_csv(zip_test.open('data_test.csv'))    
 
 #Importing model 
-pkl_model= open("./model.pkl","rb")
-model = pickle.load(pkl_model)
+#pkl_model= open("./model.pkl","rb")
+#model = pickle.load(pkl_model)
 
 #explainer = shap.TreeExplainer(model, df_train)
 
