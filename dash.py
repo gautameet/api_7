@@ -223,9 +223,9 @@ if page == "Home":
                 "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                 
                 "\nThis dashboard is composed of following pages :\n"
-                "- **Customer**: to find out all the information related to the customer.\n"
-                "- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
-                "- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
+                "- **Customer**: to find out all the information related to the customer.\n")
+                #"- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
+                #"- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
     
 if page == "Customer":
     st.title("💳💵 Credit Score Dashboard - Customer")
