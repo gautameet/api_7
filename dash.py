@@ -242,7 +242,7 @@ if page == "Customer":
     button_start = st.button("Submit")
     id_raw_app=get_data(raw_app, ID)
     with st.spinner("Customer analysis"):
-        st.write("Customber Analysis)
+        st.write("## Customber analysis")
         with st.container():
             col1, col2 = st.columns([1.5,2.5], gap ="medium")
             with col1:
