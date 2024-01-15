@@ -236,7 +236,7 @@ if page == "Customer":
     
     ".\n"
 
-    cust_id = selectbox()
+    #cust_id = selectbox()
     st.write("Please insert you ID:")
     ID = st.sidebar.number_input(" ", min_value=100002, max_value=456255) 
     button_start = st.button("Submit")
