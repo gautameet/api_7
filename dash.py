@@ -114,7 +114,7 @@ customer_id = st.sidebar.number_input('Enter Customer ID:', min_value=1, max_val
     #with col[1]:
     #with col[2]:
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
-    tab1, tab2 = st.tabs(["My personal information",                               "My financial information"])
+tab1, tab2 = st.tabs(["My personal information", "My financial information"])
     #Customer information
     with tab1:
         st.write("Age : " + str(int(age)) + " ans")
