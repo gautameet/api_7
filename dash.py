@@ -244,7 +244,7 @@ if page == "Customer":
     with st.spinner("Customer analysis"):
         st.write("## Customber analysis")
         with st.container():
-            col1, col2 = st.columns([1.5,2.5], gap ="medium")
+            col1, col2 = st.columns([1.5,2.5])
             with col1:
                 st.write("Age : " + str(int(age)) + " ans")
                 st.write("Numéro de téléphone " + mobile)
