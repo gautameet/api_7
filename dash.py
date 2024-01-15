@@ -204,7 +204,7 @@ with st.sidebar:
         st.error(f"Error: Logo file not found at {logo_path}")
       
 # Page selection
-    page =  st.selectbox("Navigation", ["Home", "Customer", #"Local interpretation", #"Global interpretation"])
+    page =  st.selectbox("Navigation", ["Home", "Customer"])   #,"Local interpretation", #"Global interpretation"])
   
 #Id selection
     st.markdown("""---""")
