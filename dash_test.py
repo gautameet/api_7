@@ -57,7 +57,7 @@ if page == "Home":
 if page == "Customer":
     st.title("💳💵 Credit Score Dashboard - Customer Page")
 with st.sidebar:
-    st.selectbox["Enter your ID"]
+st.selectbox["Enter your ID"]
     
     
 #Display customer information
