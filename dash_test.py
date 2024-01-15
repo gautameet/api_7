@@ -32,14 +32,6 @@ with st.sidebar:
 
 # Page selection
     page =  st.selectbox("Navigation", ["Home", "Customer"])   #,"Local interpretation", #"Global interpretation"])
-  
-#Id selection
-    st.markdown("""---""")
- 
-    
-    st.markdown("""---""")
-    
-    st.write("By Amit GAUTAM")
 
 if page == "Home":
     st.title("💳💵 Credit Score Dashboard - Home Page")
@@ -74,7 +66,15 @@ with st.sidebar:
         # Add your logic here
         customer_info = fetch_customer_info("Navigation")
         st.write(customer_info)
-        
+
+    #Id selection
+    st.markdown("""---""")
+ 
+    
+    st.markdown("""---""")
+    
+    st.write("By Amit GAUTAM")
+
     st.markdown("""---""")
 
     
