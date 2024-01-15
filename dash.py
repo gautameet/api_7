@@ -168,7 +168,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
               (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
               (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
 
-  radar = ComplexRadar(fig,features,ranges)
+    radar = ComplexRadar(fig,features,ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
     radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
     radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
