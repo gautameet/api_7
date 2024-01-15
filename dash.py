@@ -35,8 +35,6 @@ import pandas as pd
 #model = pickle.load(pkl_model)
 
 #explainer = shap.TreeExplainer(model, df_train)
-
-
         
 ########################
 # DASHBOARD
