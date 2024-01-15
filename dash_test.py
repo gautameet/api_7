@@ -47,7 +47,7 @@ if page == "Home":
                 #"- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
 
 if page == "Customer":
-    st.title("💳💵 Credit Score Dashboard - Customer Page")
+    st.title("Welcome to the Customer Page")
 with st.sidebar:
     #st.write("Please insert you ID:")
     #customer_id = st.number_input('Enter Customer ID:', min_value=1)
@@ -55,8 +55,8 @@ with st.sidebar:
     button_start = st.button("Submit")
     
 #Display customer information
-st.title("Welcome et Bienvenue")
-".\n"    
+#st.title("Welcome et Bienvenue")
+#".\n"    
     
     
 if button_start:
