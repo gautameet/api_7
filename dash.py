@@ -91,8 +91,15 @@ if page == "Customer":
     
     
     st.write("Please insert you ID:")
+    customer_id = st.number_input('Enter Customer ID:', min_value=1)
     button_start = st.button("Submit")
-    
+
+    if button_start:
+        # Use the entered customer_id to fetch and display relevant information
+        # Add your logic here
+        customer_info = fetch_customer_info(customer_id)
+        st.write(customer_info)
+        
     st.markdown("""---""")
 
     st.write("By Amit GAUTAM")
