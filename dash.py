@@ -103,9 +103,11 @@ if page == "Customer":
     ".\n"
 
     #cust_id = selectbox()
-    st.write("Please insert you ID:")
-    button_start = st.button("Submit")
-        
+st.write("Please insert you ID:")
+button_start = st.button("Submit")
+    
+customer_id = st.sidebar.number_input('Enter Customer ID:', min_value=1, max_value=df_train['Customer_ID'].max())
+    
 #three columns
     #col = st.columns((1.5, 4.5, 2), gap='medium')
     #with col[0]:
