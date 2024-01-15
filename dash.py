@@ -238,7 +238,7 @@ if page == "Customer":
     st.write("Please insert you ID:")
     button_start = st.button("Submit")
     ID = st.sidebar.number_input(" ", min_value=100002, max_value=456255)
-    id_raw_app=get_data(raw_app, ID)
+    #id_raw_app=get_data(raw_app, ID)
     
     with st.spinner("Customer analysis..."):
         st.write("## Customber analysis")
