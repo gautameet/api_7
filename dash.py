@@ -116,19 +116,19 @@ customer_id = st.sidebar.number_input('Enter Customer ID:', min_value=1, max_val
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
 tab1, tab2 = st.tabs(["My personal information", "My financial information"])
     #Customer information
-    with tab1:
-        st.write("Age : " + str(int(age)) + " ans")
-        st.write("Numéro de téléphone " + mobile)
-        st.write("Email " + email)
-        st.write("Statut Familiale : " + family_status)
-        st.write("Nombre d'enfants : " + str(int(childs)))
-    with tab2:
-        st.write("Age : " + str(int(age)) + " ans")
-        st.write("Numéro de téléphone " + mobile)
-        st.write("Email " + email)
-        st.write("Secteur d'activité : " + work_org)
-        st.write("Années travaillées : " +  str(int(work_years)))
-        st.write("Revenu : " + str(int(income)) +" €/an")
+with tab1:
+    st.write("Age : " + str(int(age)) + " ans")
+    st.write("Numéro de téléphone " + mobile)
+    st.write("Email " + email)
+    st.write("Statut Familiale : " + family_status)
+    st.write("Nombre d'enfants : " + str(int(childs)))
+with tab2:
+    st.write("Age : " + str(int(age)) + " ans")
+    st.write("Numéro de téléphone " + mobile)
+    st.write("Email " + email)
+    st.write("Secteur d'activité : " + work_org)
+    st.write("Années travaillées : " +  str(int(work_years)))
+    st.write("Revenu : " + str(int(income)) +" €/an")
 
   
     #customer_id_list = list(df_test['SK_ID_CURR'])
