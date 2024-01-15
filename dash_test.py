@@ -56,7 +56,7 @@ with st.sidebar:
     
 #Display customer information
 st.title("Welcome et Bienvenue")
-    ".\n"    
+".\n"    
     
     
         if button_start:
