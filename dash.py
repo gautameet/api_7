@@ -38,7 +38,6 @@ model = pickle.load(pkl_model)
 
 
         
-
 ########################
 # DASHBOARD
 
