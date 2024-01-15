@@ -245,12 +245,11 @@ if page == "Customer":
         with st.container():
             col1, col2 = st.columns([1.5,2.5])
             with col1:
-                st.write("Age : " + str(int(age)) + " ans")
-                st.write("Numéro de téléphone " + mobile)
-                st.write("Email " + email)
-                st.write("Secteur d'activité : " + work_org)
-                st.write("Années travaillées : " +  str(int(work_years)))
-                st.write("Revenu : " + str(int(income)) +" €/an")          
+                st.write("#### Détail du Client " + str(ID))
+                st.markdown("* **Statut : " + str(id_raw_app['NAME_FAMILY_STATUS'].values[0]) + "**")
+                st.markdown("* **Nombre d'enfant(s) : " + str(id_raw_app['CNT_CHILDREN'].values[0]) + "**")
+                st.markdown("* **Emploi : " + str(id_raw_app['NAME_INCOME_TYPE'].values[0]) + "**")
+                st.markdown("* **Crédit en cours : " + str(id_raw_app['CREDIT'].values[0]) + "**"))          
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
