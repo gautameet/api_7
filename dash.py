@@ -237,24 +237,7 @@ if page == "Customer":
     
     st.write("Please insert you ID:")
     button_start = st.button("Submit")
-    #ID = st.sidebar.number_input(" ", min_value=100002, max_value=456255)
-    #id_raw_app=get_data(raw_app, ID)
     
-    #with st.spinner("Customer analysis..."):
-        st.write("## Customber analysis")
-        with st.container():
-            col1, col2 = st.columns([1.5,2.5])
-            with col1:
-                st.write("#### Détail du Client " + str(ID))
-                st.markdown("* **Statut : " + str(id_raw_app['NAME_FAMILY_STATUS'].values[0]) + "**")
-                st.markdown("* **Nombre d'enfant(s) : " + str(id_raw_app['CNT_CHILDREN'].values[0]) + "**")
-                st.markdown("* **Emploi : " + str(id_raw_app['NAME_INCOME_TYPE'].values[0]) + "**")
-                st.markdown("* **Crédit en cours : " + str(id_raw_app['CREDIT'].values[0]) + "**"))          
-            
-            with col2:
-                fig = plt.figure(figsize=(2,2))
-                st.pyplot(radat_id_plot(ID,fig))
-
         st.markdown("""---""")
 
         st.write("By Amit GAUTAM")
