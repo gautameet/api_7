@@ -11,4 +11,12 @@ import os
 from zipfile import ZipFile
 import pickle
 
-print("test")
+########################
+# DASHBOARD
+
+## Page configuration initialisation
+st.set_page_config(
+    page_title="Credit Score Dashboard",
+    page_icon="💳💵",
+    layout="wide",
+    initial_sidebar_state="expanded")
