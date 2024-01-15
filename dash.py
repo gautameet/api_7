@@ -184,12 +184,7 @@ def shap_id(ID):
     #shap.force_plot(explainer.expected_value[1], shap_vals[1], app_id)
 
 
-
-
-
-
-
-
+########################
 # DASHBOARD
 
 ## Page configuration initialisation
@@ -209,7 +204,7 @@ with st.sidebar:
         st.error(f"Error: Logo file not found at {logo_path}")
       
 # Page selection
-    page =  st.selectbox("Navigation", ["Home", "Customer", "Local interpretation", "Global interpretation"])
+    page =  st.selectbox("Navigation", ["Home", "Customer", #"Local interpretation", #"Global interpretation"])
   
 #Id selection
     st.markdown("""---""")
