@@ -103,8 +103,8 @@ if page == "Customer":
     ".\n"
 
     #cust_id = selectbox()
-st.write("Please insert you ID:")
-button_start = st.button("Submit")
+    st.write("Please insert you ID:")
+    button_start = st.button("Submit")
     
     customer_id = st.sidebar.number_input('Enter Customer ID:', min_value=1, max_value=df_train['Customer_ID'].max())
     
@@ -114,21 +114,21 @@ button_start = st.button("Submit")
     #with col[1]:
     #with col[2]:
     #tab1, tab2, tab3 = st.tabs(["Informations prêt", "Informations Client", "Ensemble Clients"])
-tab1, tab2 = st.tabs(["My personal information", "My financial information"])
+    tab1, tab2 = st.tabs(["My personal information", "My financial information"])
     #Customer information
-with tab1:
-    st.write("Age : " + str(int(age)) + " ans")
-    st.write("Numéro de téléphone " + mobile)
-    st.write("Email " + email)
-    st.write("Statut Familiale : " + family_status)
-    st.write("Nombre d'enfants : " + str(int(childs)))
-with tab2:
-    st.write("Age : " + str(int(age)) + " ans")
-    st.write("Numéro de téléphone " + mobile)
-    st.write("Email " + email)
-    st.write("Secteur d'activité : " + work_org)
-    st.write("Années travaillées : " +  str(int(work_years)))
-    st.write("Revenu : " + str(int(income)) +" €/an")
+    with tab1:
+        st.write("Age : " + str(int(age)) + " ans")
+        st.write("Numéro de téléphone " + mobile)
+        st.write("Email " + email)
+        st.write("Statut Familiale : " + family_status)
+        st.write("Nombre d'enfants : " + str(int(childs)))
+    with tab2:
+        st.write("Age : " + str(int(age)) + " ans")
+        st.write("Numéro de téléphone " + mobile)
+        st.write("Email " + email)
+        st.write("Secteur d'activité : " + work_org)
+        st.write("Années travaillées : " +  str(int(work_years)))
+        st.write("Revenu : " + str(int(income)) +" €/an")
 
   
     #customer_id_list = list(df_test['SK_ID_CURR'])
