@@ -55,11 +55,11 @@ if page == "Home":
                 #"- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
 
 if page == "Customer":
-    st.title("💳💵 Credit Score Dashboard - Customer")
+    st.title("💳💵 Credit Score Dashboard - Customer Page")
     
 #Display customer information
     ".\n"
-    st.title("Welcome to the customer page")
+    st.title("Welcome et Bienvenue")
     ".\n"    
     
     
