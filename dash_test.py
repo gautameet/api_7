@@ -63,7 +63,7 @@ if button_start:
 # Use the entered customer_id to fetch and display relevant information
 # Add your logic here
     customer_info = fetch_customer_info("Navigation")
-        st.write(customer_info)
+    st.write(customer_info)
 
     #Id selection
     st.markdown("""---""")
