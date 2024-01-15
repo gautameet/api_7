@@ -53,7 +53,7 @@ with st.sidebar:
     
     
 #Display customer information
-    st.title("Welcome et Bienvenue")
+st.title("Welcome et Bienvenue")
     ".\n"    
     
     
