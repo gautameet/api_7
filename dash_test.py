@@ -23,6 +23,7 @@ st.set_page_config(
 
 # Sidebar
 with st.sidebar:
+    st.write("Credit Score")
     logo_path = "logo.png"
     try:
         logo = Image.open(logo_path)
