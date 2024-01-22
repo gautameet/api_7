@@ -66,13 +66,13 @@ if page == "Customer":
         st.write(customer_info)
 
     #Id selection
-    st.markdown("""---""")
+st.markdown("""---""")
  
     
-    st.markdown("""---""")
+st.markdown("""---""")
     
-    st.write("By Amit GAUTAM")
+st.write("By Amit GAUTAM")
 
-    st.markdown("""---""")
+st.markdown("""---""")
 
     
