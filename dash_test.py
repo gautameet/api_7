@@ -40,9 +40,8 @@ with st.sidebar:
     
     st.markdown("""---""")
     
-    st.write("By Amit GAUTAM")
+    st.write("By: Amit GAUTAM")
 
-    st.markdown("""---""")
 
 
 if page == "Home":
