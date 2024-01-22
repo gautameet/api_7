@@ -59,7 +59,7 @@ if page == "Customer":
 #".\n"    
     
     
-if button_start:
+    if button_start:
 # Use the entered customer_id to fetch and display relevant information
 # Add your logic here
     customer_info = fetch_customer_info("Navigation")
