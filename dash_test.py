@@ -34,6 +34,18 @@ with st.sidebar:
 # Page selection
     page =  st.selectbox("Navigation", ["Home", "Customer"])   #,"Local interpretation", #"Global interpretation"])
 
+
+
+st.markdown("""---""")
+ 
+    
+st.markdown("""---""")
+    
+st.write("By Amit GAUTAM")
+
+st.markdown("""---""")
+
+
 if page == "Home":
     st.title("💵 Credit Score Dashboard - Home Page")
     ".\n"
