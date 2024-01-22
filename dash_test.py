@@ -48,11 +48,11 @@ if page == "Home":
 
 if page == "Customer":
     st.title("💵 Welcome to the Customer Page")
-with st.sidebar:
+    with st.sidebar:
     #st.write("Please insert you ID:")
     #customer_id = st.number_input('Enter Customer ID:', min_value=1)
-    cust_id = st.selectbox("Enter your ID", "      ")
-    button_start = st.button("Submit")
+        cust_id = st.selectbox("Enter your ID", "      ")
+        button_start = st.button("Submit")
     
 #Display customer information
 #st.title("Welcome et Bienvenue")
