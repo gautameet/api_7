@@ -17,7 +17,7 @@ import pickle
 ## Page configuration initialisation
 st.set_page_config(
     page_title="Credit Score Dashboard",
-    page_icon="💳💵",
+    page_icon="💵",
     layout="wide",
     initial_sidebar_state="expanded")
 
@@ -34,7 +34,7 @@ with st.sidebar:
     page =  st.selectbox("Navigation", ["Home", "Customer"])   #,"Local interpretation", #"Global interpretation"])
 
 if page == "Home":
-    st.title("💳💵 Credit Score Dashboard - Home Page")
+    st.title("💵 Credit Score Dashboard - Home Page")
     ".\n"
     #.\n"
     
