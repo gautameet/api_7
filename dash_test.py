@@ -36,14 +36,14 @@ with st.sidebar:
 
 
 
-st.markdown("""---""")
+    st.markdown("""---""")
  
     
-st.markdown("""---""")
+    st.markdown("""---""")
     
-st.write("By Amit GAUTAM")
+    st.write("By Amit GAUTAM")
 
-st.markdown("""---""")
+    st.markdown("""---""")
 
 
 if page == "Home":
