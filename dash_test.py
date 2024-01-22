@@ -36,8 +36,7 @@ with st.sidebar:
 
 
 
-    st.markdown("""---""")
- 
+    
     
     st.markdown("""---""")
     
@@ -79,13 +78,5 @@ if page == "Customer":
         st.write(customer_info)
 
     #Id selection
-st.markdown("""---""")
- 
-    
-st.markdown("""---""")
-    
-st.write("By Amit GAUTAM")
-
-st.markdown("""---""")
 
     
