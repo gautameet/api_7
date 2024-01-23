@@ -1,7 +1,7 @@
 ## Import des librairies
-#import shap
+import shap
 import streamlit as st
-import altair as alt
+import altair as alt              # for data visualtization
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
 from PIL import Image
