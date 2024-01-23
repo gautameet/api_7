@@ -60,7 +60,7 @@ if page == "Customer":
     ".\n"
     #.\n"
     
-    st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n"
+    st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n")
     #with st.sidebar:
                 #st.selectbox("Enter your ID", "      ")
                 #button_start = st.button("Submit")
