@@ -59,6 +59,11 @@ if page == "Home":
 
 if page == "Customer":
     st.title("💵 Welcome to the Customer Page")
+    ".\n"
+    #.\n"
+    
+    st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n"
+    
     with st.sidebar:
     #st.write("Please insert you ID:")
     #customer_id = st.number_input('Enter Customer ID:', min_value=1)
