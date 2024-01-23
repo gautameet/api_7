@@ -60,7 +60,8 @@ if page == "Customer":
     ".\n"
     #.\n"
     
-    st.header("Welcome to the customers' page.\n") 
+    st.header("Welcome to the customers' page.\n")
+    ".\n"
     st.subheader("Please enter your ID to know the results of your demands. \n") 
     #"Thank you. \n"
     with st.sidebar:
