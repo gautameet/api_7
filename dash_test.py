@@ -61,7 +61,7 @@ if page == "Customer":
     #.\n"
     
 st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n"
-with st.sidebar:
+    with st.sidebar:
 #st.write("Please insert you ID:")
 #customer_id = st.number_input('Enter Customer ID:', min_value=1)
     cust_id = st.selectbox("Enter your ID", "      ")
