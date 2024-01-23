@@ -77,20 +77,19 @@ if page == "Customer":
                 #st.write(customer_info)
 
     #Id selection
-    import streamlit as st
-
+ 
 # First, create the layout with three columns
-col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
 # Now, add content to each column
-with col1:
-    st.header("Column 1")
-    st.write("Content for column 1 goes here.")
+    with col1:
+        st.header("Column 1")
+        st.write("Content for column 1 goes here.")
 
-with col2:
-    st.header("Column 2")
-    st.write("Content for column 2 goes here.")
+    with col2:
+        st.header("Column 2")
+        st.write("Content for column 2 goes here.")
 
-with col3:
-    st.header("Column 3")
-    st.write("Content for column 3 goes here.")
+    with col3:
+        st.header("Column 3")
+        st.write("Content for column 3 goes here.")
