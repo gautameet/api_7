@@ -64,8 +64,8 @@ st.markdown("Welcome to the customers' page. Please enter your ID to know the re
     with st.sidebar:
 #st.write("Please insert you ID:")
 #customer_id = st.number_input('Enter Customer ID:', min_value=1)
-    st.selectbox("Enter your ID", "      ")
-    button_start = st.button("Submit")
+        st.selectbox("Enter your ID", "      ")
+        button_start = st.button("Submit")
     
 #Display customer information
 #st.title("Welcome et Bienvenue")
