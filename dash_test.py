@@ -64,9 +64,13 @@ if page == "Customer":
     ".\n"
     st.subheader("Please enter your ID to know the results of your demands. \n") 
     #"Thank you. \n"
-    with st.sidebar:
-        st.selectbox("Enter your ID", "      ")
-        button_start = st.button("Submit")
+    st.sidebar.markdown("Your ID:")
+    Cst_ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+
+    
+    #with st.sidebar:
+        #st.selectbox("Enter your ID", "      ")
+        #button_start = st.button("Submit")
     
     
     
