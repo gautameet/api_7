@@ -60,23 +60,23 @@ if page == "Customer":
     ".\n"
     #.\n"
     
-st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n"
-    with st.sidebar:
+    st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n"
+        with st.sidebar:
 #st.write("Please insert you ID:")
 #customer_id = st.number_input('Enter Customer ID:', min_value=1)
-        st.selectbox("Enter your ID", "      ")
-        button_start = st.button("Submit")
+            st.selectbox("Enter your ID", "      ")
+            button_start = st.button("Submit")
     
 #Display customer information
 #st.title("Welcome et Bienvenue")
 #".\n"    
     
     
-    if button_start:
+            if button_start:
 # Use the entered customer_id to fetch and display relevant information
 # Add your logic here
-        customer_info = fetch_customer_info("Navigation")
-        st.write(customer_info)
+                customer_info = fetch_customer_info("Navigation")
+                st.write(customer_info)
 
     #Id selection
 
