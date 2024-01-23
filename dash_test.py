@@ -77,5 +77,3 @@ if page == "Customer":
                 #st.write(customer_info)
 
     #Id selection
-
-    
