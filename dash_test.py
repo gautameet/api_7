@@ -54,21 +54,18 @@ if page == "Home":
                                 
                 "\nThis dashboard is composed of following pages :\n"
                 "- **Customer**: to find out all the information related to the customer.\n")
-                #"- **Local Interpretation**: Information regarding the reasons for accepting or refusing the credits of a particular customer.\n"
-                #"- **Global Interpretation**: Information regarding the comparisons and similarity between the customer according to the database.")
-
+                
 if page == "Customer":
     st.title("💵 Welcome to the Customer Page")
     ".\n"
     #.\n"
     
     st.markdown("Welcome to the customers' page. Please enter your ID to know the results of your demands. Thank you. \n"
-    
-with st.sidebar:
+                with st.sidebar:
     #st.write("Please insert you ID:")
     #customer_id = st.number_input('Enter Customer ID:', min_value=1)
-    cust_id = st.selectbox("Enter your ID", "      ")
-    button_start = st.button("Submit")
+                    cust_id = st.selectbox("Enter your ID", "      ")
+                    button_start = st.button("Submit")
     
 #Display customer information
 #st.title("Welcome et Bienvenue")
