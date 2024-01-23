@@ -32,7 +32,7 @@ with st.sidebar:
         st.error(f"Error: Logo file not found at {logo_path}")
 
 # Page selection
-    page =  st.selectbox("Navigation", ["Home", "Customer"])
+    page =  st.selectbox("Menu", ["Home", "Customer"])
 
 
 
@@ -67,7 +67,7 @@ if page == "Customer":
     st.sidebar.markdown("Your ID:")
     Cst_ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
 
-    
+     
     #with st.sidebar:
         #st.selectbox("Enter your ID", "      ")
         #button_start = st.button("Submit")
