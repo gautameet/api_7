@@ -29,10 +29,10 @@ with ZipFile(zip_file, 'r') as zip_app_test:
         raw_app = raw_train.append(raw_test).reset_index(drop=True)
 del raw_train
 del raw_test
-        raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
-        raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
-        raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
-        raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
+raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
+raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
+raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
 zip_file_train = './data_train.zip'
