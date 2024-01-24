@@ -20,11 +20,11 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
 # Original Data
 zip_file = './application_train.zip'
 with ZipFile(zip_file, 'r') as zip_app_train:
-        raw_train = pd.read_csv(zip_app_train.open('application_train.csv'),usecols=feat)
+raw_train = pd.read_csv(zip_app_train.open('application_train.csv'),usecols=feat)
 
 zip_file = './application_test.zip'
 with ZipFile(zip_file, 'r') as zip_app_test:
-        raw_test = pd.read_csv(zip_app_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+raw_test = pd.read_csv(zip_app_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 raw_app = raw_train.append(raw_test).reset_index(drop=True)
 del raw_train
@@ -33,7 +33,6 @@ raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
 raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
 raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
 raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
-
 
 # Treated Data
 zip_file_train = './data_train.zip'
