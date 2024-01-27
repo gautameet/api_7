@@ -300,7 +300,7 @@ try:
     
     
         
-        st.markdown("---")
+        st.markdown("-----")
         
         st.write("By: Amit GAUTAM")
     
