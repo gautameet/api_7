@@ -301,8 +301,11 @@ try:
         st.markdown("Your ID:")
         ID=st.number_input(" ", min_value=100002, max_value=456255)
         
-        try:
-    raw_app_id = get_data(raw_app, ID)
+        raw_app_id = get_customer_data(raw_app, ID)
+        if raw_app_id is not None:
+            display_customer_details(raw_app_id)
+            display_similar_customer(ID)
+            solvability_prediciton(ID)
     with st.spinner('Custumer....'):
         st.writer('Customer .....')
         with st.container():
