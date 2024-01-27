@@ -12,8 +12,6 @@ import os
 from zipfile import ZipFile
 import pickle
 
-
-
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
         'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
@@ -27,7 +25,6 @@ print(zip_file_train.namelist())
 
 try:
     raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
-#with ZipFile(zip_file_train, 'r') as zip_train:
 except Exception as e:
     print(f'Error:{e}')
         
@@ -51,19 +48,6 @@ except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
 
-#del raw_train
-#del raw_test
- 
-    #raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
-    #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
-    #raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-#raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
-
-#st.dataframe(raw_app)
-
-# Drop unnecessary columns
-    #raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
-
 # Treated Data
 
 zip_file_path = './data_train.zip'
@@ -80,11 +64,6 @@ except Exception as e:
     # Print the exception message for debugging
     print(f"Error reading CSV from ZIP: {e}")
 
-#zip_file_train = ZipFile('./data_train.zip')
-#train = pd.read_csv(zip_file_train.open('data_train.csv'))
-#zip_file_train = './data_train.zip'
-
-
 zip_file_test = './data_test.zip'
 csv_file_name = 'data_test.csv'
 
@@ -99,16 +78,8 @@ except Exception as e:
     # Print the exception message for debugging
     print(f"Error reading CSV from ZIP: {e}")
         
-#zip_file_test = ZipFile('./data_test.zip')
-#test = pd.read_csv(zip_file_test.open('data_test.csv'))
-#with ZipFile(zip_file_train, 'r') as zip_train:
-    #train = pd.read_csv(zip_train.open('data_train.csv'))
-#with ZipFile(zip_file_test, 'r') as zip_test:
-    #test=pd.read_csv(zip_test.open('data_test.csv'))    
-
 try:
     # Append the DataFrames
-    #raw_app = raw_train.append(raw_test).reset_index(drop=True)
     app = train.append(test).reset_index(drop=True)
 
 # Modele voisin
@@ -217,7 +188,6 @@ try:
                 gridlabel[0] = "" # clean up origin
                 ax.set_rgrids(grid, labels=gridlabel,
                              angle=angles[i])
-            ###ax.spines["polar"].set_visible(False)
                 ax.set_ylim(*ranges[i])
                 ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
         
@@ -301,7 +271,6 @@ try:
         page =  st.selectbox("Menu", ["Home", "Customer", "Customer portfolio"])
     
     
-        
         st.markdown("""---""")
         
         st.write("By: Amit GAUTAM")
@@ -445,5 +414,4 @@ try:
                     plt.setp(pt.get_xticklabels(),fontsize=4)
                     plt.setp(pt.get_yticklabels(),fontsize=4)                
                     st.pyplot(fig)
-        if __name__ == '__main__':
-            app.run()
+        
