@@ -445,6 +445,3 @@ try:
                     plt.setp(pt.get_xticklabels(),fontsize=4)
                     plt.setp(pt.get_yticklabels(),fontsize=4)                
                     st.pyplot(fig)
-
-        
-         
