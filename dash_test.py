@@ -444,3 +444,5 @@ try:
                     plt.setp(pt.get_yticklabels(),fontsize=4)                
                     st.pyplot(fig)
 
+if __name__ == '__main__':
+    print('Hello')
