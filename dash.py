@@ -289,16 +289,8 @@ try:
                     "- **Customer**: to find out all the information related to the customer.\n")
                     
     elif page == "Customer":
-        #st.title("💵 Welcome to the Customer Page")
-        ".\n"
-        
-        
-        #st.header("Welcome to the customers' page.\n")
-       #".\n"
         st.subheader("Please enter your ID to know the results of your demands. \n") 
-        #"Thank you. \n"
-        
-        st.markdown("Your ID:")
+       
         ID=st.number_input(" ", min_value=100002, max_value=456255)
         
         raw_app_id = get_customer_data(raw_app, ID)
@@ -339,26 +331,26 @@ try:
         st.markdown("""---""")
 
         def solvatibility_prediction(ID):
-            try:                
-                with st.container():
-                    st.write("#### Customer solvability prediction ")
-                    pred = st.button('Calculation')
-                    if pred:
-                        with st.spinner('Calculation...'):
-                            try:
-                                prediction = requests.get("https://urd9pbjwdlnjfnaoncmtdw.streamlit.app/predict?ID=" + str(ID)).json()
-                                if prediction["target"]==0:
-                                    st.write(':smiley:')
-                                    st.success('Client solvable _(Target = 0)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')
-                                elif prediction["target"]==1:
-                                    st.write(':confused:')
-                                    st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
-                                st.write('**Interpretability**')
-                                fig = plt.figure(figsize=(2,2))
-                                st.pyplot(shap_id(ID))
-                            except :
-                                st.warning('programme error programme') 
-                                st.write(':dizzy_face:')                                               
+            #try:                
+            with st.container():
+                st.write("#### Customer solvability prediction ")
+                pred = st.button('Calculation')
+                if pred:
+                    with st.spinner('Calculation...'):
+                        try:
+                            prediction = requests.get("https://urd9pbjwdlnjfnaoncmtdw.streamlit.app/predict?ID=" + str(ID)).json()
+                            if prediction["target"]==0:
+                                st.write(':smiley:')
+                                st.success('Client solvable _(Target = 0)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')
+                            elif prediction["target"]==1:
+                                st.write(':confused:')
+                                st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
+                            st.write('**Interpretability**')
+                            fig = plt.figure(figsize=(2,2))
+                            st.pyplot(shap_id(ID))
+                        except Exception as e:
+                            st.warning('Error during prediction: '+str(e)) 
+                            st.write(':dizzy_face:')                                               
                     
             except:
                 st.warning('**_Customer not found_**')
