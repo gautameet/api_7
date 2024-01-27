@@ -306,7 +306,7 @@ try:
             display_customer_details(raw_app_id)
             display_similar_customer(ID)
             solvability_prediciton(ID)
-    with st.spinner('Custumer....'):
+        with st.spinner('Custumer....'):
         st.writer('Customer .....')
         with st.container():
             col1, col2 = st.columns([1.5,2.5])      
@@ -359,8 +359,8 @@ try:
                                 st.warning('programme error programme') 
                                 st.write(':dizzy_face:')                                               
                     
-        except:
-            st.warning('**_Customer not found_**')
+            except:
+                st.warning('**_Customer not found_**')
 
 # Customer portfolio analysis        
     elif page == 'Customer portfolio':
