@@ -136,10 +136,10 @@ try:
 
     explainer = shap.TreeExplainer(model,X_train_sm)
 
-del X_train_sm_1
-del X_train_sm_2
-del X_train_sm_3
-del X_train_sm
+    del X_train_sm_1
+    del X_train_sm_2
+    del X_train_sm_3
+    del X_train_sm
 
 # Features
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
