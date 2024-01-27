@@ -352,8 +352,8 @@ try:
                             st.warning('Error during prediction: '+str(e)) 
                             st.write(':dizzy_face:')                                               
                     
-            except:
-                st.warning('**_Customer not found_**')
+            #except:
+                #st.warning('**_Customer not found_**')
 
 # Customer portfolio analysis        
     elif page == 'Customer portfolio':
