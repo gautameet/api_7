@@ -297,6 +297,7 @@ try:
         ".\n"
         st.subheader("Please enter your ID to know the results of your demands. \n") 
         #"Thank you. \n"
+        
         st.markdown("Your ID:")
         ID=st.number_input(" ", min_value=100002, max_value=456255)
         try:
@@ -315,7 +316,7 @@ try:
                         fig = plt.figure(figsize=(2,2))
                         st.pyplot(radat_id_plot(ID,fig))
                 st.markdown("""---""")
-    
+        
                 with st.container():
                     st.write("#### Similar type of Customers ")
                     try:
@@ -332,13 +333,13 @@ try:
                         st.info('**_No similar customer_**')
             
                 st.markdown("""---""")
+                
                 with st.container():
                     st.write("#### Customer solvability prediction ")
                     pred = st.button('Calculation')
                     if pred:
                         with st.spinner('Calculation...'):
                             try:
-                                # http://127.0.01:5000/ is from the flask api
                                 prediction = requests.get("https://urd9pbjwdlnjfnaoncmtdw.streamlit.app/predict?ID=" + str(ID)).json()
                                 if prediction["target"]==0:
                                     st.write(':smiley:')
@@ -416,5 +417,5 @@ try:
                     st.pyplot(fig)
 
                     plt.close(fig)
-        st.markdown("""---""")
+            st.markdown("""---""")
         
