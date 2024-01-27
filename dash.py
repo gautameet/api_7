@@ -363,59 +363,62 @@ try:
         with st.spinner('Analysing...'):
             with st.container():            
                 st.write("#### Customer Profile")
-                col1, col2,col3 = st.columns(3)
-                with col1:
-                    fig = plt.figure(figsize=(4,4))
-                    bins = (raw_app['AGE'].max()-raw_app['AGE'].min())//5
-                    pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET',bins=bins,palette=['royalblue','red'],alpha=.5)
-                    plt.xlabel('AGE',fontsize=12)
-                    plt.ylabel('')
-                    plt.legend(['having difficulty','without difficulty'],loc='lower center',bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
-                    st.pyplot(fig)
-                with col2:
-                    fig = plt.figure(figsize=(3,3))                
-                    pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                    pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                        #pt = sns.barplot(x='NAME_FAMILY_STATUS', y='CNT_CHILDREN', hue='TARGET', data=raw_app,palette=['royalblue','red'],alpha=.7)
-                    plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                    plt.setp(pt.get_yticklabels(),fontsize=5)
-                    st.pyplot(fig)
-                with col3:
-                    fig = plt.figure(figsize=(4.5,4.5))
-                    pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                    pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                        #pt = sns.barplot(x='NAME_INCOME_TYPE', y='AMT_INCOME_TOTAL', hue='TARGET', data=raw_app,palette=['royalblue','red'],alpha=.7)
-                    plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                    plt.setp(pt.get_yticklabels(),fontsize=7)
-                    st.pyplot(fig)
-            st.markdown("""---""")
+                def plot_customer_profile(raw_app):
+                    col1, col2,col3 = st.columns(3)
+                    with col1:
+                        fig = plt.figure(figsize=(4,4))
+                        bins = (raw_app['AGE'].max()-raw_app['AGE'].min())//5
+                        pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET',bins=bins,palette=['royalblue','red'],alpha=.5)
+                        plt.xlabel('AGE',fontsize=12)
+                        plt.ylabel('')
+                        plt.legend(['having difficulty','without difficulty'],loc='lower center',bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
+                        st.pyplot(fig)
+                    with col2:
+                        fig = plt.figure(figsize=(3,3))                
+                        pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                        pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
+                            #pt = sns.barplot(x='NAME_FAMILY_STATUS', y='CNT_CHILDREN', hue='TARGET', data=raw_app,palette=['royalblue','red'],alpha=.7)
+                        plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                        plt.setp(pt.get_yticklabels(),fontsize=5)
+                        st.pyplot(fig)
+                    with col3:
+                        fig = plt.figure(figsize=(4.5,4.5))
+                        pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                        pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
+                            #pt = sns.barplot(x='NAME_INCOME_TYPE', y='AMT_INCOME_TOTAL', hue='TARGET', data=raw_app,palette=['royalblue','red'],alpha=.7)
+                        plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                        plt.setp(pt.get_yticklabels(),fontsize=7)
+                        st.pyplot(fig)
+                st.markdown("""---""")
             
             with st.container():
                 st.write("#### Loan Payment")
-                tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
-                col4, col5 = st.columns(2)
-                with col4:
-                    fig = plt.figure(figsize=(5,5))
-                    plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
-                    st.pyplot(fig)
-                with col5:
-                    df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
-                    df['COUNT_TG'] = df['TARGET']
-                    tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
-                    tg_0 = tg_df.loc[0]
-                    tg_1 = tg_df.loc[1]
-                    fig = plt.figure(figsize=(2,2))                  
-                    pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
-                    pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
-                    plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
-                    plt.xlabel('AMT_ANNUITY',fontsize=5)
-                    plt.ylabel('AMT_CREDIT',fontsize=5)
-                    plt.xlim([20000,40000])
-                    plt.ylim([400000,800000])
-                    plt.setp(pt.get_xticklabels(),fontsize=4)
-                    plt.setp(pt.get_yticklabels(),fontsize=4)                
-                    st.pyplot(fig)
+                def plot_loan_payment(raw_app):
+                    tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
+                    col4, col5 = st.columns(2)
+                    with col4:
+                        fig = plt.figure(figsize=(5,5))
+                        plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
+                        st.pyplot(fig)
+                        plt.close(fig)
+                    with col5:
+                        df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
+                        df['COUNT_TG'] = df['TARGET']
+                        tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
+                        tg_0 = tg_df.loc[0]
+                        tg_1 = tg_df.loc[1]
+                        fig = plt.figure(figsize=(2,2))                  
+                        pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
+                        pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
+                        plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
+                        plt.xlabel('AMT_ANNUITY',fontsize=5)
+                        plt.ylabel('AMT_CREDIT',fontsize=5)
+                        plt.xlim([20000,40000])
+                        plt.ylim([400000,800000])
+                        plt.setp(pt.get_xticklabels(),fontsize=4)
+                        plt.setp(pt.get_yticklabels(),fontsize=4)                
+                        st.pyplot(fig)
 
-                    plt.close(fig)
+                        plt.close(fig)
             st.markdown("""---""")
         
