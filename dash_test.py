@@ -65,13 +65,18 @@ except Exception as e:
     #raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
-zip_file_train = './data_train.zip'
-zip_file_test = './data_test.zip'
-with ZipFile(zip_file_train, 'r') as zip_train:
-    train = pd.read_csv(zip_train.open('data_train.csv'))
+zip_file_train = ZipFile('./data_train.zip')
+train = pd.read_csv(zip_file_train.open('data_train.csv'))
+#zip_file_train = './data_train.zip'
 
-with ZipFile(zip_file_test, 'r') as zip_test:
-    test=pd.read_csv(zip_test.open('data_test.csv'))    
+zip_file_test = ZipFile('./data_test.zip')
+test = pd.read_csv(zip_file_test.open('data_test.csv'))
+
+#with ZipFile(zip_file_train, 'r') as zip_train:
+    #train = pd.read_csv(zip_train.open('data_train.csv'))
+
+#with ZipFile(zip_file_test, 'r') as zip_test:
+    #test=pd.read_csv(zip_test.open('data_test.csv'))    
 
 app = train.append(test).reset_index(drop=True)
 
