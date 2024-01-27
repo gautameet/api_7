@@ -25,7 +25,7 @@ zip_file_train = ZipFile('sample_application_train.zip')
 #with ZipFile(zip_file_train, 'r') as zip_train:
 raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'),usecols=feat, nrows=num_rows
 
-zip_file_test= ZipFile('application_test.zip')
+zip_file_test=ZipFile('application_test.zip')
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 #with ZipFile(zip_file_test, 'r') as zip_test:
