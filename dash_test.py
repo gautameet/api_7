@@ -52,7 +52,7 @@ except Exception as e:
 #del raw_train
 #del raw_test
 
-print(raw_app.columns)
+    print(raw_app.columns)
 
     #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
 raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
