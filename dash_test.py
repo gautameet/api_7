@@ -38,7 +38,7 @@ try:
 
 except Exception as e:
     print(f'Error reading test data:{e}')        
-"""
+
 try:
     # Concatenate the DataFrames
     raw_app = raw_train.append(raw_test).reset_index(drop=True)
@@ -49,7 +49,7 @@ try:
 except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
-
+"""
 #del raw_train
 #del raw_test
  
