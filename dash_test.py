@@ -21,7 +21,7 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
 #num_rows = 150000
 
 # Original Data
-zip_file = ZipFile('data/sample_application_train.zip')
+zip_file = ZipFile('sample_application_train.zip')
 raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'),usecols=feat)
 
 zip_file = ZipFile('data/application_test.zip')
