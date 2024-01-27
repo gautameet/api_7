@@ -338,7 +338,7 @@ try:
             
         st.markdown("""---""")
 
-            def solvatibility_prediction(ID):
+        def solvatibility_prediction(ID):
                 with st.container():
                     st.write("#### Customer solvability prediction ")
                     pred = st.button('Calculation')
