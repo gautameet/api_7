@@ -289,51 +289,53 @@ try:
                     "- **Customer**: to find out all the information related to the customer.\n")
                     
     elif page == "Customer":
-        st.title("💵 Welcome to the Customer Page")
+        #st.title("💵 Welcome to the Customer Page")
         ".\n"
         
         
-        st.header("Welcome to the customers' page.\n")
-        ".\n"
+        #st.header("Welcome to the customers' page.\n")
+       #".\n"
         st.subheader("Please enter your ID to know the results of your demands. \n") 
-        "Thank you. \n"
+        #"Thank you. \n"
         
         st.markdown("Your ID:")
         ID=st.number_input(" ", min_value=100002, max_value=456255)
-        try:
-            raw_app_id = get_data(raw_app, ID)
-            with st.spinner('Custumer....'):
-                st.writer('Customer .....')
-                with st.container():
-                    col1, col2 = st.columns([1.5,2.5])      
-                    with col1:
-                        st.write("#### Customer detail " + str(ID))
-                        st.markdown("* **Status : " + str(id_raw_app['NAME_FAMILY_STATUS'].values[0]) + "**")
-                        st.markdown("* **Number of children) : " + str(id_raw_app['CNT_CHILDREN'].values[0]) + "**")
-                        st.markdown("* **Employment: " + str(id_raw_app['NAME_INCOME_TYPE'].values[0]) + "**")
-                        st.markdown("* **Current Loan : " + str(id_raw_app['CREDIT'].values[0]) + "**")
-                    with col2:
-                        fig = plt.figure(figsize=(2,2))
-                        st.pyplot(radat_id_plot(ID,fig))
-                st.markdown("""---""")
         
-                with st.container():
-                    st.write("#### Similar type of Customers ")
-                    try:
-                        col3, col4 = st.columns([3,1])
-                        with col3:
-                            fig = plt.figure(figsize=(3,3))
-                            st.pyplot(radat_knn_plot(ID,fig))
-                        with col4:
-                            N_knn, N_knn1 = get_stat_ID(ID)
-                            st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
-                            st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
-                            st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
-                    except:
-                        st.info('**_No similar customer_**')
+        try:
+        raw_app_id = get_data(raw_app, ID)
+        with st.spinner('Custumer....'):
+            st.writer('Customer .....')
+            with st.container():
+                col1, col2 = st.columns([1.5,2.5])      
+                with col1:
+                    st.write("#### Customer detail " + str(ID))
+                    st.markdown("* **Status : " + str(id_raw_app['NAME_FAMILY_STATUS'].values[0]) + "**")
+                    st.markdown("* **Number of children) : " + str(id_raw_app['CNT_CHILDREN'].values[0]) + "**")
+                    st.markdown("* **Employment: " + str(id_raw_app['NAME_INCOME_TYPE'].values[0]) + "**")
+                    st.markdown("* **Current Loan : " + str(id_raw_app['CREDIT'].values[0]) + "**")
+                with col2:
+                    fig = plt.figure(figsize=(2,2))
+                    st.pyplot(radat_id_plot(ID,fig))
+            st.markdown("""---""")
+        
+            with st.container():
+                st.write("#### Similar type of Customers ")
+                try:
+                    col3, col4 = st.columns([3,1])
+                    with col3:
+                        fig = plt.figure(figsize=(3,3))
+                        st.pyplot(radat_knn_plot(ID,fig))
+                    with col4:
+                        N_knn, N_knn1 = get_stat_ID(ID)
+                        st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
+                        st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
+                        st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
+                except:
+                    st.info('**_No similar customer_**')
             
-                st.markdown("""---""")
-                
+            st.markdown("""---""")
+
+            def solvatibility_prediction(ID):
                 with st.container():
                     st.write("#### Customer solvability prediction ")
                     pred = st.button('Calculation')
