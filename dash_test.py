@@ -21,11 +21,18 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
 #num_rows = 150000
 
 # Original Data
-zip_file = ZipFile('sample_application_train.zip')
-raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'),usecols=feat)
+zip_file_train = 'sample_application_train.zip'
 
-zip_file = ZipFile('data/application_test.zip')
-raw_test = pd.read_csv(zip_file.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+with ZipFile(zip_file_train, 'r') as zip_train_file:
+        raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'), usecols=feat)
+
+
+zip_file_test= 'application_test.zip'
+with ZipFile(zip_file_test, 'r') as zip_test_file:
+        raw_test = pd.read_csv(zip_test_file.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+
+#zip_file = ZipFile('data/application_test.zip')
+#raw_test = pd.read_csv(zip_file.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 ###########################
 #raw_train = pd.read_csv('application_train.csv', usecols=feat, nrows=num_rows)
