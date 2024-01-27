@@ -42,7 +42,8 @@ except Exception as e:
 
 try:
     # Concatenate the DataFrames
-    raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
+    raw_app = raw_train.append(raw_test).reset_index(drop=True)
+    #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 
     # Now 'raw_app' contains the concatenated DataFrame
 
