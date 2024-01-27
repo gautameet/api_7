@@ -121,20 +121,20 @@ try:
 
 
 # Explainer
-zip_file = ZipFile('Results/X_train_sm_split1.zip')
-X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
+    zip_file = ZipFile('./Results/X_train_sm_split1.zip')
+    X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
-zip_file = ZipFile('Results/X_train_sm_split2.zip')
-X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
+    zip_file = ZipFile('./Results/X_train_sm_split2.zip')
+    X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
-zip_file = ZipFile('Results/X_train_sm_split3.zip')
-X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
+    zip_file = ZipFile('./Results/X_train_sm_split3.zip')
+    X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
-X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
+    X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 
-X_name = list(X_train_sm.columns)
+    X_name = list(X_train_sm.columns)
 
-explainer = shap.TreeExplainer(model,X_train_sm)
+    explainer = shap.TreeExplainer(model,X_train_sm)
 
 del X_train_sm_1
 del X_train_sm_2
