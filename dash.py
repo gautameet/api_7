@@ -14,8 +14,7 @@ import pickle
 
 
 # Features
-feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
-        'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
+feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN','DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
 # Nombre de ligne
 num_rows = 100000
@@ -249,8 +248,12 @@ try:
 
 ## DASH BOARD
 # Page configuration initialisation
-
-st.set_page_config(page_title="Credit Score Dashboard", page_icon="💵", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_title="Credit Score Dashboard",
+    page_icon="💵",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
     
 # Sidebar
 with st.sidebar:
