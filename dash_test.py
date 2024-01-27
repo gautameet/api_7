@@ -1,4 +1,5 @@
 ## Import des librairies
+import math
 import shap
 import streamlit as st
 import altair as alt              # for data visualtization
@@ -10,7 +11,7 @@ import plotly
 import os
 from zipfile import ZipFile
 import pickle
-import math
+
 
 
 # Features
