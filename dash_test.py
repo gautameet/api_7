@@ -116,7 +116,7 @@ try:
     knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Chargement du modèle de classification
-pk_mdl_in = open('Results/model.pkl','rb')
+pk_mdl_in = open('Results/model.pkl','r')
 model = pickle.load(pk_mdl_in)
 
 
