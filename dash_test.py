@@ -112,8 +112,8 @@ try:
     app = train.append(test).reset_index(drop=True)
 
 # Modele voisin
-	knn = NearestNeighbors(n_neighbors=10)
-	knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
+knn = NearestNeighbors(n_neighbors=10)
+knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Chargement du modèle de classification
 pk_mdl_in = open('Results/model.pkl','rb')
