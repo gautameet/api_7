@@ -18,34 +18,37 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
         'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
 # Nombre de ligne
-num_rows = 150000
+#num_rows = 150000
 
 # Original Data
-zip_file = ZipFile('data/application_train.zip')
-raw_train = pd.read_csv(zip_file.open('application_train.csv'),usecols=feat,nrows=num_rows)
-
-
-#raw_train = pd.read_csv('application_train.csv', usecols=feat, nrows=num_rows)
-#raw_train = pd.read_csv(('data/application_train.csv'),usecols=feat)
-
+zip_file = ZipFile('data/sample_application_train.zip')
+raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'),usecols=feat)
 
 zip_file = ZipFile('data/application_test.zip')
 raw_test = pd.read_csv(zip_file.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
+###########################
+#raw_train = pd.read_csv('application_train.csv', usecols=feat, nrows=num_rows)
+#raw_train = pd.read_csv(('data/application_train.csv'),usecols=feat)
 #zip_file_train= './data/application_train.zip'
 #with ZipFile(zip_file_train, 'r') as zip_app_train:
     #raw_train = pd.read_csv(zip_app_train.open('application_train.csv'),usecols=feat)
-zip_file_test= './data/application_test.zip'
-with ZipFile(zip_file_test, 'r') as zip_app_test:
-    raw_test = pd.read_csv(zip_app_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
-#raw_app = raw_train.append(raw_test).reset_index(drop=True)
+#zip_file_test= './data/application_test.zip'
+#with ZipFile(zip_file_test, 'r') as zip_app_test:
+    #raw_test = pd.read_csv(zip_app_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+####################################
+
+raw_app = raw_train.append(raw_test).reset_index(drop=True)
 del raw_train
 del raw_test
+
 raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
 raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
 raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
+
 # Drop unnecessary columns
 raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+
 # Treated Data
 zip_file_train = './data_train.zip'
 zip_file_test = './data_test.zip'
@@ -67,18 +70,26 @@ model = pickle.load(pk_mdl_in)
 
 
 # Explainer
-#zip_file = ZipFile('Results/X_train_sm_0.zip')
-#X_train_sm_0 = pd.read_csv(zip_file.open('X_train_sm_0.csv'))
-#zip_file = ZipFile('Results/X_train_sm_1.zip')
-#X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_1.csv'))
-#zip_file = ZipFile('Results/X_train_sm_2.zip')
-#X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_2.csv'))
-#X_train_sm = X_train_sm_0.append(X_train_sm_1).reset_index(drop=True).append(X_train_sm_2).reset_index(drop=True)
+zip_file = ZipFile('Results/X_train_sm_split1.zip')
+X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
+
+zip_file = ZipFile('Results/X_train_sm_split2.zip')
+X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
+
+zip_file = ZipFile('Results/X_train_sm_split3.zip')
+X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
+
+X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 
 X_name = list(X_train_sm.columns)
 
 explainer = shap.TreeExplainer(model,X_train_sm)
-    
+
+del X_train_sm_1
+del X_train_sm_2
+del X_train_sm_3
+del X_train_sm
+
 # Features
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
@@ -155,9 +166,10 @@ class ComplexRadar():
             gridlabel[0] = "" # clean up origin
             ax.set_rgrids(grid, labels=gridlabel,
                          angle=angles[i])
-            #ax.spines["polar"].set_visible(False)
+        ###ax.spines["polar"].set_visible(False)
             ax.set_ylim(*ranges[i])
             ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
+        
         # variables for plotting
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
         self.ranges = ranges
@@ -210,32 +222,12 @@ def shap_id(ID):
     app_id = get_data(app,ID)[X_name]
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
-    #shap.force_plot(explainer.expected_value[1], shap_vals[1], app_id)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+###############################################
+## DASH BOARD
 ########################
-# DASHBOARD
 
 ## Page configuration initialisation
 st.set_page_config(
