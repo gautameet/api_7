@@ -343,7 +343,7 @@ try:
                     with col2:
                         fig = plt.figure(figsize=(2,2))
                         st.pyplot(radat_id_plot(ID,fig))
-                st.markdown("""---""")
+                st.markdown("-----")
     
                 with st.container():
                     st.write("#### Similar type of Customers ")
@@ -360,7 +360,7 @@ try:
                     except:
                         st.info('**_No similar customer_**')
             
-                st.markdown("""---""")
+                st.markdown("-----")
                 with st.container():
                     st.write("#### Customer solvability prediction ")
                     pred = st.button('Calculation')
@@ -416,7 +416,7 @@ try:
                     plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
                     plt.setp(pt.get_yticklabels(),fontsize=7)
                     st.pyplot(fig)
-            st.markdown("""---""")
+                st.markdown("-----")
             
             with st.container():
                 st.write("#### Loan Payment")
