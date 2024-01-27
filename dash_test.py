@@ -64,8 +64,7 @@ try:
 except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
-        
-#raw_app = raw_train.append(raw_test).reset_index(drop=True)
+
 del raw_train
 del raw_test
 
