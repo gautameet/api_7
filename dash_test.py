@@ -65,12 +65,42 @@ except Exception as e:
     #raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
-zip_file_train = ZipFile('./data_train.zip')
-train = pd.read_csv(zip_file_train.open('data_train.csv'))
+
+zip_file_path = './data_train.zip'
+csv_file_name = 'data_train.csv'
+
+try:
+    # Open the ZIP file
+    with ZipFile(zip_file_path, 'r') as zip_file_train:
+        # Read the CSV file from the ZIP archive
+        train = pd.read_csv(zip_file_train.open(csv_file_name))
+
+    # Now 'train' contains the DataFrame from the CSV file
+except Exception as e:
+    # Print the exception message for debugging
+    print(f"Error reading CSV from ZIP: {e}")
+
+#zip_file_train = ZipFile('./data_train.zip')
+#train = pd.read_csv(zip_file_train.open('data_train.csv'))
 #zip_file_train = './data_train.zip'
 
-zip_file_test = ZipFile('./data_test.zip')
-test = pd.read_csv(zip_file_test.open('data_test.csv'))
+
+zip_file_test = './data_test.zip'
+csv_file_name = 'data_test.csv'
+
+try:
+    # Open the ZIP file
+    with ZipFile(zip_file_test, 'r') as zip_file_test:
+        # Read the CSV file from the ZIP archive
+        test = pd.read_csv(zip_file_test.open(csv_file_name))
+
+    # Now 'test' contains the DataFrame from the CSV file
+except Exception as e:
+    # Print the exception message for debugging
+    print(f"Error reading CSV from ZIP: {e}")
+        
+#zip_file_test = ZipFile('./data_test.zip')
+#test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 #with ZipFile(zip_file_train, 'r') as zip_train:
     #train = pd.read_csv(zip_train.open('data_train.csv'))
