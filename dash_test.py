@@ -110,16 +110,16 @@ try:
     #raw_app = raw_train.append(raw_test).reset_index(drop=True)
     app = train.append(test).reset_index(drop=True)
 
-# Modele voisin
+    # Modele voisin
     knn = NearestNeighbors(n_neighbors=10)
     knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
-# Chargement du modèle de classification
+    # Chargement du modèle de classification
     pk_mdl_in = open('./Results/model.pkl','rb')
     model = pickle.load(pk_mdl_in)
 
-"""
-# Explainer
+
+    # Explainer
     zip_file = ZipFile('./Results/X_train_sm_split1.zip')
     X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
@@ -139,7 +139,7 @@ try:
     del X_train_sm_2
     del X_train_sm_3
     del X_train_sm
-
+"""
 # Features
     features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
