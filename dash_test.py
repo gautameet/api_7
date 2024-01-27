@@ -25,19 +25,19 @@ zip_file_train = ZipFile('./sample_application_train.zip')
 print(zip_file_train.namelist())
 
 try:
-        raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+    raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
 #with ZipFile(zip_file_train, 'r') as zip_train:
 except Exception as e:
-        print(f'Error:{e}')
+    print(f'Error:{e}')
         
 zip_file_test = ZipFile('./application_test.zip')
 print(zip_file_test.namelist())
 
 try:
-        raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 except Exception as e:
-        print(f'Error reading test data:{e}')        
+    print(f'Error reading test data:{e}')        
 
 #with ZipFile(zip_file_test, 'r') as zip_test:
 
@@ -65,8 +65,8 @@ except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
 
-        del raw_train
-        del raw_test
+    del raw_train
+    del raw_test
 
 raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
 raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
