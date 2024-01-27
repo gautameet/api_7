@@ -52,10 +52,11 @@ except Exception as e:
 
 #del raw_train
 #del raw_test
-raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')    
+ 
 raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (365)
 raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (365)
-    
+raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
+#raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
 
 # Drop unnecessary columns
     #raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
