@@ -65,8 +65,8 @@ except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
 
-    del raw_train
-    del raw_test
+del raw_train
+del raw_test
 
 raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
 raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
