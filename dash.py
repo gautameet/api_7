@@ -246,12 +246,10 @@ try:
         shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
 
-###############################################
+
 ## DASH BOARD
-########################
 
-## Page configuration initialisation
-
+# Page configuration initialisation
 st.set_page_config(
     page_title="Credit Score Dashboard",
     page_icon="💵",
