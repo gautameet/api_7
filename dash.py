@@ -258,7 +258,7 @@ try:
         initial_sidebar_state="expanded")
     
  # Sidebar
-with st.sidebar:
+    with st.sidebar:
     st.write("Credit Score Dashboard")
     logo_path = "logo.png"
     try:
