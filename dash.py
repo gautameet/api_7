@@ -250,22 +250,22 @@ try:
 ## DASH BOARD
 ########################
 
-    ## Page configuration initialisation
-    st.set_page_config(
-        page_title="Credit Score Dashboard",
-        page_icon="💵",
-        layout="wide",
-        initial_sidebar_state="expanded")
+## Page configuration initialisation
+st.set_page_config(
+    page_title="Credit Score Dashboard",
+    page_icon="💵",
+    layout="wide",
+    initial_sidebar_state="expanded")
     
- # Sidebar
-    with st.sidebar:
-        st.write("Credit Score Dashboard")
-        logo_path = "logo.png"
-        try:
-            logo = Image.open(logo_path)
-            st.image(logo, width=250)
-        except FileNotFoundError:
-            st.error(f"Error: Logo file not found at {logo_path}")
+# Sidebar
+with st.sidebar:
+    st.write("Credit Score Dashboard")
+    logo_path = "logo.png"
+    try:
+        logo = Image.open(logo_path)
+        st.image(logo, width=250)
+    except FileNotFoundError:
+        st.error(f"Error: Logo file not found at {logo_path}")
     
 # Page selection
 page =  st.selectbox("Menu", ["Home", "Customer", "Customer portfolio"])
