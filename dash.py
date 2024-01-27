@@ -307,7 +307,7 @@ try:
             display_similar_customer(ID)
             solvability_prediciton(ID)
         with st.spinner('Custumer....'):
-        st.writer('Customer .....')
+            st.writer('Customer .....')
         with st.container():
             col1, col2 = st.columns([1.5,2.5])      
             with col1:
