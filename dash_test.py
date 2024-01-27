@@ -22,14 +22,13 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
 
 # Original Data
 zip_file_train = 'sample_application_train.zip'
-
 with ZipFile(zip_file_train, 'r') as zip_train:
-        raw_train = pd.read_csv(zip_train.open('sample_application_train.csv'), usecols=feat)
+    raw_train = pd.read_csv(zip_train.open('sample_application_train.csv'), usecols=feat)
 
 
 zip_file_test= 'application_test.zip'
 with ZipFile(zip_file_test, 'r') as zip_test:
-        raw_test = pd.read_csv(zip_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+    raw_test = pd.read_csv(zip_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 #zip_file = ZipFile('data/application_test.zip')
 #raw_test = pd.read_csv(zip_file.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
