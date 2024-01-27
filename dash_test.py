@@ -106,7 +106,7 @@ except Exception as e:
 #with ZipFile(zip_file_test, 'r') as zip_test:
     #test=pd.read_csv(zip_test.open('data_test.csv'))    
 
-    app = train.append(test).reset_index(drop=True)
+        app = train.append(test).reset_index(drop=True)
 
 # Modele voisin
 knn = NearestNeighbors(n_neighbors=10)
