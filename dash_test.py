@@ -38,7 +38,7 @@ try:
 
 except Exception as e:
     print(f'Error reading test data:{e}')        
-
+"""
 try:
     # Concatenate the DataFrames
     raw_app = raw_train.append(raw_test).reset_index(drop=True)
@@ -443,6 +443,9 @@ try:
                     plt.setp(pt.get_xticklabels(),fontsize=4)
                     plt.setp(pt.get_yticklabels(),fontsize=4)                
                     st.pyplot(fig)
+
+
+""" 
 
 if __name__ == '__main__':
     print('Hello')
