@@ -359,8 +359,8 @@ try:
                                 st.warning('programme error programme') 
                                 st.write(':dizzy_face:')                                               
                     
-            except:
-                st.warning('**_Customer not found_**')
+        except:
+            st.warning('**_Customer not found_**')
 
 # Customer portfolio analysis        
     elif page == 'Customer portfolio':
