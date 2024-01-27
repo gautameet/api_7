@@ -71,9 +71,9 @@ csv_file_name = 'data_train.csv'
 
 try:
     # Open the ZIP file
-    with ZipFile(zip_file_path, 'r') as zip_file_train:
+    with ZipFile(zip_file_path, 'r') as zip_train:
         # Read the CSV file from the ZIP archive
-        train = pd.read_csv(zip_file_train.open(csv_file_name))
+        train = pd.read_csv(zip_train.open(csv_file_name))
 
     # Now 'train' contains the DataFrame from the CSV file
 except Exception as e:
@@ -90,9 +90,9 @@ csv_file_name = 'data_test.csv'
 
 try:
     # Open the ZIP file
-    with ZipFile(zip_file_test, 'r') as zip_file_test:
+    with ZipFile(zip_file_test, 'r') as zip_test:
         # Read the CSV file from the ZIP archive
-        test = pd.read_csv(zip_file_test.open(csv_file_name))
+        test = pd.read_csv(zip_test.open(csv_file_name))
 
     # Now 'test' contains the DataFrame from the CSV file
 except Exception as e:
