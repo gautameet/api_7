@@ -165,8 +165,8 @@ try:
 ## GRAPHE
 # Initialisation de Graphe Radar
     def _invert(x, limits):
-        #"""inverts a value x on a scale from
-        #limits[0] to limits[1]"""#
+        #inverts a value x on a scale from
+        #limits[0] to limits[1]
         return limits[1] - (x - limits[0])
 
     def _scale_data(data, ranges):
