@@ -369,7 +369,7 @@ try:
         with st.spinner('Analysing...'):
             with st.container():            
                 st.write("#### Customer Profile")
-                plot_customer_profile(raw_app):
+                plot_customer_profile(raw_app)
                     col1, col2,col3 = st.columns(3)
                     with col1:
                         fig = plt.figure(figsize=(4,4))
