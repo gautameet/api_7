@@ -46,7 +46,7 @@ except Exception as e:
     print(f'Error reading test data:{e}')        
 
 try:
-    # Concatenate the DataFrames
+    # Append/ Concatenate the DataFrames
     raw_app = raw_train.append(raw_test).reset_index(drop=True)
     #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 
@@ -55,6 +55,12 @@ try:
 except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
+
+raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
+raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
+raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
+raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+
 
 #Treated Data
 zip_file_path = 'data_train.zip'
