@@ -89,8 +89,8 @@ except Exception as e:
     print (f"An error occured: {e}")
     
 # Modele voisin
-knn = NearestNeighbors(n_neighbors=10)
-knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
+    knn = NearestNeighbors(n_neighbors=10)
+    knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
 
 # Chargement du modèle de classification
 pk_mdl_in = open('./Results/model.pkl','rb')
