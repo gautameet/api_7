@@ -106,8 +106,8 @@ except Exception as e:
 # Chargement du modèle de classification
 #pk_mdl_in = open('model.pkl','rb')
 #model = pickle.load(pk_mdl_in)
-with open('pk_mdl_in', 'rb') as file:
-    model = pickle.load(file)
+    with open('pk_mdl_in', 'rb') as file:
+        model = pickle.load(file)
 
 
 # Explainer
