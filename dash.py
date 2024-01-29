@@ -143,6 +143,8 @@ try:
 except Exception as e:
     print(f"An unexpected error occurred during concatenation: {e}")
 
+explainer = shap.TreeExplainer(model,X_train_sm)
+
 #zip_file = ZipFile('X_train_sm_split2.zip')
 #X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 #zip_file = ZipFile('X_train_sm_split3.zip')
@@ -151,7 +153,7 @@ except Exception as e:
 
 #X_name = list(X_train_sm.columns)
 
-explainer = shap.TreeExplainer(model,X_train_sm)
+#explainer = shap.TreeExplainer(model,X_train_sm)
 
 del X_train_sm_1
 del X_train_sm_2
