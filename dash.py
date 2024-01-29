@@ -52,7 +52,7 @@ except Exception as e:
 zip_file_path = './data_train.zip'
 csv_file_name = 'data_train.csv'
 
-train = pd.read-csv(zip_file_path.open(csv_file_name))
+train = pd.read_csv(zip_file_path.open(csv_file_name))
 
 #try:
     # Open the ZIP file
