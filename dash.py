@@ -104,9 +104,11 @@ except Exception as e:
     #knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
 
 # Chargement du modèle de classification
-pk_mdl_in = open('model.pkl','rb')
+#pk_mdl_in = open('model.pkl','rb')
 #model = pickle.load(pk_mdl_in)
-with open('pk_mdl_in') as file:
+#with open('pk_mdl_in') as file:
+
+with open('model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 
