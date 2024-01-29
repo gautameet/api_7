@@ -40,8 +40,8 @@ except Exception as e:
     print(f'Error reading test data:{e}')        
 
 try:
-    raw_app = raw_train.append(raw_test).reset_index(drop=True)    # Append the DataFrames
-    #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
+    #raw_app = raw_train.append(raw_test).reset_index(drop=True)    # Append the DataFrames
+    raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 
 except Exception as e:
     # Print the exception message for debugging
