@@ -21,13 +21,21 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN','
 num_rows = 100000
 
 # Original Data
-zip_file_train = ZipFile('sample_application_train.zip')
-print(zip_file_train.namelist())
-
+zip_file_path = 'sample_application_train.zip'
 try:
-    raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+    with ZipFile(zip_file_path, 'r') as zip_file:
+       raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows) 
+except BadZipFile:
+    print(f'Error: '{zip_file_path}' is not a valid ZIP file.')
 except Exception as e:
-    print(f'Error:{e}')
+    print(f'An unexpected error occured: {e}')
+    
+#print(zip_file_train.namelist())
+
+#try:
+    raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+#except Exception as e:
+    #print(f'Error:{e}')
         
 zip_file_test = ZipFile('./application_test.zip')
 print(zip_file_test.namelist())
