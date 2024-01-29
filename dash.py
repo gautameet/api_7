@@ -47,6 +47,10 @@ except Exception as e:
     # Print the exception message for debugging
     print(f"Error concatenating DataFrames: {e}")
 
+print("Columns:")
+print(raw_app.columns)
+
+
     # Convert 'DAYS_BIRTH' to numeric and handle non-numeric values
 #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
     # Check if 'DAYS_BIRTH' is not zero before performing the division
