@@ -13,7 +13,6 @@ import os
 from zipfile import ZipFile, BadZipFile
 import pickle
 
-
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN','DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
