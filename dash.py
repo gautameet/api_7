@@ -114,7 +114,7 @@ try:
     with ZipFile(zip_file_path1, 'r') as zip_file:
         X_train_sm_1 = pd.read_csv(zip_file.open(csv_file_name1))
 except BadZipFile:
-    print(f"Error: '{Zip_file_path}' is not a valid ZIP file.")
+    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
 
@@ -124,13 +124,9 @@ try:
     with ZipFile(zip_file_path2, 'r') as zip_file:
         X_train_sm_2 = pd.read_csv(zip_file.open(csv_file_name2))
 except BadZipFile:
-    print(f"Error: '{Zip_file_path}' is not a valid ZIP file.")
+    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
-
-
-#zip_file = ZipFile('X_train_sm_split2.zip')
-#X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
 zip_file_path3 = 'X_train_sm_split3.zip'
 csv_file_name3 = 'X_train_sm_split3.csv'
@@ -138,16 +134,18 @@ try:
     with ZipFile(zip_file_path3, 'r') as zip_file:
         X_train_sm_3 = pd.read_csv(zip_file.open(csv_file_name3))
 except BadZipFile:
-    print(f"Error: '{Zip_file_path}' is not a valid ZIP file.")
+    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
 
+X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
 
+
+#zip_file = ZipFile('X_train_sm_split2.zip')
+#X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 #zip_file = ZipFile('X_train_sm_split3.zip')
 #X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
-
-#X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
-    X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
+#X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 
 X_name = list(X_train_sm.columns)
 
