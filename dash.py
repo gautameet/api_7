@@ -58,7 +58,7 @@ csv_file_name = 'data_train.csv'
 #train = pd.read_csv(zip_file_path.open(csv_file_name))
 
 try:
-    Open the ZIP file
+    # Open the ZIP file
     with ZipFile(zip_file_path, 'r') as zip_train:
         # Read the CSV file from the ZIP archive
         train = pd.read_csv(zip_train.open(csv_file_name))
