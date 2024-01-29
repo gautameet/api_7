@@ -4,7 +4,7 @@ import shap
 import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import KNeighborsClassifier
 from PIL import Image
 import requests
 import plotly
