@@ -171,9 +171,10 @@ features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CRED
 # Recuperation de data
 def get_data(data,ID):
     if type(ID) == list:
-        return data[data['SK_ID_CURR'].isin(ID)]
+        return data[get_data['SK_ID_CURR'].isin(ID)]
+        #return data[get_data['SK_ID_CURR'].isin(ID)]
     else:
-        return data[data['SK_ID_CURR']==ID].head(1)
+        return data[get_data['SK_ID_CURR']==ID].head(1)
 
 # Recuperation des voisins
 def get_similar_ID(ID):    
