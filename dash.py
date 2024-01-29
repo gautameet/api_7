@@ -138,8 +138,10 @@ except BadZipFile:
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
 
-        X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
-
+try:
+    X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
+except Exception as e:
+    print(f"An unexpected error occurred during concatenation: {e}")
 
 #zip_file = ZipFile('X_train_sm_split2.zip')
 #X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
