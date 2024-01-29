@@ -62,7 +62,10 @@ try:
     with ZipFile(zip_file_path, 'r') as zip_train:
         # Read the CSV file from the ZIP archive
         train = pd.read_csv(zip_train.open(csv_file_name))
-
+    # Modele voisin
+    knn = NearestNeighbors(n_neighbors=10)
+    knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
+    
     # Now 'train' contains the DataFrame from the CSV file
 except Exception as e:
     # Print the exception message for debugging
@@ -89,8 +92,8 @@ except Exception as e:
     print (f"An error occured: {e}")
     
 # Modele voisin
-    knn = NearestNeighbors(n_neighbors=10)
-    knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
+    #knn = NearestNeighbors(n_neighbors=10)
+    #knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
 
 # Chargement du modèle de classification
 pk_mdl_in = open('./Results/model.pkl','rb')
