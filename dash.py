@@ -108,18 +108,29 @@ pk_mdl_in = open('model.pkl','rb')
 model = pickle.load(pk_mdl_in)
 
 # Explainer
-zip_file_path = 'X_train_sm_split1.zip'
-csv_file_name = 'X_train_sm_split1.csv'
+zip_file_path1 = 'X_train_sm_split1.zip'
+csv_file_name1 = 'X_train_sm_split1.csv'
 try:
-    with ZipFile(zip_file_path, 'r') as zip_file:
-        X_train_sm_1 = pd.read_csv(zip_file.open(csv_file_name))
+    with ZipFile(zip_file_path1, 'r') as zip_file:
+        X_train_sm_1 = pd.read_csv(zip_file.open(csv_file_name1))
 except BadZipFile:
     print(f"Error: '{Zip_file_path}' is not a valid ZIP file.")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
 
-zip_file = ZipFile('X_train_sm_split2.zip')
-X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
+zip_file_path2 = 'X_train_sm_split2.zip'
+csv_file_name2 = 'X_train_sm_split2.csv'
+try:
+    with ZipFile(zip_file_path2, 'r') as zip_file:
+        X_train_sm_2 = pd.read_csv(zip_file.open(csv_file_name2))
+except BadZipFile:
+    print(f"Error: '{Zip_file_path}' is not a valid ZIP file.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+
+#zip_file = ZipFile('X_train_sm_split2.zip')
+#X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
 zip_file = ZipFile('X_train_sm_split3.zip')
 X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
