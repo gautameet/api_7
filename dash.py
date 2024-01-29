@@ -23,7 +23,7 @@ num_rows = 100000
 # Original Data
 zip_file_path = 'sample_application_train.zip'
 try:
-    with ZipFile(zip_file_path, 'r') as zip_file:
+    with ZipFile(zip_file_path, 'r') as zip_file_train:
        raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows) 
 except BadZipFile:
     print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
@@ -38,8 +38,7 @@ except Exception as e:
     #print(f'Error:{e}')
         
 zip_file_test = ZipFile('application_test.zip')
-print(zip_file_test.namelist())
-
+#print(zip_file_test.namelist())
 try:
     raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 except Exception as e:
