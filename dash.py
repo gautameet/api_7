@@ -39,7 +39,7 @@ try:
 except Exception as e:
     print(f'Error reading test data:{e}')        
 
-raw_app = raw_train.append(raw_test).reset_index(drop=True)
+    raw_app = raw_train.append(raw_test).reset_index(drop=True)
 
 #try:
     # Append/ Concatenate the DataFrames
