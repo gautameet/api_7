@@ -138,7 +138,7 @@ except BadZipFile:
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
 
-X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
+        X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
 
 
 #zip_file = ZipFile('X_train_sm_split2.zip')
