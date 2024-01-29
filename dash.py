@@ -39,18 +39,16 @@ try:
 except Exception as e:
     print(f'Error reading test data:{e}')        
 
-    raw_app = raw_train.append(raw_test).reset_index(drop=True)
-
-#try:
+try:
     # Append/ Concatenate the DataFrames
-    #raw_app = raw_train.append(raw_test).reset_index(drop=True)
+    raw_app = raw_train.append(raw_test).reset_index(drop=True)
     #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 
     # Now 'raw_app' contains the concatenated DataFrame
 
-#except Exception as e:
+except Exception as e:
     # Print the exception message for debugging
-    #print(f"Error concatenating DataFrames: {e}")
+    print(f"Error concatenating DataFrames: {e}")
 
 raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
 raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
