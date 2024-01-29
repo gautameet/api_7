@@ -108,8 +108,15 @@ pk_mdl_in = open('model.pkl','rb')
 model = pickle.load(pk_mdl_in)
 
 # Explainer
-zip_file = ZipFile('X_train_sm_split1.zip')
-X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
+zip_file_path = 'X_train_sm_split1.zip'
+csv_file_name = 'X_train_sm_split1.csv'
+try:
+    with ZipFile(zip_file_path, 'r') as zip_file:
+        X_train_sm_1 = pd.read_csv(zip_file.open(csv_file_name))
+except BadZipFile:
+    print(f"Error: '{Zip_file_path}' is not a valid ZIP file.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
 
 zip_file = ZipFile('X_train_sm_split2.zip')
 X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
