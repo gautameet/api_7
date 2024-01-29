@@ -10,7 +10,7 @@ from PIL import Image
 import requests
 import plotly
 import os
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 import pickle
 
 
