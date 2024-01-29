@@ -35,7 +35,7 @@ except Exception as e:
 zip_file_test = ZipFile('application_test.zip')
 #print(zip_file_test.namelist())
 try:
-    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'], nrows=num_rows)
 except Exception as e:
     print(f'Error reading test data:{e}')        
 
