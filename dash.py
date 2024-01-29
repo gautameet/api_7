@@ -147,7 +147,7 @@ except Exception as e:
 #X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
 #X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
-        X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
+    X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 
 X_name = list(X_train_sm.columns)
 
