@@ -33,7 +33,6 @@ print(zip_file_test.namelist())
 
 try:
     raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
-
 except Exception as e:
     print(f'Error reading test data:{e}')        
 
@@ -49,7 +48,6 @@ except Exception as e:
     print(f"Error concatenating DataFrames: {e}")
 
 #Treated Data
-
 zip_file_path = './data_train.zip'
 csv_file_name = 'data_train.csv'
 
@@ -81,170 +79,169 @@ except Exception as e:
 try:
     # Append the DataFrames
     app = train.append(test).reset_index(drop=True)
-
+except Exception as e:
+    print (f"An error occured: {e}")
+    
 # Modele voisin
-    knn = NearestNeighbors(n_neighbors=10)
-    knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
+knn = NearestNeighbors(n_neighbors=10)
+knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Chargement du modèle de classification
     pk_mdl_in = open('./Results/model.pkl','rb')
     model = pickle.load(pk_mdl_in)
 
-
 # Explainer
-    zip_file = ZipFile('./Results/X_train_sm_split1.zip')
-    X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
+zip_file = ZipFile('./Results/X_train_sm_split1.zip')
+X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
-    zip_file = ZipFile('./Results/X_train_sm_split2.zip')
-    X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
+zip_file = ZipFile('./Results/X_train_sm_split2.zip')
+X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
-    zip_file = ZipFile('./Results/X_train_sm_split3.zip')
-    X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
+zip_file = ZipFile('./Results/X_train_sm_split3.zip')
+X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
-    X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
+X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 
-    X_name = list(X_train_sm.columns)
+X_name = list(X_train_sm.columns)
 
-    explainer = shap.TreeExplainer(model,X_train_sm)
+explainer = shap.TreeExplainer(model,X_train_sm)
 
-    del X_train_sm_1
-    del X_train_sm_2
-    del X_train_sm_3
-    del X_train_sm
+del X_train_sm_1
+del X_train_sm_2
+del X_train_sm_3
+del X_train_sm
 
 # Features
-    features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
+features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
 # Recuperation de data
-    def get_data(data,ID):
-        if type(ID) == list:
-            return data[data['SK_ID_CURR'].isin(ID)]
-        else:
-            return data[data['SK_ID_CURR']==ID].head(1)
+def get_data(data,ID):
+    if type(ID) == list:
+        return data[data['SK_ID_CURR'].isin(ID)]
+    else:
+        return data[data['SK_ID_CURR']==ID].head(1)
 
 # Recuperation des voisins
-    def get_similar_ID(ID):    
-        app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
-        knn_index = knn.kneighbors(app_id,return_distance=False)
-        knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
-        return knn_id
+def get_similar_ID(ID):    
+    app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
+    knn_index = knn.kneighbors(app_id,return_distance=False)
+    knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
+    return knn_id
 
-    def get_stat_ID(ID):   
-        app_knn = get_similar_ID(ID)
-        data_knn = get_data(raw_app,app_knn).dropna()
-        return len(data_knn),len(data_knn[data_knn['TARGET']==1])
+def get_stat_ID(ID):   
+    app_knn = get_similar_ID(ID)
+    data_knn = get_data(raw_app,app_knn).dropna()
+    return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
 ## GRAPHE
 # Initialisation de Graphe Radar
-    def _invert(x, limits):
-        """inverts a value x on a scale from
-        limits[0] to limits[1]"""
-        return limits[1] - (x - limits[0])
+def _invert(x, limits):
+    """inverts a value x on a scale from
+    limits[0] to limits[1]"""
+    return limits[1] - (x - limits[0])
 
-    def _scale_data(data, ranges):
-        """scales data[1:] to ranges[0],
-        inverts if the scale is reversed"""
-        for d, (y1, y2) in zip(data[1:], ranges[1:]):
-            assert (y1 <= d <= y2) or (y2 <= d <= y1)
-        x1, x2 = ranges[0]
-        d = data[0]
-        if x1 > x2:
-            d = _invert(d, (x1, x2))
-            x1, x2 = x2, x1
-        sdata = [d]
-        for d, (y1, y2) in zip(data[1:], ranges[1:]):
-            if y1 > y2:
-                d = _invert(d, (y1, y2))
-                y1, y2 = y2, y1
-            sdata.append((d-y1) / (y2-y1) 
+def _scale_data(data, ranges):
+    """scales data[1:] to ranges[0],
+    inverts if the scale is reversed"""
+    for d, (y1, y2) in zip(data[1:], ranges[1:]):
+        assert (y1 <= d <= y2) or (y2 <= d <= y1)
+    x1, x2 = ranges[0]
+    d = data[0]
+    if x1 > x2:
+        d = _invert(d, (x1, x2))
+        x1, x2 = x2, x1
+    sdata = [d]
+    for d, (y1, y2) in zip(data[1:], ranges[1:]):
+        if y1 > y2:
+            d = _invert(d, (y1, y2))
+            y1, y2 = y2, y1
+        sdata.append((d-y1) / (y2-y1) 
                          * (x2 - x1) + x1)
-        return sdata
+    return sdata
 
 
-    class ComplexRadar():
-        def __init__(self, fig, variables, ranges,
-                     n_ordinate_levels=6):
-            angles = np.arange(0, 360, 360./len(variables))
+class ComplexRadar():
+    def __init__(self, fig, variables, ranges,
+                n_ordinate_levels=6):
+        angles = np.arange(0, 360, 360./len(variables))
     
-            axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,
-                    label = "axes{}".format(i)) 
-                    for i in range(len(variables))]
-            l, text = axes[0].set_thetagrids(angles, 
-                                             labels=variables)
-            [txt.set_rotation(angle-90) for txt, angle 
-                 in zip(text, angles)]
-            for ax in axes[1:]:
-                ax.patch.set_visible(False)
-                ax.grid("off")
-                ax.xaxis.set_visible(False)
-            for i, ax in enumerate(axes):
-                grid = np.linspace(*ranges[i], 
-                                   num=n_ordinate_levels)
-                gridlabel = ["{}".format(round(x,2)) 
-                             for x in grid]
-                if ranges[i][0] > ranges[i][1]:
-                    grid = grid[::-1] # hack to invert grid
-                              # gridlabels aren't reversed
-                gridlabel[0] = "" # clean up origin
-                ax.set_rgrids(grid, labels=gridlabel,
-                             angle=angles[i])
-                ax.set_ylim(*ranges[i])
-                ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
+        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,
+                label = "axes{}".format(i)) 
+                for i in range(len(variables))]
+        l, text = axes[0].set_thetagrids(angles,
+                                         labels=variables)
+        [txt.set_rotation(angle-90) for txt, angle 
+            in zip(text, angles)]
+        for ax in axes[1:]:
+            ax.patch.set_visible(False)
+            ax.grid("off")
+            ax.xaxis.set_visible(False)
+        for i, ax in enumerate(axes):
+            grid = np.linspace(*ranges[i], 
+                                num=n_ordinate_levels)
+            gridlabel = ["{}".format(round(x,2)) 
+                        for x in grid]
+            if ranges[i][0] > ranges[i][1]:
+                grid = grid[::-1] # hack to invert grid
+                        # gridlabels aren't reversed
+            gridlabel[0] = "" # clean up origin
+            ax.set_rgrids(grid, labels=gridlabel,
+                        angle=angles[i])
+            ax.set_ylim(*ranges[i])
+            ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
         
-            # variables for plotting
-            self.angle = np.deg2rad(np.r_[angles, angles[0]])
-            self.ranges = ranges
-            self.ax = axes[0]
-            self.ax.set_xticklabels(variables,fontsize=6) 
-        def plot(self, data, *args, **kw):
-            sdata = _scale_data(data, self.ranges)
-            self.ax.plot(self.angle, np.r_[sdata, sdata[0]], *args, **kw)        
-        def fill(self, data, *args, **kw):
-            sdata = _scale_data(data, self.ranges)
-            self.ax.fill(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
+        # variables for plotting
+        self.angle = np.deg2rad(np.r_[angles, angles[0]])
+        self.ranges = ranges
+        self.ax = axes[0]
+        self.ax.set_xticklabels(variables,fontsize=6) 
+    def plot(self, data, *args, **kw):
+        sdata = _scale_data(data, self.ranges)
+        self.ax.plot(self.angle, np.r_[sdata, sdata[0]], *args, **kw)        
+    def fill(self, data, *args, **kw):
+        sdata = _scale_data(data, self.ranges)
+        self.ax.fill(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
         
-    # Graphe Radar
-    def radat_id_plot(ID,fig,features=features,fill=False):
-        app_id = get_data(raw_app,ID)[features]
-        client = app_id.iloc[0]
-        ranges = [(client['AGE']-5, client['AGE']+5),
-                  (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
-                  (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
-                  (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
-                  (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
+# Graphe Radar
+def radat_id_plot(ID,fig,features=features,fill=False):
+    app_id = get_data(raw_app,ID)[features]
+    client = app_id.iloc[0]
+    ranges = [(client['AGE']-5, client['AGE']+5),
+              (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
+              (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
+              (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
+              (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
     
-        radar = ComplexRadar(fig,features,ranges)
-        radar.plot(client,linewidth=3,color='darkseagreen')
-        if fill:
-            radar.fill(client, alpha=0.2)
+    radar = ComplexRadar(fig,features,ranges)
+    radar.plot(client,linewidth=3,color='darkseagreen')
+    if fill:
+        radar.fill(client, alpha=0.2)
         
-    def radat_knn_plot(ID,fig,features=features,fill=False):
-        app_id = get_data(raw_app,ID)[features]
-        data_id = app_id.iloc[0]    
-        app_knn = get_similar_ID(ID)
-        data_knn = get_data(raw_app,app_knn).dropna()
-        data_knn['TARGET'] = data_knn['TARGET'].astype(int)
-        moy_knn = data_knn.groupby('TARGET').mean()
-        ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-                  (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
-                  (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
-                  (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
-                  (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
+def radat_knn_plot(ID,fig,features=features,fill=False):
+    app_id = get_data(raw_app,ID)[features]
+    data_id = app_id.iloc[0]    
+    app_knn = get_similar_ID(ID)
+    data_knn = get_data(raw_app,app_knn).dropna()
+    data_knn['TARGET'] = data_knn['TARGET'].astype(int)
+    moy_knn = data_knn.groupby('TARGET').mean()
+    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
+            (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
+            (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
+            (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
+            (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
         
-        radar = ComplexRadar(fig,features,ranges)
-        radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-        radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
-        radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
-        fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
-        if fill:
-            radar.fill(client, alpha=0.2)
+    radar = ComplexRadar(fig,features,ranges)
+    radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
+    radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
+    radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
+    fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
+    if fill:
+        radar.fill(client, alpha=0.2)
     
-    def shap_id(ID):
-        app_id = get_data(app,ID)[X_name]
-        shap_vals = explainer.shap_values(app_id)
-        shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
-
-
+def shap_id(ID):
+    app_id = get_data(app,ID)[X_name]
+    shap_vals = explainer.shap_values(app_id)
+    shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
 ## DASH BOARD
 # Page configuration initialisation
