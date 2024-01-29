@@ -30,13 +30,8 @@ except BadZipFile:
 except Exception as e:
     print(f'An unexpected error occured: {e}')
     
-#print(zip_file_train.namelist())
+#print(zip_file.namelist())
 
-#try:
-    #raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
-#except Exception as e:
-    #print(f'Error:{e}')
-        
 zip_file_test = ZipFile('application_test.zip')
 #print(zip_file_test.namelist())
 try:
@@ -44,23 +39,25 @@ try:
 except Exception as e:
     print(f'Error reading test data:{e}')        
 
-try:
+raw_app = raw_train.append(raw_test).reset_index(drop=True)
+
+#try:
     # Append/ Concatenate the DataFrames
-    raw_app = raw_train.append(raw_test).reset_index(drop=True)
+    #raw_app = raw_train.append(raw_test).reset_index(drop=True)
     #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 
     # Now 'raw_app' contains the concatenated DataFrame
 
-except Exception as e:
+#except Exception as e:
     # Print the exception message for debugging
-    print(f"Error concatenating DataFrames: {e}")
+    #print(f"Error concatenating DataFrames: {e}")
 
-    raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
-    raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
-    raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
-    raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
+raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
+raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
+raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
+raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
     
-    raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 
 #Treated Data
