@@ -148,7 +148,7 @@ try:
 except Exception as e:
     print(f"An unexpected error occurred during concatenation: {e}")
 
-explainer = shap.TreeExplainer(model, X_train_sm)
+    explainer = shap.TreeExplainer(model, X_train_sm)
 
 #zip_file = ZipFile('X_train_sm_split2.zip')
 #X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
