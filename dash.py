@@ -33,7 +33,7 @@ except Exception as e:
 #print(zip_file_train.namelist())
 
 #try:
-    raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+    #raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
 #except Exception as e:
     #print(f'Error:{e}')
         
