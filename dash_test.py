@@ -12,8 +12,8 @@ import os
 from zipfile import ZipFile
 import pickle
 import matplotlib
-matplotlib.use('agg')
-import matplotlib.pyplot as plt
+#matplotlib.use('agg')
+#import matplotlib.pyplot as plt
 
 
 # Features
@@ -56,10 +56,10 @@ except Exception as e:
 #del raw_train
 #del raw_test
  
-    #raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
-    #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
-    #raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-#raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
+    raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x : -x/-365)
+    raw_app['AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x : -x/-365) // (-365)
+    raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
+    raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
 
 #st.dataframe(raw_app)
 
