@@ -51,8 +51,8 @@ except Exception as e:
     # Convert 'DAYS_BIRTH' to numeric and handle non-numeric values
     #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
     # Check if 'DAYS_BIRTH' is not zero before performing the division
-    raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365) if 0 not in raw_app['DAYS_BIRTH'].values else 0
-    raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
+    #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365) if 0 not in raw_app['DAYS_BIRTH'].values else 0
+    #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
     raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
     raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
     raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
