@@ -26,7 +26,7 @@ try:
     with ZipFile(zip_file_path, 'r') as zip_file:
        raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'), usecols=feat, nrows=num_rows) 
 except BadZipFile:
-    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
+    print(f"Error: {zip_file_path} is not a valid ZIP file.")
 except Exception as e:
     print(f'An unexpected error occured: {e}')
     
@@ -35,7 +35,8 @@ except Exception as e:
 zip_file_test = ZipFile('application_test.zip')
 #print(zip_file_test.namelist())
 try:
-    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'], nrows=num_rows)
+    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'), nrows=num_rows)
+    #raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'], nrows=num_rows)
 except Exception as e:
     print(f'Error reading test data:{e}')        
 
