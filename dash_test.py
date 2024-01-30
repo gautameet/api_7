@@ -11,7 +11,7 @@ import plotly
 import os
 from zipfile import ZipFile
 import pickle
-import matplotlib
+import matplotlib.pyplot as plt
 
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
@@ -395,6 +395,7 @@ except Exception as e:
             with st.container():            
                 st.write("#### Customer Profile")
                 col1, col2,col3 = st.columns(3)
+                plt.ioff()
                 with col1:
                     fig = plt.figure(figsize=(4,4))
                     bins = (raw_app['AGE'].max()-raw_app['AGE'].min())//5
