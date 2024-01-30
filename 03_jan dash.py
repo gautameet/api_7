@@ -1,57 +1,32 @@
+ ## Import des librairies
+import math
+import shap
 import streamlit as st
-import json
+import altair as alt              # for data visualtization
+import sklearn
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import KNeighborsClassifier
+from PIL import Image
 import requests
-import pandas as pd
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-import shap  
-
-st.set_page_config(page_title="Prédiction de la capacité de remboursement d'un demandeur de prêt",
-                   page_icon="🏦",
-                   layout="wide",
-                   initial_sidebar_state="expanded")
-
-with st.container():
-    st.title("Prédiction de la capacité de remboursement d'un demandeur de prêt")
-    st.markdown("❗*Cet outil permet d'assister à la prise de décision et doit être utilisé conjointement avec une analyse approfondie réalisée par un professionel*❗")
-    st.markdown('##')
-
-#req_i = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/id_client")
-#resultat_i = req_i.json()
-
-st.sidebar.markdown("Selection du client")
-option = st.sidebar.selectbox("Veuillez spécifier le numéro d'identification du demandeur de prêt",(resultat_i["list_id"]))
-
-    
-if st.button("Prediction"):
-
-    schema = {"num_client": option, "feat":"string"}
-        
-    req = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/perso_info", json=schema)
-    resultat = req.json()
-    if resultat["gender"] == 0:
-        st.sidebar.write(f"Genre:   Female")
-    else:
-        st.sidebar.write(f"Genre:   Male")
-    st.sidebar.write(f"Situation familiale:   {resultat['family']}")
-    st.sidebar.write(f"Nombre d'enfants:   {resultat['nb_child']}")
-    st.sidebar.write(f"Montant du crédit demandé:   {round(resultat['credit']):,}")
-    st.sidebar.write(f"Revenu:   {round(resultat['income_amount']):,}")
-    st.sidebar.write(f"Source du revenu:   {resultat['income_type']}")
-
-                
-    req1 = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/predict", json=schema)
-    resultat1 = req1.json()
-    st.write(resultat1["verdict"])
-    st.write(resultat1["proba"])
-            
-    req2 = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/gauge", json=schema)
-    resultat2 = req2.json()
-    st.components.v1.html(resultat2["fig"], height=500)
+import plotly
+import os
+from zipfile import ZipFile, BadZipFile
+import pickle
 
 
-    req3 = requests.post("https://k4jzhwndavohdljtjjpxwp.streamlit.app/explanation", json=schema)
-    resultat3 = req3.json()
-    st.dataframe(resultat3["df_feat"])  
+# Features
+feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN','DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
-    st.components.v1.html(resultat3["fig"], height=50
+# Nombre de ligne
+num_rows = 100000
+
+# Original Data
+zip_file_path = 'sample_application_train.zip'
+try:
+    with ZipFile(zip_file_path, 'r') as zip_file:
+       raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'), usecols=feat, nrows=num_rows) 
+except BadZipFile:
+    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
+except Exception as e:
+    print(f'An unexpected error occured: {e}')
