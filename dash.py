@@ -49,15 +49,15 @@ except Exception as e:
     print(f"Error concatenating DataFrames: {e}")
 
     # Convert 'DAYS_BIRTH' to numeric and handle non-numeric values
-    #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
+    raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
     # Check if 'DAYS_BIRTH' is not zero before performing the division
-    #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365) if 0 not in raw_app['DAYS_BIRTH'].values else 0
-    #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
-    #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
-    #raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
-    #raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
+    raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365) if 0 not in raw_app['DAYS_BIRTH'].values else 0
+    raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
+    raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
+    raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
+    raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
  
-    #raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+    raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 #Treated Data
 zip_file_path = 'data_train.zip'
