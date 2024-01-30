@@ -58,7 +58,6 @@ raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) 
     
 raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
-
 #Treated Data
 zip_file_path = 'data_train.zip'
 csv_file_name = 'data_train.csv'
