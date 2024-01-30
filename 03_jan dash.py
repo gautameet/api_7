@@ -30,3 +30,17 @@ except BadZipFile:
     print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
 except Exception as e:
     print(f'An unexpected error occured: {e}')
+
+try:
+    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'], nrows=num_rows)
+except Exception as e:
+    print(f'Error reading test data:{e}')        
+
+try:
+    raw_app = raw_train.append(raw_test).reset_index(drop=True)    # Append the DataFrames
+    #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
+
+except Exception as e:
+    # Print the exception message for debugging
+    print(f"Error concatenating DataFrames: {e}")
+
