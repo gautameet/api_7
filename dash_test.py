@@ -11,7 +11,6 @@ import plotly
 import os
 from zipfile import ZipFile
 import pickle
-
 import matplotlib
 
 matplotlib.use('agg')
