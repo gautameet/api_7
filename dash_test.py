@@ -388,7 +388,7 @@ except Exception as e:
             st.warning('**_Customer not found_**')
 
 # Customer portfolio analysis        
-If page == 'Customer portfolio':
+    if page == 'Customer portfolio':
         st.write("### Customer portfolio analysis")
         with st.spinner('Analysing...'):
             with st.container():            
