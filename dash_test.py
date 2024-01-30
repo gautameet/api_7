@@ -421,7 +421,8 @@ except Exception as e:
                     plt.setp(pt.get_yticklabels(),fontsize=7)
                     st.pyplot(fig)
                 st.markdown("-----")
-            
+
+                
             with st.container():
                 st.write("#### Loan Payment")
                 tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
