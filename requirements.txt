@@ -1,32 +1,33 @@
-pip
-streamlit
-pandas
-scikit-learn
+#pip
+#streamlit
+#pandas
 #scikit-learn
-plotly
-shap
+#scikit-learn
+#plotly
+#shap
 #matplotlib
-kiwisolver==1.3.1
+#kiwisolver==1.3.1
 #plotly.graph_objects==5.18.0
 #plotly-express==0.4.1
 #json5==0.9.6
-numpy==1.21.1
-matplotlib==3.4.3
+#numpy==1.21.1
+#matplotlib==3.4.3
 #seaborn==0.11.2
 
 
-#pip==23.3.2
-#streamlit==1.30.0
-#pandas==1.5.2
-#scikit-learn==1.2.1
+pip==23.3.2
+streamlit==1.30.0
+pandas==1.5.2
+scikit-learn==1.2.1
 #scikit-learn==0.24.2
 #plotly==5.18.0
-#shap==0.44.0
+shap==0.44.0
 #plotly.graph_objects==5.18.0
 #plotly-express==0.4.1
 #json5==0.9.6
 #numpy==1.21.3
-#matplotlib==3.4.3
-#seaborn==0.11.2
+matplotlib==3.4.3
+kiwisolver==1.3.1
+seaborn==0.11.2
 
 
