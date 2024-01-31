@@ -11,9 +11,9 @@ import plotly
 import os
 from zipfile import ZipFile
 import pickle
-import matplotlib
+#import matplotlib
 #matplotlib.use('agg')
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
