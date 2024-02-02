@@ -3,7 +3,7 @@ import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
 #from sklearn.preprocessing import StandardScaler
-from PIL import Image
+#from PIL import Image
 import requests
 import plotly
 import os
