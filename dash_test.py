@@ -348,14 +348,14 @@ if page == 'Customer portfolio':
             plt.ioff()
             with col1:
                 fig = plt.figure(figsize=(4,4))
-                bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) //5)
+                bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
+                bins = max(bins, 1)    #Ensure bins is at least 1                    
                 #if bins<0:
                     #bins=5
                     #print('XXXXXXXX',bins)                    
                 pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET',bins=bins,palette=['royalblue','red'],alpha=.5)
-                plt.xlabel('AGE',fontsize=12)
-                plt.ylabel('')
-                plt.legend(['having difficulty','without difficulty'],loc='lower center',bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
+                pt.set(xlabel='AGE', ylabel='')
+                pt.legend(['having difficulty', 'without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
             with col2:
                 fig = plt.figure(figsize=(3,3))                
