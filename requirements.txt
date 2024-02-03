@@ -3,7 +3,7 @@ altair==5.1.2
 scikit-learn==1.4.0
 pillow==10.0.1
 requests==2.31.0
-plotly
+plotly==5.18.0
 os
 zipfile
 pickle
