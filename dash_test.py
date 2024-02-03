@@ -78,7 +78,7 @@ raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 #zip_file_path = './data_train.zip'
 zip_file_path = 'data_train.zip'
-train = pd.read_csv(zip_file_path.open(data_train.csv))
+train = pd.read_csv(zip_file_path.open('data_train.csv'))
 
 #csv_file_name = 'data_train.csv'
 #train = pd.read_csv(zip_file_path.open(csv_file_name))
