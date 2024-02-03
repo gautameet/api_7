@@ -16,8 +16,6 @@ import pickle
 import math
 import json
 
-#matplotlib.use('agg')
-
 
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
@@ -112,7 +110,7 @@ def get_stat_ID(ID):
     data_knn = get_data(raw_app,app_knn).dropna()
     return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
-## GRAPHE
+## GRAPH
 # Graph radar initialisation
     def _invert(x, limits):
         #inverts a value x on a scale from
@@ -248,8 +246,7 @@ with st.sidebar:
 # Page selection
 page =  st.sidebar.selectbox("Menu", ["Home", "Customer", "Customer portfolio"])
     
-    
-        
+            
 st.markdown("-----")
     
 st.write("By: Amit GAUTAM")
