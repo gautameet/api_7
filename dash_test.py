@@ -40,7 +40,7 @@ raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), use
     #print(f'Error:{e}')
         
 zip_file_test = ZipFile('./application_test.zip')
-print(zip_file_test.namelist())
+#print(zip_file_test.namelist())
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 #try:
