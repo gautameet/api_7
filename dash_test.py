@@ -347,7 +347,7 @@ if page == 'Customer portfolio':
             col1, col2,col3 = st.columns(3)
             plt.ioff()
             with col1:
-                fig = plt.figure(figsize=(4,4))
+                fig = plt.figure(figsize=(2.5,2.5))
                 bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
                 bins = max(bins, 1)    #Ensure bins is at least 1                    
                 #if bins<0:
@@ -358,7 +358,7 @@ if page == 'Customer portfolio':
                 pt.legend(['having difficulty', 'without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
             with col2:
-                fig = plt.figure(figsize=(5,5))                
+                fig = plt.figure(figsize=(6,6))                
                 subset_data = raw_app[raw_app['TARGET'] == 1]
                 print('Subset data shape:', subset_data.shape)
                 pt = sns.barplot(x=subset_data['NAME_FAMILY_STATUS'], y=subset_data['CNT_CHILDREN'], color='red',alpha=.5,ci=None,edgecolor='black')
@@ -371,7 +371,7 @@ if page == 'Customer portfolio':
                 #plt.setp(pt.get_yticklabels(),fontsize=5)
                 
             with col3:
-                fig = plt.figure(figsize=(4,4))
+                fig = plt.figure(figsize=(6,6))
                 subset_data = raw_app[raw_app['TARGET'] == 1]
                 pt = sns.barplot(x=subset_data['NAME_INCOME_TYPE'], y=subset_data['AMT_INCOME_TOTAL'], color='red',alpha=.5,ci=None,edgecolor='black')
                 plt.xlabel('Income Type', fontsize=12)
