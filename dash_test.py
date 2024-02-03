@@ -56,16 +56,12 @@ test = pd.read_csv(zip_file_test.open('data_test.csv'))
 #Append/Concat
 app = pd.concat([train, test], ignore_index=True)
 
-
 # Nearest neighbors
 knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Loading the model
-model = pickle.load(open('model.pkl', 'rb'))
-
-#pickle_mdl_in = open('model.pkl','rb')
-#model = pickle.load(pickle_mdl_in)
+model = pickle.load(open('model.pkl','rb'))
 
 # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
