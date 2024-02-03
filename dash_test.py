@@ -330,7 +330,7 @@ except Exception as e:
                     "\nThis dashboard is composed of following pages :\n"
                     "- **Customer**: to find out all the information related to the customer.\n")
                     
-    #if page == "Customer":
+    if page == "Customer":
         #st.title("💵 Welcome to the Customer Page")
         #".\n"
         #.\n"
