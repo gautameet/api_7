@@ -100,7 +100,7 @@ train = pd.read_csv(zip_file_path.open('data_train.csv'))
 
 
 zip_file_test = ZipFile('data_test.zip')
-test = pd.read_csv(zip_file_test.open('data_test'))
+test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 #csv_file_name = 'data_test.csv'
 #try:
