@@ -17,6 +17,8 @@ import joblib
 import pickle
 import math
 import json
+import Pillow
+from PIL import Image
 
 
 
