@@ -31,32 +31,9 @@ num_rows = 100000
 zip_file_train = ZipFile('sample_application_train.zip')
 raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
 
-#zip_file_train = ZipFile('./sample_application_train.zip')
-#print(zip_file_train.namelist())
-#try:
-    #raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
-#with ZipFile(zip_file_train, 'r') as zip_train:
-#except Exception as e:
-    #print(f'Error:{e}')
-        
 zip_file_test = ZipFile('./application_test.zip')
-#print(zip_file_test.namelist())
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
-#try:
-    #raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
-#except Exception as e:
-    #print(f'Error reading test data:{e}')        
-#raw_app = raw_train.append(raw_test).reset_index(drop=True)        # Concatenate the DataFrames
-raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
-#try:
-    # Concatenate the DataFrames
-        #raw_app = raw_train.append(raw_test).reset_index(drop=True)
-    #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
-    # Now 'raw_app' contains the concatenated DataFrame
-#except Exception as e:
-    # Print the exception message for debugging
-    #print(f"Error concatenating DataFrames: {e}")
 #del raw_train
 #del raw_test
  
@@ -72,72 +49,25 @@ raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
 
-#zip_file_path = './data_train.zip'
 zip_file_path = ZipFile('data_train.zip')
 train = pd.read_csv(zip_file_path.open('data_train.csv'))
-
-#csv_file_name = 'data_train.csv'
-#train = pd.read_csv(zip_file_path.open(csv_file_name))
-
-#try:
-    # Open the ZIP file
-    #with ZipFile(zip_file_path, 'r') as zip_train:
-        # Read the CSV file from the ZIP archive
-        #train = pd.read_csv(zip_train.open(csv_file_name))
-
-    # Now 'train' contains the DataFrame from the CSV file
-#except Exception as e:
-    # Print the exception message for debugging
-    #print(f"Error reading CSV from ZIP: {e}")
-
-#zip_file_train = ZipFile('./data_train.zip')
-#train = pd.read_csv(zip_file_train.open('data_train.csv'))
-#zip_file_train = './data_train.zip'
-
 
 zip_file_test = ZipFile('data_test.zip')
 test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
-#Append
+#Append/Concat
 app = pd.concat([train, test], ignore_index=True)
-#app = train.append(test).reset_index(drop=True)
-#csv_file_name = 'data_test.csv'
-#try:
-    # Open the ZIP file
-    #with ZipFile(zip_file_test, 'r') as zip_test:
-        # Read the CSV file from the ZIP archive
-        #test = pd.read_csv(zip_test.open(csv_file_name))
-
-    # Now 'test' contains the DataFrame from the CSV file
-#except Exception as e:
-    # Print the exception message for debugging
-    #print(f"Error reading CSV from ZIP: {e}")
-        
-#zip_file_test = ZipFile('./data_test.zip')
-#test = pd.read_csv(zip_file_test.open('data_test.csv'))
-#with ZipFile(zip_file_train, 'r') as zip_train:
-    #train = pd.read_csv(zip_train.open('data_train.csv'))
-#with ZipFile(zip_file_test, 'r') as zip_test:
-    #test=pd.read_csv(zip_test.open('data_test.csv'))    
-#try:
-    # Append the DataFrames
-    #raw_app = raw_train.append(raw_test).reset_index(drop=True)
-    #app = train.append(test).reset_index(drop=True)
 
 
-# Modele voisin
+# Nearest neighbors
 knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
-# Chargement du modèle de classification
+# Loading the model
 pickle_mdl_in = open('model.pkl','rb')
 model = pickle.load(pickle_mdl_in)
 
-
-#with open('model.pkl','rb') as pk_mdl_in:
-    #model = pickle.load(pk_mdl_in)
-
-    # Explainer
+# Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
 X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
@@ -158,20 +88,17 @@ del X_train_sm_2
 del X_train_sm_3
 del X_train_sm
 
-#except Exception as e:
-    #print("error line 144") 
-
 # Features
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
-# Recuperation de data
+# Data
 def get_data(data,ID):
     if type(ID) == list:
         return data[data['SK_ID_CURR'].isin(ID)]
     else:
         return data[data['SK_ID_CURR']==ID].head(1)
 
-# Recuperation des voisins
+# Neighbor
 def get_similar_ID(ID):    
     app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
     knn_index = knn.kneighbors(app_id,return_distance=False)
@@ -184,7 +111,7 @@ def get_stat_ID(ID):
     return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
 ## GRAPHE
-# Initialisation de Graphe Radar
+# Graph radar initialisation
     def _invert(x, limits):
         #inverts a value x on a scale from
         #limits[0] to limits[1]
@@ -253,7 +180,7 @@ def get_stat_ID(ID):
             sdata = _scale_data(data, self.ranges)
             self.ax.fill(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
         
-    # Graphe Radar
+    # Graph Radar
     def radat_id_plot(ID,fig,features=features,fill=False):
         app_id = get_data(raw_app,ID)[features]
         client = app_id.iloc[0]
@@ -300,14 +227,14 @@ def get_stat_ID(ID):
 ########################
 
     ## Page configuration initialisation
-    st.set_page_config(
-        page_title="Credit Score Dashboard",
-        page_icon="💵",
-        layout="wide",
-        initial_sidebar_state="expanded")
+st.set_page_config(
+page_title="Credit Score Dashboard",
+page_icon="💵",
+layout="wide",
+initial_sidebar_state="expanded")
     
     # Sidebar
-    with st.sidebar:
+with st.sidebar:
         st.write("Credit Score Dashboard")
         logo_path = "logo.png"
         try:
