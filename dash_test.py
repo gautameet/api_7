@@ -67,7 +67,7 @@ raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) 
 #st.dataframe(raw_app)
 
 # Drop unnecessary columns
-    raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
 
