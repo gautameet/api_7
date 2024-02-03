@@ -76,7 +76,7 @@ X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 zip_file = ZipFile('X_train_sm_split3.zip')
 X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
-X_train_sm = pd.concat([X_train_sm_split1, X_train_sm_split2, X_train_sm_split3], ignore_index=True)
+X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3], ignore_index=True)
 X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have a continuous index for the concatenated DataFrame
 
 
