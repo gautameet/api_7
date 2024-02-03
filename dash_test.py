@@ -145,7 +145,6 @@ def get_stat_ID(ID):
                          * (x2 - x1) + x1)
         return sdata
 
-
     class ComplexRadar():
         def __init__(self, fig, variables, ranges,
                      n_ordinate_levels=6):
