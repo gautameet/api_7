@@ -102,6 +102,10 @@ train = pd.read_csv(zip_file_path.open('data_train.csv'))
 zip_file_test = ZipFile('data_test.zip')
 test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
+#Append
+app = pd.concat([train, test], ignore_index=True)
+#app = train.append(test).reset_index(drop=True)
+
 #csv_file_name = 'data_test.csv'
 #try:
     # Open the ZIP file
@@ -121,10 +125,10 @@ test = pd.read_csv(zip_file_test.open('data_test.csv'))
 #with ZipFile(zip_file_test, 'r') as zip_test:
     #test=pd.read_csv(zip_test.open('data_test.csv'))    
 
-try:
+#try:
     # Append the DataFrames
     #raw_app = raw_train.append(raw_test).reset_index(drop=True)
-    app = train.append(test).reset_index(drop=True)
+    #app = train.append(test).reset_index(drop=True)
 
     # Modele voisin
     knn = NearestNeighbors(n_neighbors=10)
