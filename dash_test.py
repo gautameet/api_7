@@ -3,9 +3,9 @@ import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
 #from sklearn.preprocessing import StandardScaler
-from sklearn.tree import DecisionTreeClassifier
+#from sklearn.tree import DecisionTreeClassifier
 # Example: Save a simple model
-model = DecisionTreeClassifier()
+#model = DecisionTreeClassifier()
 from PIL import Image
 import requests
 import plotly
