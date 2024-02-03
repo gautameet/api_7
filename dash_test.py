@@ -136,7 +136,7 @@ knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Chargement du modèle de classification
-{model = pickle.load(open('model.pkl','rb'))
+#model = pickle.load(open('model.pkl','rb'))
 pk_mdl_in = open('model.pkl','rb')
 model = pickle.load(pk_mdl_in)
 
