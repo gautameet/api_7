@@ -359,11 +359,16 @@ if page == 'Customer portfolio':
                 st.pyplot(fig)
             with col2:
                 fig = plt.figure(figsize=(3,3))                
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=5)
+                subset_data = raw_app[raw_app['TARGET'] == 1
+                pt = sns.barplot(x=subset_data['NAME_FAMILY_STATUS'], y=subset_data['CNT_CHILDREN'], color='red',alpha=.5,ci=None,edgecolor='black')
+                plt.xlabel('Family Status', fontsize=12)
+                plt.ylabel('Number of Children', fontsize=12)
                 st.pyplot(fig)
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
+                #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                #plt.setp(pt.get_yticklabels(),fontsize=5)
+                
             with col3:
                 fig = plt.figure(figsize=(4.5,4.5))
                 pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
