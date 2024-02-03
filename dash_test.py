@@ -3,7 +3,7 @@ import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
 #from sklearn.preprocessing import StandardScaler
-#from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier
 # Example: Save a simple model
 #model = DecisionTreeClassifier()
 from PIL import Image
@@ -134,6 +134,7 @@ knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Chargement du modèle de classification
 #model = pickle.load(open('model.pkl','rb'))
+
 with open('model.pkl', 'rb') as pk_mdl:
     model = pickle.load(pk_mdl)
         
