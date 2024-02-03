@@ -17,9 +17,8 @@ import pickle
 import math
 import json
 
-
-
 #matplotlib.use('agg')
+
 
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
@@ -49,10 +48,8 @@ raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for
     #raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 #except Exception as e:
     #print(f'Error reading test data:{e}')        
-
 #raw_app = raw_train.append(raw_test).reset_index(drop=True)        # Concatenate the DataFrames
 raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
-
 #try:
     # Concatenate the DataFrames
         #raw_app = raw_train.append(raw_test).reset_index(drop=True)
@@ -61,7 +58,6 @@ raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 #except Exception as e:
     # Print the exception message for debugging
     #print(f"Error concatenating DataFrames: {e}")
-
 #del raw_train
 #del raw_test
  
@@ -124,20 +120,23 @@ app = pd.concat([train, test], ignore_index=True)
     #train = pd.read_csv(zip_train.open('data_train.csv'))
 #with ZipFile(zip_file_test, 'r') as zip_test:
     #test=pd.read_csv(zip_test.open('data_test.csv'))    
-
 #try:
     # Append the DataFrames
     #raw_app = raw_train.append(raw_test).reset_index(drop=True)
     #app = train.append(test).reset_index(drop=True)
 
-    # Modele voisin
+
+# Modele voisin
 knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Chargement du modèle de classification
 #model = pickle.load(open('model.pkl','rb'))
-pk_mdl_in = open('model.pkl','rb')
-model = pickle.load(pk_mdl_in)
+with open('model.pkl', 'rb') as pk_mdl_in:
+    model = pickle.load(pk_mdl_in)
+        
+#pk_mdl_in = open('model.pkl','rb')
+#model = pickle.load(pk_mdl_in)
 
     # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
