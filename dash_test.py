@@ -400,13 +400,15 @@ if page == 'Customer portfolio':
                 tg_0 = tg_df.loc[0]
                 tg_1 = tg_df.loc[1]
                 fig = plt.figure(figsize=(2,2))                  
-                pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
-                pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
-                plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
-                plt.xlabel('AMT_ANNUITY',fontsize=5)
-                plt.ylabel('AMT_CREDIT',fontsize=5)
-                plt.xlim([20000,40000])
-                plt.ylim([400000,800000])
-                plt.setp(pt.get_xticklabels(),fontsize=4)
+                pt = sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values / 100, label = 'With Difficulties', color='red')
+                    
+                #pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
+                #pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
+                #plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
+                #plt.xlabel('AMT_ANNUITY',fontsize=5)
+                #plt.ylabel('AMT_CREDIT',fontsize=5)
+                #plt.xlim([20000,40000])
+                #plt.ylim([400000,800000])
+                #plt.setp(pt.get_xticklabels(),fontsize=4)
                 plt.setp(pt.get_yticklabels(),fontsize=4)                
                 st.pyplot(fig)
