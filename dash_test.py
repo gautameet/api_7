@@ -26,7 +26,7 @@ num_rows = 100000
 
 # Original Data
 zip_file_train = ZipFile('./sample_application_train.zip')
-print(zip_file_train.namelist())
+#print(zip_file_train.namelist())
 
 raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
 
