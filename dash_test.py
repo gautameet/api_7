@@ -400,7 +400,7 @@ if page == 'Customer portfolio':
                 tg_0 = tg_df.loc[0]
                 tg_1 = tg_df.loc[1]
                 fig = plt.figure(figsize=(2,2))                  
-                pt = sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values / 100, label = 'With Difficulties', color='red')
+                pt = sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values / 50, label = 'With Difficulties', color='red')
                     
                 #pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
                 #pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
