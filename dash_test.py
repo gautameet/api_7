@@ -65,6 +65,7 @@ knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Loading the model
 model = pickle.load(open('model.pkl', 'rb'))
+
 #pickle_mdl_in = open('model.pkl','rb')
 #model = pickle.load(pickle_mdl_in)
 
