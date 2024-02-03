@@ -5,7 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 #from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 # Example: Save a simple model
-#model = DecisionTreeClassifier()
+model = DecisionTreeClassifier()
 from PIL import Image
 import requests
 import plotly
@@ -135,8 +135,8 @@ knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 # Chargement du modèle de classification
 #model = pickle.load(open('model.pkl','rb'))
 
-with open('model.pkl','rb') as pk_mdl:
-    model = pickle.load(pk_mdl)
+with open('model.pkl','rb') as pk_mdl_in:
+    L_model = pickle.load(pk_mdl_in)
         
 #pk_mdl_in = open('model.pkl','rb')
 #model = pickle.load(pk_mdl_in)
@@ -155,7 +155,7 @@ X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).
 
 X_name = list(X_train_sm.columns)
 
-explainer = shap.TreeExplainer(model,X_train_sm)
+explainer = shap.TreeExplainer(L_model,X_train_sm)
 
 del X_train_sm_1
 del X_train_sm_2
