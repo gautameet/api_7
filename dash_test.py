@@ -2,7 +2,7 @@
 import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
-#from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler
 # Example: Save a simple model
 import requests
 import plotly
