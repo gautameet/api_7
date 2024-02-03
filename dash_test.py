@@ -331,9 +331,9 @@ except Exception as e:
                     "- **Customer**: to find out all the information related to the customer.\n")
                     
     if page == "Customer":
-        #st.title("💵 Welcome to the Customer Page")
-        #".\n"
-        #.\n"
+        st.title("💵 Welcome to the Customer Page")
+        ".\n"
+        .\n"
         
         #st.header("Welcome to the customers' page.\n")
         ".\n"
