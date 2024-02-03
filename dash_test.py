@@ -45,7 +45,8 @@ raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for
 #except Exception as e:
     #print(f'Error reading test data:{e}')        
 
-raw_app = raw_train.append(raw_test).reset_index(drop=True)        # Concatenate the DataFrames
+#raw_app = raw_train.append(raw_test).reset_index(drop=True)        # Concatenate the DataFrames
+raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
 
 #try:
     # Concatenate the DataFrames
