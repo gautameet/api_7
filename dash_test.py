@@ -2,8 +2,7 @@
 import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
-#from sklearn.preprocessing import StandardScaler
-# Example: Save a simple model
+from sklearn.preprocessing import StandardScaler
 import requests
 import plotly
 import matplotlib.pyplot as plt
@@ -65,8 +64,9 @@ knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Loading the model
-pickle_mdl_in = open('model.pkl','rb')
-model = pickle.load(pickle_mdl_in)
+model = pickle.load(open('model.pkl', 'rb'))
+#pickle_mdl_in = open('model.pkl','rb')
+#model = pickle.load(pickle_mdl_in)
 
 # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
