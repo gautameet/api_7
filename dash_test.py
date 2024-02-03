@@ -106,7 +106,6 @@ test = pd.read_csv(zip_file_test.open('data_test.csv'))
 #Append
 app = pd.concat([train, test], ignore_index=True)
 #app = train.append(test).reset_index(drop=True)
-
 #csv_file_name = 'data_test.csv'
 #try:
     # Open the ZIP file
