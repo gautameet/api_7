@@ -15,12 +15,7 @@ import math
 import pandas as pd
 import numpy as np
 
-
-
-#import matplotlib
 #matplotlib.use('agg')
-
-
 
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
@@ -33,11 +28,12 @@ num_rows = 100000
 zip_file_train = ZipFile('./sample_application_train.zip')
 print(zip_file_train.namelist())
 
-try:
-    raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+#try:
+    #raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
 #with ZipFile(zip_file_train, 'r') as zip_train:
-except Exception as e:
-    print(f'Error:{e}')
+#except Exception as e:
+    #print(f'Error:{e}')
         
 zip_file_test = ZipFile('./application_test.zip')
 print(zip_file_test.namelist())
