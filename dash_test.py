@@ -6,12 +6,12 @@ from sklearn.neighbors import NearestNeighbors
 from Pillow import Image
 import requests
 import plotly
+import matplotlib.pyplot as plt
+import shap
 import os
 from zipfile import ZipFile
 import pickle
-import matplotlib.pyplot as plt
 import math
-import shap
 
 
 #import matplotlib
