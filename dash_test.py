@@ -377,11 +377,11 @@ if page == 'Customer portfolio':
                 plt.xlabel('Income Type', fontsize=12)
                 plt.ylabel('Income total', fontsize=12)
                 st.pyplot(pt.figure)
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=7)
-                st.pyplot(fig)
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
+                #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                #plt.setp(pt.get_yticklabels(),fontsize=7)
+                #st.pyplot(fig)
             st.markdown("-----")
 
                 
