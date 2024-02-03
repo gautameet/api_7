@@ -29,6 +29,7 @@ zip_file_train = ZipFile('./sample_application_train.zip')
 print(zip_file_train.namelist())
 
 raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+
 #try:
     #raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
 #with ZipFile(zip_file_train, 'r') as zip_train:
@@ -37,12 +38,13 @@ raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), use
         
 zip_file_test = ZipFile('./application_test.zip')
 print(zip_file_test.namelist())
+raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
-try:
-    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+#try:
+    #raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
-except Exception as e:
-    print(f'Error reading test data:{e}')        
+#except Exception as e:
+    #print(f'Error reading test data:{e}')        
 
 try:
     # Concatenate the DataFrames
