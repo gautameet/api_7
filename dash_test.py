@@ -2,6 +2,7 @@
 import streamlit as st
 import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
 import requests
 import plotly
@@ -12,6 +13,7 @@ import pandas as pd
 import numpy as np
 import os
 from zipfile import ZipFile
+import joblib
 import pickle
 import math
 import json
@@ -61,7 +63,7 @@ knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Loading the model
-model = pickle.load(open('model.pkl','rb'))
+model = pickle.load(open('model1.pkl','rb'))
 
 # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
