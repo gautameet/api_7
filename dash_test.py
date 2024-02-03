@@ -77,17 +77,18 @@ raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 zip_file_path = './data_train.zip'
 csv_file_name = 'data_train.csv'
+train = pd.read_csv(zip_train.open(csv_file_name))
 
-try:
+#try:
     # Open the ZIP file
-    with ZipFile(zip_file_path, 'r') as zip_train:
+    #with ZipFile(zip_file_path, 'r') as zip_train:
         # Read the CSV file from the ZIP archive
-        train = pd.read_csv(zip_train.open(csv_file_name))
+        #train = pd.read_csv(zip_train.open(csv_file_name))
 
     # Now 'train' contains the DataFrame from the CSV file
-except Exception as e:
+#except Exception as e:
     # Print the exception message for debugging
-    print(f"Error reading CSV from ZIP: {e}")
+    #print(f"Error reading CSV from ZIP: {e}")
 
 #zip_file_train = ZipFile('./data_train.zip')
 #train = pd.read_csv(zip_file_train.open('data_train.csv'))
