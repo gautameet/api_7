@@ -135,18 +135,17 @@ knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
     # Chargement du modèle de classification
-pk_mdl_in = open('./Results/model.pkl','rb')
+pk_mdl_in = open('model.pkl','rb')
 model = pickle.load(pk_mdl_in)
 
-
     # Explainer
-zip_file = ZipFile('./Results/X_train_sm_split1.zip')
+zip_file = ZipFile('X_train_sm_split1.zip')
 X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
-zip_file = ZipFile('./Results/X_train_sm_split2.zip')
+zip_file = ZipFile('X_train_sm_split2.zip')
 X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
-zip_file = ZipFile('./Results/X_train_sm_split3.zip')
+zip_file = ZipFile('X_train_sm_split3.zip')
 X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
 X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
