@@ -99,19 +99,20 @@ train = pd.read_csv(zip_file_path.open('data_train.csv'))
 #zip_file_train = './data_train.zip'
 
 
-zip_file_test = './data_test.zip'
-csv_file_name = 'data_test.csv'
+zip_file_test = ZipFile('data_test.zip')
+test = pd.read_csv(zip_file_test.open('data_test'))
 
-try:
+#csv_file_name = 'data_test.csv'
+#try:
     # Open the ZIP file
-    with ZipFile(zip_file_test, 'r') as zip_test:
+    #with ZipFile(zip_file_test, 'r') as zip_test:
         # Read the CSV file from the ZIP archive
-        test = pd.read_csv(zip_test.open(csv_file_name))
+        #test = pd.read_csv(zip_test.open(csv_file_name))
 
     # Now 'test' contains the DataFrame from the CSV file
-except Exception as e:
+#except Exception as e:
     # Print the exception message for debugging
-    print(f"Error reading CSV from ZIP: {e}")
+    #print(f"Error reading CSV from ZIP: {e}")
         
 #zip_file_test = ZipFile('./data_test.zip')
 #test = pd.read_csv(zip_file_test.open('data_test.csv'))
