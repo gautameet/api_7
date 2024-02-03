@@ -34,6 +34,7 @@ raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), use
 zip_file_test = ZipFile('./application_test.zip')
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
+raw_app = pd.concat([raw-train, raw-test], ignore_index=True)        #concat
 #del raw_train
 #del raw_test
  
