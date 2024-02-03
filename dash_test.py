@@ -12,7 +12,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import os
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 import joblib
 import pickle
 import math
@@ -29,7 +29,7 @@ num_rows = 100000
 
 # Original Data
 zip_file_train = ZipFile('sample_application_train.zip')
-raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'), usecols=feat, nrows=num_rows)
+raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'),usecols=feat, nrows=num_rows)
 
 zip_file_test = ZipFile('./application_test.zip')
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
