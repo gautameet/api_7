@@ -131,40 +131,40 @@ app = pd.concat([train, test], ignore_index=True)
     #app = train.append(test).reset_index(drop=True)
 
     # Modele voisin
-    knn = NearestNeighbors(n_neighbors=10)
-    knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
+knn = NearestNeighbors(n_neighbors=10)
+knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
     # Chargement du modèle de classification
-    pk_mdl_in = open('./Results/model.pkl','rb')
-    model = pickle.load(pk_mdl_in)
+pk_mdl_in = open('./Results/model.pkl','rb')
+model = pickle.load(pk_mdl_in)
 
 
     # Explainer
-    zip_file = ZipFile('./Results/X_train_sm_split1.zip')
-    X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
+zip_file = ZipFile('./Results/X_train_sm_split1.zip')
+X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
-    zip_file = ZipFile('./Results/X_train_sm_split2.zip')
-    X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
+zip_file = ZipFile('./Results/X_train_sm_split2.zip')
+X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
-    zip_file = ZipFile('./Results/X_train_sm_split3.zip')
-    X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
+zip_file = ZipFile('./Results/X_train_sm_split3.zip')
+X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
-    X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
+X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 
-    X_name = list(X_train_sm.columns)
+X_name = list(X_train_sm.columns)
 
-    explainer = shap.TreeExplainer(model,X_train_sm)
+explainer = shap.TreeExplainer(model,X_train_sm)
 
-    del X_train_sm_1
-    del X_train_sm_2
-    del X_train_sm_3
-    del X_train_sm
+del X_train_sm_1
+del X_train_sm_2
+del X_train_sm_3
+    el X_train_sm
 
-except Exception as e:
-    print("error line 144") 
+#except Exception as e:
+    #print("error line 144") 
 
 # Features
-    features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
+features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
 # Recuperation de data
     def get_data(data,ID):
