@@ -17,7 +17,10 @@ import joblib
 import pickle
 import math
 import json
-import XGBoost, Catboost, LightGBM
+from xgboost import XGBClassifier
+from catboost import CatBoostRegressor
+import lightgbm as ltb
+
 
 # Features
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
