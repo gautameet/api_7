@@ -42,28 +42,27 @@ raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for
 
 #try:
     #raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
-
 #except Exception as e:
     #print(f'Error reading test data:{e}')        
 
-try:
+raw_app = raw_train.append(raw_test).reset_index(drop=True)        # Concatenate the DataFrames
+
+#try:
     # Concatenate the DataFrames
     raw_app = raw_train.append(raw_test).reset_index(drop=True)
     #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
-
     # Now 'raw_app' contains the concatenated DataFrame
-
-except Exception as e:
+#except Exception as e:
     # Print the exception message for debugging
-    print(f"Error concatenating DataFrames: {e}")
+    #print(f"Error concatenating DataFrames: {e}")
 
 #del raw_train
 #del raw_test
  
-    raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x : -x/-365)
-    raw_app['AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x : -x/-365) // (-365)
-    raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-    raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
+raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x : -x/-365)
+raw_app['AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x : -x/-365) // (-365)
+raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
+raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
 
 #st.dataframe(raw_app)
 
