@@ -158,7 +158,7 @@ explainer = shap.TreeExplainer(model,X_train_sm)
 del X_train_sm_1
 del X_train_sm_2
 del X_train_sm_3
-    el X_train_sm
+del X_train_sm
 
 #except Exception as e:
     #print("error line 144") 
@@ -167,23 +167,23 @@ del X_train_sm_3
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
 # Recuperation de data
-    def get_data(data,ID):
-        if type(ID) == list:
-            return data[data['SK_ID_CURR'].isin(ID)]
-        else:
-            return data[data['SK_ID_CURR']==ID].head(1)
+def get_data(data,ID):
+    if type(ID) == list:
+        return data[data['SK_ID_CURR'].isin(ID)]
+    else:
+        return data[data['SK_ID_CURR']==ID].head(1)
 
 # Recuperation des voisins
-    def get_similar_ID(ID):    
-        app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
-        knn_index = knn.kneighbors(app_id,return_distance=False)
-        knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
-        return knn_id
+def get_similar_ID(ID):    
+    app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
+    knn_index = knn.kneighbors(app_id,return_distance=False)
+    knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
+    return knn_id
 
-    def get_stat_ID(ID):   
-        app_knn = get_similar_ID(ID)
-        data_knn = get_data(raw_app,app_knn).dropna()
-        return len(data_knn),len(data_knn[data_knn['TARGET']==1])
+def get_stat_ID(ID):   
+    app_knn = get_similar_ID(ID)
+    data_knn = get_data(raw_app,app_knn).dropna()
+    return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
 ## GRAPHE
 # Initialisation de Graphe Radar
