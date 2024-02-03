@@ -11,5 +11,5 @@ pandas
 numpy
 #os
 #zipfile
-#pickle
+pickle
 #math
