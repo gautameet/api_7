@@ -62,15 +62,15 @@ except Exception as e:
 #del raw_train
 #del raw_test
  
-raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x : -x/-365)
-raw_app['AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x : -x/-365) // (-365)
-raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
+    raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x : -x/-365)
+    raw_app['AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x : -x/-365) // (-365)
+    raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
+    raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
 
 #st.dataframe(raw_app)
 
 # Drop unnecessary columns
-raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+    raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
 
