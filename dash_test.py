@@ -321,7 +321,7 @@ if page == "Customer":
                 if pred:
                     with st.spinner('Calculation...'):
                         try:
-                            prediction = requests.get("https://urd9pbjwdlnjfnaoncmtdw.streamlit.app/predict?ID=" + str(ID)).json()
+                            prediction = requests.get("https://dashtest.streamlit.app//predict?ID=" + str(ID)).json()
                             if prediction["target"]==0:
                                 st.write(':smiley:')
                                 st.success('Client solvable _(Target = 0)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')
