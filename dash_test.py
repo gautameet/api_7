@@ -359,7 +359,8 @@ if page == 'Customer portfolio':
                 st.pyplot(fig)
             with col2:
                 fig = plt.figure(figsize=(3,3))                
-                subset_data = raw_app[raw_app['TARGET'] == 1
+                subset_data = raw_app[raw_app['TARGET'] == 1]
+                print('Subset data shape:', subset_data.shape)
                 pt = sns.barplot(x=subset_data['NAME_FAMILY_STATUS'], y=subset_data['CNT_CHILDREN'], color='red',alpha=.5,ci=None,edgecolor='black')
                 plt.xlabel('Family Status', fontsize=12)
                 plt.ylabel('Number of Children', fontsize=12)
