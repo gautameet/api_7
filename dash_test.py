@@ -83,8 +83,11 @@ X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have 
 #X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
 #X_name = list(X_train_sm.columns)
 
-explainer = shap.LinearExplainer(model, X_train_sm)
+explainer = shap.KernelExplainer(model.predict, X_train_sm)
 shap_values = explainer.shap_values(X_train_sm)
+
+#explainer = shap.LinearExplainer(model, X_train_sm)
+#shap_values = explainer.shap_values(X_train_sm)
 #explainer = shap.TreeExplainer(model,X_train_sm)
 
 del X_train_sm_1
