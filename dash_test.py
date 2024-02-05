@@ -87,7 +87,7 @@ X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have 
 X_name = list(X_train_sm.columns)
 
 ##ADDED TODAY
-explainer = shap.TreeExplainer(RandomForestclassifier(), X_train_sm)
+explainer = shap.TreeExplainer(model, X_train_sm)
 
 #explainer = shap.TreeExplainer(model, X_train_sm)
 
