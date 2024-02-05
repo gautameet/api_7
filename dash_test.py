@@ -127,7 +127,7 @@ def predict_target():
             results = {'target': int(prediction), 'risk':round(proba[0],[1], 2)}
             st.json(result)
         else:
-            st.warning('Error in the program!'
+            st.warning('Error in the program!')
     except:
         st.error('Client not found!')
 
