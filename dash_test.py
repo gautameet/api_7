@@ -4,6 +4,7 @@ import altair as alt              # for data visualtization
 from sklearn.neighbors import NearestNeighbors
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
 import requests
 import plotly
 import matplotlib.pyplot as plt
@@ -83,6 +84,7 @@ X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
 X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3], ignore_index=True)
 X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have a continuous index for the concatenated DataFrame
+X_name = list(X_train_sm.columns)
 
 ##ADDED TODAY
 explainer = shap.TreeExplainer(model, X_train_sm)
