@@ -50,7 +50,6 @@ raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) 
 raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
 
 # Treated Data
-
 zip_file_path = ZipFile('data_train.zip')
 train = pd.read_csv(zip_file_path.open('data_train.csv'))
 
@@ -87,7 +86,9 @@ X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have 
 X_name = list(X_train_sm.columns)
 
 ##ADDED TODAY
-explainer = shap.TreeExplainer(model, X_train_sm)
+explainer = shap.TreeExplainer(model)
+
+#explainer = shap.TreeExplainer(model, X_train_sm)
 
 del X_train_sm_1
 del X_train_sm_2
