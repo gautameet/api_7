@@ -152,44 +152,44 @@ def _scale_data(data, ranges):
     return sdata
 
 class ComplexRadar():
-    def __init__(self, fig, variables, ranges, n_ordinate_levels=6):
-        angles = np.arange(0, 360, 360./len(variables))
+    def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
+        angles = np.arange(0,360,360./len(variables))
     
-        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True, label = "axes{}".format(i)) 
+        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,label="axes{}".format(i)) 
                 for i in range(len(variables))]
-        l, text = axes[0].set_thetagrids(angles, labels=variables)
-        [txt.set_rotation(angle-90) for txt, angle in zip(text, angles)]
+        l, text = axes[0].set_thetagrids(angles,labels=variables)
+        [txt.set_rotation(angle-90) for txt,angle in zip(text, angles)]
         for ax in axes[1:]:
             ax.patch.set_visible(False)
             ax.grid("off")
             ax.xaxis.set_visible(False)
         for i, ax in enumerate(axes):
             grid = np.linspace(*ranges[i], num=n_ordinate_levels)
-            gridlabel = ["{}".format(round(x,2)) 
-                for x in grid]
-            if ranges[i][0] > ranges[i][1]:
+            gridlabel = ["{}".format(round(x,2)) for x in grid]
+            if ranges[i][0]>ranges[i][1]:
                 grid = grid[::-1] # hack to invert grid
-                              # gridlabels aren't reversed
             gridlabel[0] = "" # clean up origin
-            ax.set_rgrids(grid, labels=gridlabel, angle=angles[i])
-            ###ax.spines["polar"].set_visible(False)
+            ax.set_rgrids(grid,labels=gridlabel,angle=angles[i])
             ax.set_ylim(*ranges[i])
-            ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
+            ax.set_yticklabels(ax.get_yticklabels(),fontsize=8)   # Increased fontsize for y tick labels
+            ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
         self.ranges = ranges
         self.ax = axes[0]
-        self.ax.set_xticklabels(variables,fontsize=6) 
-    def plot(self, data, *args, **kw):
-        sdata = _scale_data(data, self.ranges)
-        self.ax.plot(self.angle, np.r_[sdata, sdata[0]], *args, **kw)        
-    def fill(self, data, *args, **kw):
-        sdata = _scale_data(data, self.ranges)
-        self.ax.fill(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
+        #self.ax.set_xticklabels(variables,fontsize=6)
+    
+    def plot(self,data,*args,**kw):
+        sdata=_scale_data(data,self.ranges)      # Ensure _scale_data function works correctly
+        self.ax.plot(self.angle,np.r_[sdata,sdata[0]],*args, **kw)        
+    
+    def fill(self,data,*args,**kw):
+        sdata=_scale_data(data,self.ranges)
+        self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
         
-    # Graph Radar
-def radat_id_plot(ID,fig,features=features,fill=False):
+# Graph Radar
+def radat_id_plot(ID,fig,features=features,fill=False,raw_app=None):
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
     ranges = [(client['AGE'] -5, client['AGE'] +5),
@@ -204,7 +204,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
     if fill:
         radar.fill(client, alpha=0.2)
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=None,get_similar_ID=None):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
@@ -313,10 +313,11 @@ if page == "Customer":
     #"Thank you. \n"
     st.markdown("Your ID:")
     ID=st.number_input(" ", min_value=100002, max_value=456255)
+    
     try:
         raw_app_id = get_data(raw_app, ID)
-        with st.spinner('Custumer....'):
-            st.writer('Customer .....')
+        with st.spinner('Custumer details....'):
+            st.writer('Customer details.....')
             with st.container():
                 col1, col2 = st.columns([1.5,2.5])      
                 with col1:
@@ -327,7 +328,8 @@ if page == "Customer":
                     st.markdown("* **Current Loan : " + str(id_raw_app['CREDIT'].values[0]) + "**")
                 with col2:
                     fig = plt.figure(figsize=(2,2))
-                    st.pyplot(radat_id_plot(ID,fig))
+                    radat_id_plot(ID, fig)
+                    st.pyplot(fig))
             st.markdown("-----")
     
             with st.container():
@@ -336,7 +338,8 @@ if page == "Customer":
                     col3, col4 = st.columns([3,1])
                     with col3:
                         fig = plt.figure(figsize=(3,3))
-                        st.pyplot(radat_knn_plot(ID,fig))
+                        radat_knn_plot(ID, fig)
+                        st.pyplot(fig)
                     with col4:
                         N_knn, N_knn1 = get_stat_ID(ID)
                         st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
@@ -350,7 +353,7 @@ if page == "Customer":
                 st.write("#### Customer solvability prediction ")
                 pred = st.button('Calculation')
                 if pred:
-                    with st.spinner('Calculation...'):
+                    with st.spinner('Calculating0...'):
                         try:
                             prediction = requests.get("https://dashtest.streamlit.app//predict?ID=" + str(ID)).json()
                             if prediction["target"]==0:
@@ -361,9 +364,10 @@ if page == "Customer":
                                 st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
                             st.write('**Interpretability**')
                             fig = plt.figure(figsize=(2,2))
-                            st.pyplot(shap_id(ID))
-                        except :
-                            st.warning('programme error programme') 
+                            shap_id(ID)
+                            st.pyplot(fig)
+                        except Exception as e:
+                            st.warning('Programme error:'+str(e)) 
                             st.write(':dizzy_face:')                                               
                     
     except:
