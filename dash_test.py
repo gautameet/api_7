@@ -309,15 +309,15 @@ if page == "Customer":
                 
     #st.header("Welcome to the customers' page.\n")
     ".\n"
-    st.subheader("Please enter your ID to know the results of your demands. \n") 
-    #"Thank you. \n"
-    st.markdown("Your ID:")
-    ID=st.number_input(" ", min_value=100002, max_value=456255)
+    st.subheader("Please enter your ID:") 
+    "\n"
+    #st.markdown("Your ID:")
+    ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
     
     try:
-        raw_app_id = get_data(raw_app, ID)
+        raw_app_id = get_data(raw_app,ID)
         with st.spinner('Custumer details....'):
-            st.writer('Customer details.....')
+            st.writer('## Customer details.....')
             with st.container():
                 col1, col2 = st.columns([1.5,2.5])      
                 with col1:
@@ -353,9 +353,10 @@ if page == "Customer":
                 st.write("#### Customer solvability prediction ")
                 pred = st.button('Calculation')
                 if pred:
-                    with st.spinner('Calculating0...'):
+                    with st.spinner('Calculating...'):
                         try:
-                            prediction = requests.get("https://dashtest.streamlit.app//predict?ID=" + str(ID)).json()
+                            prediction = predict_target(ID)
+                            #prediction = requests.get("https://dashtest.streamlit.app//predict?ID=" + str(ID)).json()
                             if prediction["target"]==0:
                                 st.write(':smiley:')
                                 st.success('Client solvable _(Target = 0)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')
@@ -369,7 +370,6 @@ if page == "Customer":
                         except Exception as e:
                             st.warning('Programme error:'+str(e)) 
                             st.write(':dizzy_face:')                                               
-                    
     except:
         st.warning('**_Customer not found_**')
 
