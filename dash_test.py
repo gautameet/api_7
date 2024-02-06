@@ -523,17 +523,20 @@ if page == 'Customer portfolio':
             target_counts = raw_app['TARGET'].value_counts()
             col4, col5 = st.columns(2)
                 
-            # Plot the pie chart
-            with col4:
-                fig, ax = plt.subplots(figsize=(6, 6))
-                colors = ['red', 'royalblue', 'honeydew']
-                labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
-                explode = (0.1, 0, 0)  # explode the first slice (having difficulty)
-                ax.pie(target_counts, labels=labels, colors=colors, autopct='%1.1f%%', explode=explode, shadow=True)
-                ax.set_title('Distribution of Loan Payments')
+            # Plot the pie chart if the lengths match
+            if len(target_counts) == len(labels):
+                with col4:
+                    fig, ax = plt.subplots(figsize=(6, 6))
+                    colors = ['red', 'royalblue', 'honeydew']
+                    labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
+                    explode = (0.1, 0, 0)  # explode the first slice (having difficulty)
+                    ax.pie(target_counts, labels=labels, colors=colors, autopct='%1.1f%%', explode=explode, shadow=True)
+                    ax.set_title('Distribution of Loan Payments')
             
-                # Display the pie chart in Streamlit
-                st.pyplot(fig)
+                    # Display the pie chart in Streamlit
+                    st.pyplot(fig)
+            else:
+                st.error("Lengths of target_counts and labels do not match.")
             
                 #tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
                 #col4, col5 = st.columns(2)
@@ -542,13 +545,13 @@ if page == 'Customer portfolio':
                 #plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
                 #st.pyplot(fig)
             
-            with col5:
-                df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
-                df.loc[:, 'COUNT_TG'] = df['TARGET']
-                #df.loc[:,'COUNT_TG'] = df['TARGET']
+                with col5:
+                    df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
+                    df.loc[:, 'COUNT_TG'] = df['TARGET']
+                        #df.loc[:,'COUNT_TG'] = df['TARGET']
 
-                # Group by target and income type and calculate mean annuity and credit amounts, and count of observations
-                tg_df = df.groupby(['TARGET', 'NAME_INCOME_TYPE']).agg({'AMT_ANNUITY': 'mean', 'AMT_CREDIT': 'mean', 'COUNT_TG': 'count'}).reset_index()
+                    # Group by target and income type and calculate mean annuity and credit amounts, and count of observations
+                    tg_df = df.groupby(['TARGET', 'NAME_INCOME_TYPE']).agg({'AMT_ANNUITY': 'mean', 'AMT_CREDIT': 'mean', 'COUNT_TG': 'count'}).reset_index()
                 
 
                     #tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],
@@ -556,20 +559,20 @@ if page == 'Customer portfolio':
                     #tg_0 = tg_df.loc[0]
                     #tg_1 = tg_df.loc[1]
                 
-                # Create scatter plot with seaborn
-                fig, ax = plt.subplots(figsize=(8, 6))
-                sns.scatterplot(data=tg_df, x='AMT_ANNUITY', y='AMT_CREDIT', hue='TARGET', size='COUNT_TG', sizes=(50, 500),
-                                alpha=0.8, palette={0: 'royalblue', 1: 'red'}, legend='brief', ax=ax)
+                    # Create scatter plot with seaborn
+                    fig, ax = plt.subplots(figsize=(8, 6))
+                    sns.scatterplot(data=tg_df, x='AMT_ANNUITY', y='AMT_CREDIT', hue='TARGET', size='COUNT_TG', sizes=(50, 500),
+                                    alpha=0.8, palette={0: 'royalblue', 1: 'red'}, legend='brief', ax=ax)
 
-                 # Customize plot
-                ax.set_xlabel('Average AMT_ANNUITY', fontsize=12)
-                ax.set_ylabel('Average AMT_CREDIT', fontsize=12)
-                ax.set_title('Comparison of Average Annuity and Credit Amounts', fontsize=14)
-                ax.legend(title='Payment Difficulty', loc='lower center', bbox_to_anchor=(0.5, -0.3), fontsize=10)
-                ax.tick_params(axis='both', labelsize=10)            
+                     # Customize plot
+                    ax.set_xlabel('Average AMT_ANNUITY', fontsize=12)
+                    ax.set_ylabel('Average AMT_CREDIT', fontsize=12)
+                    ax.set_title('Comparison of Average Annuity and Credit Amounts', fontsize=14)
+                    ax.legend(title='Payment Difficulty', loc='lower center', bbox_to_anchor=(0.5, -0.3), fontsize=10)
+                    ax.tick_params(axis='both', labelsize=10)            
 
-                # Display plot
-                st.pyplot(fig)
+                    # Display plot
+                    st.pyplot(fig)
 
                     # Create scatter plot
                     #fig, ax = plt.subplots(figsize=(6, 6))
