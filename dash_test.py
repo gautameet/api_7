@@ -205,7 +205,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
         radar.fill(client, alpha=0.2)
 
 def radat_knn_plot(ID,fig,features=features,fill=False):
-    app_id = get_data(raw_app,ID)[features]
+    app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
     app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna()
