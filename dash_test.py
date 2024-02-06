@@ -39,10 +39,10 @@ raw_app = pd.concat([raw_train, raw_test], ignore_index=True)        #concat
 #del raw_train
 #del raw_test
  
-raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x : -x/-365)
-raw_app['AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x : -x/-365) // (-365)
+raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED']/-365
+raw_app['AGE'] = raw_app['DAYS_BIRTH']/-365//(-365)
 raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
+raw_app['CREDIT'] = raw_app['AMT_CREDIT'].fillna('No').apply(lambda x: 'Yes' if x>0 else 'No')       
 
 #st.dataframe(raw_app)
 
@@ -430,7 +430,7 @@ if page == 'Customer portfolio':
                 st.pyplot(fig)
             with col5:
                 df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
-                df['COUNT_TG'] = df['TARGET']
+                df.loc[:,'COUNT_TG'] = df['TARGET']
                 tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
                 tg_0 = tg_df.loc[0]
                 tg_1 = tg_df.loc[1]
