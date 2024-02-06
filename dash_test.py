@@ -190,7 +190,7 @@ class ComplexRadar():
         
     # Graph Radar
 def radat_id_plot(ID,fig,features=features,fill=False):
-    app_id = get_data(raw_app,ID)[features]
+    app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
     ranges = [(client['AGE'] -5, client['AGE'] +5),
               (client['YEARS_EMPLOYED'] -1, client['YEARS_EMPLOYED'] +1),
