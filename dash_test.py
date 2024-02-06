@@ -442,12 +442,33 @@ if page == 'Customer portfolio':
                 #plt.setp(pt.get_yticklabels(),fontsize=5)
                 
             with col3:
-                fig = plt.figure(figsize=(6,6))
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,errorbar=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,errorbar=None,edgecolor='black')
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=7)
+                # Create a new figure and axis
+                fig, ax = plt.subplots(figsize=(6, 6))
+
+                # Plot data for TARGET == 1
+                sns.barplot(x=raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],
+                            y=raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],
+                            color='red', alpha=0.5, edgecolor='black', ax=ax)
+
+                # Plot data for TARGET == 0
+                sns.barplot(x=raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],
+                            y=raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],
+                            color='royalblue', alpha=0.5, edgecolor='black', ax=ax)
+
+                # Customize plot
+                plt.setp(ax.get_xticklabels(), rotation=45, fontsize=7)
+                plt.setp(ax.get_yticklabels(), fontsize=7)
+
+                # Display plot in Streamlit
                 st.pyplot(fig)
+                
+                
+                #fig = plt.figure(figsize=(6,6))
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,errorbar=None,edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,errorbar=None,edgecolor='black')
+                #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                #plt.setp(pt.get_yticklabels(),fontsize=7)
+                #st.pyplot(fig)
                 
                 #subset_data = raw_app[raw_app['TARGET'] == 1]
                 #pt = sns.barplot(x=subset_data['NAME_INCOME_TYPE'], y=subset_data['AMT_INCOME_TOTAL'], color='red',alpha=.5,errorbar=None,edgecolor='black')
@@ -459,6 +480,7 @@ if page == 'Customer portfolio':
                 #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
                 #plt.setp(pt.get_yticklabels(),fontsize=7)
                 #st.pyplot(fig)
+        
         st.markdown("-----")
                
         with st.container():
