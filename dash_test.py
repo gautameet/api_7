@@ -192,17 +192,18 @@ class ComplexRadar():
 def radat_id_plot(ID,fig,features=features,fill=False):
     app_id = get_data(raw_app,ID)[features]
     client = app_id.iloc[0]
-    ranges = [(client['AGE']-5, client['AGE']+5),
-                (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
-                (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
-                (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
-                (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
+    ranges = [(client['AGE'] -5, client['AGE'] +5),
+              (client['YEARS_EMPLOYED'] -1, client['YEARS_EMPLOYED'] +1),
+              (client['AMT_INCOME_TOTAL'] -500, client['AMT_INCOME_TOTAL'] +500),
+              (client['AMT_ANNUITY'] -100, client['AMT_ANNUITY'] +100),
+              (client['AMT_CREDIT']-500, client['AMT_CREDIT'] +500)]
     
-    radar = ComplexRadar(fig,features,ranges)
+    radar = ComplexRadar(fig, features,ranges)
     radar.plot(client,linewidth=3,color='darkseagreen')
+    
     if fill:
         radar.fill(client, alpha=0.2)
-        
+
 def radat_knn_plot(ID,fig,features=features,fill=False):
     app_id = get_data(raw_app,ID)[features]
     data_id = app_id.iloc[0]    
@@ -211,10 +212,10 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
     ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-                (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
-                (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
-                (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
-                (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
+              (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
+              (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
+              (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
+              (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
         
     radar = ComplexRadar(fig,features,ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
