@@ -406,12 +406,30 @@ if page == 'Customer portfolio':
                 pt.legend(['having difficulty', 'without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
             with col2:
-                fig = plt.figure(figsize=(6,6))
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')                    
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=5)
-                st.pyplot(pt.figure)
+                fig, ax = plt.subplots(figsize=(6, 6))           # Create a new figure and axis
+                # Plot data for TARGET == 1
+                sns.barplot(x=raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],
+                            y=raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],
+                            color='red', alpha=0.5, ci=None, edgecolor='black', ax=ax) 
+                
+                # Plot data for TARGET == 1
+                sns.barplot(x=raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],
+                            y=raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],
+                            color='royalblue', alpha=0.5, ci=None, edgecolor='black', ax=ax)
+                
+                # Customize plot
+                plt.setp(ax.get_xticklabels(), rotation=45, fontsize=7)
+                plt.setp(ax.get_yticklabels(), fontsize=5)
+
+                # Display plot in Streamlit
+                st.pyplot(fig)
+                
+                #fig = plt.figure(figsize=(6,6))
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')                    
+                #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                #plt.setp(pt.get_yticklabels(),fontsize=5)
+                #st.pyplot(pt.figure)
                 
                 #subset_data = raw_app[raw_app['TARGET'] == 1]
                 #print('Subset data shape:', subset_data.shape)
