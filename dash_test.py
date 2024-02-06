@@ -250,8 +250,8 @@ def predict_target(ID):
     except:
         st.error('Client not found!')
 
-if __name__ == '__main__':
-    predict_target(ID)
+#if __name__ == '__main__':
+    #predict_target(ID)
 
 ###############################################
 ## DASH BOARD
