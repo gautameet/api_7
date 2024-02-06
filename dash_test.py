@@ -249,8 +249,8 @@ def shap_id(ID):
 def predict_target(ID):
     #ID=int(ID)
     try:
-        ID_data = data[data['SK_ID_CURR'] == ID]
-        ID_to_predict = ID_data[feats]        #feature of data_selected1
+        ID_data = data.loc[data['SK_ID_CURR'] == ID]
+        ID_to_predict = ID_data.loc[feats]        #feature of data_selected1
 
         # Make predictions
         prediction = model.prediction(ID_to_predict)
