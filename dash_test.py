@@ -242,7 +242,7 @@ def predict_target(ID):
 
         prediction = int(prediction[0])        # Assuming model.predict returns integers
 
-        if (prediction in [0, 1]:
+        if prediction in [0, 1]:
             results = {'target': prediction, 'risk':round(proba[0][1], 2)}
             st.json(result)
         else:
