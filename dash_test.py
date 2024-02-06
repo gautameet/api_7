@@ -521,7 +521,8 @@ if page == 'Customer portfolio':
 
             # Calculate the number of samples for each target category
             target_counts = raw_app['TARGET'].value_counts()
-
+            col4, col5 = st.columns(2)
+                
             # Plot the pie chart
             with col4:
                 fig, ax = plt.subplots(figsize=(6, 6))
