@@ -551,7 +551,7 @@ if page == 'Customer portfolio':
                 
 
                     #tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],
-                                        df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
+                                        #df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
                     #tg_0 = tg_df.loc[0]
                     #tg_1 = tg_df.loc[1]
                 
