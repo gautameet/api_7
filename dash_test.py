@@ -42,7 +42,7 @@ raw_app = pd.concat([raw_train, raw_test], ignore_index=True)        #concat
 raw_app.loc[:, 'YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x: -x/-365)
 raw_app.loc[:, 'AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x: -x/-365) // (-365)
 #raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-raw_app.loc[:, 'CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isna(x) else 'Yes')       
+raw_app.loc[:, 'CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
 
 #st.dataframe(raw_app)
 
