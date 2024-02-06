@@ -127,9 +127,10 @@ def get_stat_ID(ID):
 # Graph radar initialisation
 
 def _invert(x, limits):
+    return limits[1] - (x - limits[0])
     #inverts a value x on a scale from
     #limits[0] to limits[1]
-    return limits[1] - (x - limits[0])
+    
 
 def _scale_data(data, ranges):
     #scales data[1:] to ranges[0],
