@@ -406,13 +406,18 @@ if page == 'Customer portfolio':
                 pt.legend(['having difficulty', 'without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
             with col2:
-                fig = plt.figure(figsize=(6,6))                
-                subset_data = raw_app[raw_app['TARGET'] == 1]
-                print('Subset data shape:', subset_data.shape)
-                pt = sns.barplot(x=subset_data['NAME_FAMILY_STATUS'], y=subset_data['CNT_CHILDREN'], color='red',alpha=.5,errorbar=None,edgecolor='black')
-                plt.xlabel('Family Status', fontsize=8)
-                plt.ylabel('Number of Children', fontsize=8)
+                fig = plt.figure(figsize=(6,6))
+                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')                    
+                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                plt.setp(pt.get_yticklabels(),fontsize=5)
                 st.pyplot(pt.figure)
+                
+                #subset_data = raw_app[raw_app['TARGET'] == 1]
+                #print('Subset data shape:', subset_data.shape)
+                #pt = sns.barplot(x=subset_data['NAME_FAMILY_STATUS'], y=subset_data['CNT_CHILDREN'], color='red',alpha=.5,errorbar=None,edgecolor='black')
+                #plt.xlabel('Family Status', fontsize=8)
+                #plt.ylabel('Number of Children', fontsize=8)
                 #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,errorbar=None,edgecolor='black')
                 #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,errorbar=None,edgecolor='black')
                 #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
@@ -420,19 +425,24 @@ if page == 'Customer portfolio':
                 
             with col3:
                 fig = plt.figure(figsize=(6,6))
-                subset_data = raw_app[raw_app['TARGET'] == 1]
-                pt = sns.barplot(x=subset_data['NAME_INCOME_TYPE'], y=subset_data['AMT_INCOME_TOTAL'], color='red',alpha=.5,errorbar=None,edgecolor='black')
-                plt.xlabel('Income Type', fontsize=7)
-                plt.ylabel('Income total', fontsize=7)
-                st.pyplot(pt.figure)
+                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,errorbar=None,edgecolor='black')
+                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,errorbar=None,edgecolor='black')
+                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
+                plt.setp(pt.get_yticklabels(),fontsize=7)
+                st.pyplot(fig)
+                
+                #subset_data = raw_app[raw_app['TARGET'] == 1]
+                #pt = sns.barplot(x=subset_data['NAME_INCOME_TYPE'], y=subset_data['AMT_INCOME_TOTAL'], color='red',alpha=.5,errorbar=None,edgecolor='black')
+                #plt.xlabel('Income Type', fontsize=7)
+                #plt.ylabel('Income total', fontsize=7)
+                #st.pyplot(pt.figure)
                 #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,errorbar=None,edgecolor='black')
                 #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,errorbar=None,edgecolor='black')
                 #plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
                 #plt.setp(pt.get_yticklabels(),fontsize=7)
                 #st.pyplot(fig)
-            st.markdown("-----")
-
-                
+        st.markdown("-----")
+               
         with st.container():
             st.write("#### Loan Payment")
             tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
@@ -448,15 +458,16 @@ if page == 'Customer portfolio':
                 tg_0 = tg_df.loc[0]
                 tg_1 = tg_df.loc[1]
                 fig = plt.figure(figsize=(2,2))                  
-                pt = sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values / 50, label = 'With Difficulties', color='red')
+                
+                #pt = sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values / 50, label = 'With Difficulties', color='red')
                     
-                #pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
-                #pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
-                #plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
-                #plt.xlabel('AMT_ANNUITY',fontsize=5)
-                #plt.ylabel('AMT_CREDIT',fontsize=5)
-                #plt.xlim([20000,40000])
-                #plt.ylim([400000,800000])
-                #plt.setp(pt.get_xticklabels(),fontsize=4)
+                pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
+                pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
+                plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
+                plt.xlabel('AMT_ANNUITY',fontsize=5)
+                plt.ylabel('AMT_CREDIT',fontsize=5)
+                plt.xlim([20000,40000])
+                plt.ylim([400000,800000])
+                plt.setp(pt.get_xticklabels(),fontsize=4)
                 plt.setp(pt.get_yticklabels(),fontsize=4)                
                 st.pyplot(fig)
