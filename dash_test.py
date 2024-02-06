@@ -322,7 +322,7 @@ if page == "Customer":
                 
     #st.header("Welcome to the customers' page.\n")
     ".\n"
-    st.subheader("Please enter your ID:") 
+    #st.subheader("Please enter your ID:") 
     "\n"
     #st.markdown("Your ID:")
     
