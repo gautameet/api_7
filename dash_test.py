@@ -69,7 +69,9 @@ data = pd.read_csv(zip_file.open('data_selected1.csv'))
 feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
 
 # Loading the model
-model = pickle.load(open('model1.pkl','rb'))
+with open('model1.pkl', rb') as file:
+    model = pickle.load(file)
+#model = pickle.load(open('model1.pkl','rb'))
 
 # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
@@ -87,7 +89,7 @@ X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have 
 X_name = list(X_train_sm.columns)
 
 ##ADDED TODAY
-explainer = shap.TreeExplainer(model)
+explainer = shap.TreeExplainer(model, X_train_sm)
 
 #explainer = shap.TreeExplainer(model, X_train_sm)
 
