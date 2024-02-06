@@ -104,16 +104,21 @@ del X_train_sm
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
 # Data
-def get_data(data,ID):
-    if type(ID) == list:
-        return data[data['SK_ID_CURR'].isin(ID)]
+def get_data(data, ID):
+    if isinstance(ID, list):
+        return data[data['SK_ID_CURR'].isin(ID)].copy()
     else:
-        return data[data['SK_ID_CURR']==ID].head(1)
+        return data[data['SK_ID_CURR'] == ID].head(1).copy()
+#def get_data(data,ID):
+    #if type(ID) == list:
+        #return data[data['SK_ID_CURR'].isin(ID)]
+    #else:
+        #return data[data['SK_ID_CURR']==ID].head(1)
 
 # Neighbor
 
 def get_similar_ID(ID):
-    app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
+    app_id = app.loc[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
     knn_index = knn.kneighbors(app_id,return_distance=False)
     knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
     return knn_id
@@ -219,7 +224,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=Non
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
-    data_knn = get_data(raw_app,app_knn).dropna()
+    data_knn = get_data(raw_app,app_knn).dropna().copy
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
     
@@ -241,7 +246,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=Non
         radar.fill(client, alpha=0.2)
     
 def shap_id(ID):
-    app_id = get_data(app,ID)[X_name]
+    app_id = get_data(app,ID).loc[:, X_name].copy()
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
