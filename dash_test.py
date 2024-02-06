@@ -69,9 +69,9 @@ data = pd.read_csv(zip_file.open('data_selected1.csv'))
 feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
 
 # Loading the model
-with open('model1.pkl', 'rb') as file:
+with open('model11.pkl', 'rb') as file:
     model = pickle.load(file)
-#model = pickle.load(open('model1.pkl','rb'))
+#model = pickle.load(open('model11.pkl','rb'))
 
 # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
