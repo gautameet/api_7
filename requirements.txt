@@ -9,6 +9,7 @@ shap==0.44.0
 seaborn
 pandas
 numpy
+joblib
 #xgboost
 #catboost,
 #lightgbm
