@@ -39,10 +39,10 @@ raw_app = pd.concat([raw_train, raw_test], ignore_index=True)        #concat
 #del raw_train
 #del raw_test
  
-raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED']/-365
-raw_app['AGE'] = raw_app['DAYS_BIRTH']/-365//(-365)
-raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
-raw_app['CREDIT'] = raw_app['AMT_CREDIT'].fillna('No').apply(lambda x: 'Yes' if x>0 else 'No')       
+raw_app.loc[:, 'YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x: -x/-365)
+raw_app.loc[:, 'AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x: -x/-365) // (-365)
+#raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
+raw_app.loc[:, 'CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isna(x) else 'Yes')       
 
 #st.dataframe(raw_app)
 
@@ -192,6 +192,14 @@ class ComplexRadar():
 def radat_id_plot(ID,fig,features=features,fill=False,raw_app=None):
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
+
+    # Modify original DataFrame raw_app using .loc
+    raw_app.loc[raw_app.index[0], 'AGE'] = client['AGE'] - 5
+    raw_app.loc[raw_app.index[0], 'YEARS_EMPLOYED'] = client['YEARS_EMPLOYED'] - 1
+    raw_app.loc[raw_app.index[0], 'AMT_INCOME_TOTAL'] = client['AMT_INCOME_TOTAL'] - 500
+    raw_app.loc[raw_app.index[0], 'AMT_ANNUITY'] = client['AMT_ANNUITY'] - 100
+    raw_app.loc[raw_app.index[0], 'AMT_CREDIT'] = client['AMT_CREDIT'] - 500
+    
     ranges = [(client['AGE'] -5, client['AGE'] +5),
               (client['YEARS_EMPLOYED'] -1, client['YEARS_EMPLOYED'] +1),
               (client['AMT_INCOME_TOTAL'] -500, client['AMT_INCOME_TOTAL'] +500),
