@@ -329,7 +329,7 @@ if page == "Customer":
                 with col2:
                     fig = plt.figure(figsize=(2,2))
                     radat_id_plot(ID, fig)
-                    st.pyplot(fig))
+                    st.pyplot(fig)
             st.markdown("-----")
     
             with st.container():
