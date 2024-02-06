@@ -109,27 +109,6 @@ def get_data(data,ID):
         return data[data['SK_ID_CURR'].isin(ID)]
     else:
         return data[data['SK_ID_CURR']==ID].head(1)
-# defining Prediction
-def predict_target():
-    ID=int(ID)
-    try:
-        ID_data = data[data['SK_ID_CURR'] == ID]
-        ID_to_predict = ID_data[feats]        #feature of data_selected1
-
-        # Make predictions
-        prediction = model.prediction(ID_to_predict)
-        proba = model.predict.proba(ID_to_predict)
-
-        if (prediction == 0) or (prediction == 1):
-            results = {'target': int(prediction), 'risk':round(proba[0],[1], 2)}
-            st.json(result)
-        else:
-            st.warning('Error in the program!')
-    except:
-        st.error('Client not found!')
-
-if __name__ == '__main__':
-    predict_target()
 
 # Neighbor
 
@@ -249,6 +228,29 @@ def shap_id(ID):
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
+# defining Prediction
+def predict_target(ID):
+    #ID=int(ID)
+    try:
+        ID_data = data[data['SK_ID_CURR'] == ID]
+        ID_to_predict = ID_data[feats]        #feature of data_selected1
+
+        # Make predictions
+        prediction = model.prediction(ID_to_predict)
+        proba = model.predict.proba(ID_to_predict)
+
+        prdiction ) int(prediction[0])        # Assuming model.predict returns integers
+
+        if (prediction in [0, 1]:
+            results = {'target': prediction, 'risk':round(proba[0][1], 2)}
+            st.json(result)
+        else:
+            st.warning('Error in the program!')
+    except:
+        st.error('Client not found!')
+
+if __name__ == '__main__':
+    predict_target()
 
 ###############################################
 ## DASH BOARD
