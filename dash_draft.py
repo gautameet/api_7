@@ -188,6 +188,25 @@ class ComplexRadar():
         sdata=_scale_data(data,self.ranges)
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
 
+# Graph Radar
+def radat_id_plot(ID,fig,features=features,fill=False):
+    app_id = get_data(raw_app,ID)[features]
+    customer = app_id.iloc[0]
+    ranges = [(customer['AGE']-5, customer['AGE']+5),
+              (customer['YEARS_EMPLOYED']-1, customer['YEARS_EMPLOYED']+1),
+              (customer['AMT_INCOME_TOTAL']-500, customer['AMT_INCOME_TOTAL']+500),
+              (customer['AMT_ANNUITY']-100, customer['AMT_ANNUITY']+100),
+              (customer['AMT_CREDIT']-500, customer['AMT_CREDIT']+500)]
+    
+    radar = ComplexRadar(fig,features,ranges)
+    radar.plot(client,linewidth=3,color='darkseagreen')
+    if fill:
+        radar.fill(client, alpha=0.2)
+        
+    #raw_app_copy = raw_app.copy()    #Create a copy of raw_app
+    
+    #app_id = get_data(raw_app_copy,ID).loc[:,features]
+    #customer = app_id.iloc[0]
 
 
 ###############################################
@@ -251,7 +270,7 @@ if page == "Customer":
                 st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
             
             with col2:
-                fig = plt.figure(figsize=(3,3))
+                fig = plt.figure(figsize=(2,2))
                 radat_id_plot(ID,fig,features=features,raw_app=raw_app)
                 st.pyplot(fig)
         st.markdown("-----")
