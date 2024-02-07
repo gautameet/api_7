@@ -343,7 +343,11 @@ if page == "Customer":
                     fig = plt.figure(figsize=(3,3))
                     radat_knn_plot(ID,fig,features=features,raw_app=raw_app,get_data=get_data, get_similar_ID=get_similar_ID)
                 st.pyplot(fig)
-
+                with col4:
+                    N_knn, N_knn1 = get_stat_ID(ID)
+                    st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
+                    st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
+                    st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
             except:
                     st.info('**_No similar customer_**')
         
