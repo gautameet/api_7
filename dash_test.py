@@ -310,8 +310,7 @@ st.write("By: Amit GAUTAM")
 if page == "Home":
     st.title("💵 Credit Score Dashboard - Customer Page")
     ".\n"
-    #.\n"
-        
+           
     st.markdown("This is an interactive dashboard website which lets the clients to know about their credit demands\n"
                 "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                     
@@ -321,13 +320,8 @@ if page == "Home":
 if page == "Customer":
     st.title("💵 Welcome to the Customer Page")
     ".\n"
-                
-    #st.header("Welcome to the customers' page.\n")
-    ".\n"
-    #st.subheader("Please enter your ID:") 
-    "\n"
+    st.sidebar.markdown("Please enter your ID:")
     #st.markdown("Your ID:")
-    
     ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
     try:
         raw_app_id = get_data(raw_app,ID)
