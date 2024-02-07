@@ -543,7 +543,7 @@ if page == 'Customer portfolio':
                     #ax.set_title('Distribution of Loan Payments')
             
                     # Display the pie chart in Streamlit
-                    s#t.pyplot(fig)
+                    #st.pyplot(fig)
             #else:
                 #st.error("Lengths of target_counts and labels do not match.")
             
