@@ -194,18 +194,18 @@ class ComplexRadar():
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,fig,features=features,fill=False,raw_app=None):
-    raw_app_copy = raw_app.copy()    #Create a copy of raw_app
+def radat_id_plot(ID,fig,features=features,fill=False):
+    #raw_app_copy = raw_app.copy()    #Create a copy of raw_app
     
-    app_id = get_data(raw_app_copy,ID).loc[:,features]
+    app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
     # Modify the copy of raw_app using .loc
-    raw_app_copy.loc[raw_app_copy.index[0], 'AGE'] = client['AGE'] - 5
-    raw_app_copy.loc[raw_app_copy.index[0], 'YEARS_EMPLOYED'] = client['YEARS_EMPLOYED'] - 1
-    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_INCOME_TOTAL'] = client['AMT_INCOME_TOTAL'] - 500
-    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_ANNUITY'] = client['AMT_ANNUITY'] - 100
-    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_CREDIT'] = client['AMT_CREDIT'] - 500
+    raw_app.loc[raw_app.index[0], 'AGE'] = client['AGE'] - 5
+    raw_app.loc[raw_app.index[0], 'YEARS_EMPLOYED'] = client['YEARS_EMPLOYED'] - 1
+    raw_app.loc[raw_app.index[0], 'AMT_INCOME_TOTAL'] = client['AMT_INCOME_TOTAL'] - 500
+    raw_app.loc[raw_app.index[0], 'AMT_ANNUITY'] = client['AMT_ANNUITY'] - 100
+    raw_app.loc[raw_app.index[0], 'AMT_CREDIT'] = client['AMT_CREDIT'] - 500
     
     ranges = [(client['AGE'] -5, client['AGE'] +5),
               (client['YEARS_EMPLOYED'] -1, client['YEARS_EMPLOYED'] +1),
