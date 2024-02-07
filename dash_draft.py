@@ -316,4 +316,14 @@ if page == "Customer":
     ".\n"
     st.sidebar.markdown("Please select your ID:")
     ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
-
+    raw_app_id = get_data(raw_app,ID)
+    with st.spinner('Custumer details....'):
+            st.writer('## Customer details.....')
+            with st.container():
+                col1, col2 = st.columns([1.5,2.5])      
+                with col1:
+                    st.write("#### Customer detail " + str(ID))
+                    st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
+                    st.markdown("* **Number of children) : " + str(raw_app_id['CNT_CHILDREN'].values[0]) + "**")
+                    st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
+                    st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
