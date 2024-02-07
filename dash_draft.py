@@ -250,27 +250,4 @@ if page == "Customer":
                 st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
                 st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
             
-            with col2:
-                    fig = plt.figure(figsize=(2,2))
-                    radat_id_plot(ID,fig,features=features,raw_app=raw_app)
-                    st.pyplot(fig)
-        
-        st.markdown("-----")
-
-        with st.container():
-            st.write("#### Similar type of Customers ")
-            #try:
-            col3, col4 = st.columns([3,1])
-            with col3:
-                fig = plt.figure(figsize=(3,3))
-                #radat_knn_plot(ID,fig,features=features)
-                radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=None,get_similar_ID=None)
-                st.pyplot(fig)
-            with col4:
-                N_knn, N_knn1 = get_stat_ID(ID)
-                st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
-                st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
-                st.markdown("_(either " + str(N_knn1*100/N_knn) + "% customers with similar payment problems)_")
-            #except:
-                #st.info('**_No similar customer_**')
-        
+           
