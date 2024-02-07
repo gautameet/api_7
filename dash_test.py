@@ -522,13 +522,16 @@ if page == 'Customer portfolio':
             # Calculate the number of samples for each target category
             target_counts = raw_app['TARGET'].value_counts()
             col4, col5 = st.columns(2)
-                
+
+            # Define labels before calculating target counts
+            labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
+           
             # Plot the pie chart if the lengths match
             if len(target_counts) == len(labels):
                 with col4:
                     fig, ax = plt.subplots(figsize=(6, 6))
                     colors = ['red', 'royalblue', 'honeydew']
-                    labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
+                    #labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
                     explode = (0.1, 0, 0)  # explode the first slice (having difficulty)
                     ax.pie(target_counts, labels=labels, colors=colors, autopct='%1.1f%%', explode=explode, shadow=True)
                     ax.set_title('Distribution of Loan Payments')
