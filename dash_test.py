@@ -518,37 +518,38 @@ if page == 'Customer portfolio':
                
         with st.container():
             st.write("#### Loan Payment")
-
-            # Calculate the number of samples for each target category
-            target_counts = raw_app['TARGET'].value_counts()
+            tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
             col4, col5 = st.columns(2)
+            with col4:
+                fig = plt.figure(figsize=(5,5))
+                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
+                st.pyplot(fig)
+                    
+            # Calculate the number of samples for each target category
+            #target_counts = raw_app['TARGET'].value_counts()
+            #col4, col5 = st.columns(2)
 
             # Define labels before calculating target counts
-            labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
+            #labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
            
             # Plot the pie chart if the lengths match
-            if len(target_counts) == len(labels):
-                with col4:
-                    fig, ax = plt.subplots(figsize=(6, 6))
-                    colors = ['red', 'royalblue', 'honeydew']
+            #if len(target_counts) == len(labels):
+                #with col4:
+                    #fig, ax = plt.subplots(figsize=(6, 6))
+                    #colors = ['red', 'royalblue', 'honeydew']
                     #labels = ['Having Difficulty', 'Without Difficulty', 'No Loan Outstanding']
-                    explode = (0.1, 0, 0)  # explode the first slice (having difficulty)
-                    ax.pie(target_counts, labels=labels, colors=colors, autopct='%1.1f%%', explode=explode, shadow=True)
-                    ax.set_title('Distribution of Loan Payments')
+                    #explode = (0.1, 0, 0)  # explode the first slice (having difficulty)
+                    #ax.pie(target_counts, labels=labels, colors=colors, autopct='%1.1f%%', explode=explode, shadow=True)
+                    #ax.set_title('Distribution of Loan Payments')
             
                     # Display the pie chart in Streamlit
-                    st.pyplot(fig)
-            else:
-                st.error("Lengths of target_counts and labels do not match.")
+                    s#t.pyplot(fig)
+            #else:
+                #st.error("Lengths of target_counts and labels do not match.")
             
-                #tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
-                #col4, col5 = st.columns(2)
-                #with col4:
-                #fig = plt.figure(figsize=(5,5))
-                #plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
-                #st.pyplot(fig)
+                
             
-                with col5:
+            with col5:
                     df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
                     df.loc[:, 'COUNT_TG'] = df['TARGET']
                         #df.loc[:,'COUNT_TG'] = df['TARGET']
