@@ -209,7 +209,7 @@ def radat_id_plot(ID, fig, features=features, fill=False):
     #app_id = get_data(raw_app_copy,ID).loc[:,features]
     #customer = app_id.iloc[0]
 
-def radat_knn_plot(ID,fig,features=features,raw_app,get_data,get_similar_ID, fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
     data_id = app_id.iloc[0]  
