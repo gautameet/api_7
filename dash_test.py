@@ -378,9 +378,9 @@ if page == "Customer":
                         fig = plt.figure(figsize=(2,2))
                         shap_id(ID)
                         st.pyplot(fig)
-                    except Exception as e:
-                        st.warning('Programme error:'+str(e)) 
-                        st.write(':dizzy_face:')                                               
+                except Exception as e:
+                    st.warning('Programme error:'+str(e)) 
+                    st.write(':dizzy_face:')                                               
     
 # Customer portfolio analysis        
 if page == 'Customer portfolio':
