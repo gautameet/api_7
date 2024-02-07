@@ -574,7 +574,7 @@ if page == 'Customer portfolio':
                 plt.setp(pt.get_xticklabels(),fontsize=5)
                 plt.setp(pt.get_yticklabels(),fontsize=5) 
                 
-                Display plot
+                #Display plot
                 st.pyplot(fig)
                 
                     #tg_df = df.groupby(['TARGET', 'NAME_INCOME_TYPE']).agg({'AMT_ANNUITY': 'mean', 'AMT_CREDIT': 'mean', 'COUNT_TG': 'count'}).reset_index()
