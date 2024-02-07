@@ -522,7 +522,7 @@ if page == 'Customer portfolio':
             col4, col5 = st.columns(2)
             with col4:
                 fig = plt.figure(figsize=(3,3))
-                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%',fontsize=4)
+                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
                 st.pyplot(fig)
                     
             # Calculate the number of samples for each target category
