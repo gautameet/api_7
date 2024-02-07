@@ -271,7 +271,7 @@ if page == "Customer":
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
-                radat_id_plot(ID,fig,features=features,raw_app=raw_app)
+                #radat_id_plot(ID,fig,features=features,raw_app=raw_app)
                 st.pyplot(fig)
         st.markdown("-----")
            
