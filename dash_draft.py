@@ -199,7 +199,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
               (customer['AMT_CREDIT']-500, customer['AMT_CREDIT']+500)]
     
     radar = ComplexRadar(fig,features,ranges)
-    radar.plot(client,linewidth=3,color='darkseagreen')
+    radar.plot(customer,linewidth=3,color='darkseagreen')
     if fill:
         radar.fill(client, alpha=0.2)
         
