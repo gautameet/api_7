@@ -352,7 +352,7 @@ if page == "Customer":
             with col3:
                 fig = plt.figure(figsize=(3,3))
                 #radat_knn_plot(ID,fig,features=features)
-                radat_knn_plot(ID,fig,features=features,fill=False, raw_app=None,get_data=None, get_similar_ID=None)
+                radat_knn_plot(ID,fig)
                 st.pyplot(fig)
             with col4:
                 N_knn, N_knn1 = get_stat_ID(ID)
