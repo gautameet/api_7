@@ -221,7 +221,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=Non
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna().copy()
-    data_knn['TARGET'] = data_knn['TARGET'].astype(int)
+    data_knn.loc[:,'TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
     
     # calculate ranges for radar plot
