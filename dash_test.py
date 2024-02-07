@@ -522,7 +522,7 @@ if page == 'Customer portfolio':
             col4, col5 = st.columns(2)
             with col4:
                 fig = plt.figure(figsize=(3,3))
-                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
+                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%',fontsize=4)
                 st.pyplot(fig)
                     
             # Calculate the number of samples for each target category
@@ -571,8 +571,8 @@ if page == 'Customer portfolio':
                 plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=4)
                 plt.xlabel('AMT_ANNUITY', fontsize=4)
                 plt.ylabel('AMT_CREDIT', fontsize=4)
-                plt.xlim([20000, 40000], fontsize=5)    ##
-                plt.ylim([400000, 800000], fontsize=5)  ##
+                plt.xlim([20000, 40000])    ##
+                plt.ylim([400000, 800000])  ##
                 plt.setp(pt.get_xticklabels(),fontsize=5)
                 plt.setp(pt.get_yticklabels(),fontsize=5) 
                 
