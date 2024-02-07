@@ -318,11 +318,11 @@ if page == "Home":
                 "- **Customer**: to find out all the information related to the customer.\n")
                     
 if page == "Customer":
-st.title("💵 Welcome to the Customer Page")
+    st.title("💵 Welcome to the Customer Page")
     ".\n"
-st.sidebar.markdown("Please select your ID:")
+    st.sidebar.markdown("Please select your ID:")
     #st.markdown("Your ID:")
-ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+    ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
     try:
         raw_app_id = get_data(raw_app,ID)
         with st.spinner('Custumer details....'):
