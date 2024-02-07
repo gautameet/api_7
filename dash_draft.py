@@ -215,9 +215,10 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
-    data_knn = get_data(raw_app,app_knn).dropna()
+    data_knn = get_data(raw_app,app_knn).dropna().copy()
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
+    
     ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
               (min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
               (min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
