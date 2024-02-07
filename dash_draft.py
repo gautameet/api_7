@@ -208,6 +208,21 @@ def radat_id_plot(ID,fig,features=features,fill=False):
     #app_id = get_data(raw_app_copy,ID).loc[:,features]
     #customer = app_id.iloc[0]
 
+def radat_knn_plot(ID,fig,features=features,fill=False):
+    # Get data for the specified client ID
+    app_id = get_data(raw_app,ID)[features]
+    data_id = app_id.iloc[0]  
+
+    # Get similar IDs using KNN
+    app_knn = get_similar_ID(ID)
+    data_knn = get_data(raw_app,app_knn).dropna()
+    data_knn['TARGET'] = data_knn['TARGET'].astype(int)
+    moy_knn = data_knn.groupby('TARGET').mean()
+    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
+              (min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
+              (min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
+              (min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
+              (min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
 
 ###############################################
 ## DASH BOARD
@@ -274,5 +289,15 @@ if page == "Customer":
                 radat_id_plot(ID,fig,features=features,fill=False)
                 #radat_id_plot(ID,fig,features=features,raw_app=raw_app)
                 st.pyplot(fig)
+                    
         st.markdown("-----")
+        
+        with st.container():
+            st.write("#### Similar type of Customers ")
+            try:
+                col3, col4 = st.columns([3,1])
+                with col3:
+                    fig = plt.figure(figsize=(3,3))
+                    radat_knn_plot(ID,fig,features=features, raw_app=raw_app, get_data=get_data, get_similar_ID=get_similar_ID)
+                    st.pyplot(fig)
            
