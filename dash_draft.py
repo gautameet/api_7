@@ -189,9 +189,10 @@ class ComplexRadar():
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
 
 # Graph Radar
-def radat_id_plot(ID,fig,features=features,fill=False):
+def radat_id_plot(ID,fig,features=features,get_similar_ID, fill=False):
     app_id = get_data(raw_app,ID)[features]
     customer = app_id.iloc[0]
+        
     ranges = [(customer['AGE']-5, customer['AGE']+5),
               (customer['YEARS_EMPLOYED']-1, customer['YEARS_EMPLOYED']+1),
               (customer['AMT_INCOME_TOTAL']-500, customer['AMT_INCOME_TOTAL']+500),
@@ -208,7 +209,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
     #app_id = get_data(raw_app_copy,ID).loc[:,features]
     #customer = app_id.iloc[0]
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID,fig,features=features,get_data, get_similar_ID, fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
     data_id = app_id.iloc[0]  
@@ -239,7 +240,27 @@ def shap_id(ID):
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
     #shap.force_plot(explainer.expected_value[1], shap_vals[1], app_id)    
-    
+
+# defining Prediction
+def predict_target(ID,data,feats,model,st,result):
+    #ID=int(ID)
+    try:
+        ID_data = data.loc[data['SK_ID_CURR'] == ID]
+        ID_to_predict = ID_data.loc[feats]        #feature of data_selected1
+
+        # Make predictions
+        prediction = model.prediction(ID_to_predict)
+        proba = model.predict.proba(ID_to_predict)
+
+        prediction = int(prediction[0])        # Assuming model.predict returns integers
+
+        if prediction in [0, 1]:
+            results = {'target': prediction, 'risk':round(proba[0][1],2)}
+            st.json(result)
+        else:
+            st.warning('Error in the program!')
+    except:
+        st.error('Client not found!')
 ###############################################
 ## DASH BOARD
 ########################
