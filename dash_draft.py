@@ -201,7 +201,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
     radar = ComplexRadar(fig,features,ranges)
     radar.plot(customer,linewidth=3,color='darkseagreen')
     if fill:
-        radar.fill(client, alpha=0.2)
+        radar.fill(customer, alpha=0.2)
         
     #raw_app_copy = raw_app.copy()    #Create a copy of raw_app
     
