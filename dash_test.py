@@ -561,16 +561,16 @@ if page == 'Customer portfolio':
                 tg_1 = tg_df.loc[1]
 
                 # Create scatter plot
-                fig = plt.figure(figsize=(2,2))
+                fig = plt.figure(figsize=(3,3))
                 sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], hue=tg_1['COUNT_TG'], palette='coolwarm')
                 #sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG']/100, label='With difficulty', color='royalblue', alpha=.3)
                 #pt = sns.scatterplot(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100,label='With difficulty',color='red')
                 #pt = sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100,label='Without difficulty', color='royalblue', alpha=.3)
 
                 #Customize plot
-                plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=8)
-                plt.xlabel('AMT_ANNUITY', fontsize=10)
-                plt.ylabel('AMT_CREDIT', fontsize=10)
+                plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=4)
+                plt.xlabel('AMT_ANNUITY', fontsize=4)
+                plt.ylabel('AMT_CREDIT', fontsize=4)
                 plt.xlim([20000, 40000])
                 plt.ylim([400000, 800000])
                 plt.setp(pt.get_xticklabels(),fontsize=5)
