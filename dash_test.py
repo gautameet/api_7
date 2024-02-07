@@ -221,8 +221,8 @@ def radat_id_plot(ID,fig,features=features,fill=False):
 
 def radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=None,get_similar_ID=None):
     # Get data for the specified client ID
-    app_id = get_data(raw_app,ID).loc[:,features]
-    data_id = app_id.iloc[0]    
+    app_id = get_data(raw_app,ID)[features]
+    data_id = app_id[0]    
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
