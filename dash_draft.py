@@ -327,7 +327,10 @@ if page == "Customer":
                 st.markdown("* **Number of children) : " + str(raw_app_id['CNT_CHILDREN'].values[0]) + "**")
                 st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
                 st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
+            
             with col2:
                     fig = plt.figure(figsize=(3,3))
                     radat_id_plot(ID,fig,features=features,raw_app=raw_app)
-                    st.pyplot(fig)                
+                    st.pyplot(fig)
+        
+        st.markdown("-----")
