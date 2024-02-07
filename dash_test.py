@@ -360,7 +360,7 @@ if page == "Customer":
             
         st.markdown("-----")
         with st.container():
-        st.write("#### Customer solvability prediction ")
+            st.write("#### Customer solvability prediction ")
         prediction_button = st.button('Predict solvability')
                     #pred = st.button('Calculation')
         if prediction_button:
