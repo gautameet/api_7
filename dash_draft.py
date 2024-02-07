@@ -113,7 +113,7 @@ def get_data(data, ID):
 # Neighbor
 
 def get_similar_ID(ID):
-    app_id = app.loc[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
+    app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
     knn_index = knn.kneighbors(app_id,return_distance=False)
     knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
     return knn_id
@@ -211,7 +211,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
 def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
-    customer = app_id.iloc[0]  
+    data_id = app_id.iloc[0]  
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
@@ -233,12 +233,13 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     
     if fill:
         radar.fill(customer, alpha=0.2)
+            
+def shap_id(ID):
+    app_id = get_data(app,ID)[X_name]
+    shap_vals = explainer.shap_values(app_id)
+    shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
+    #shap.force_plot(explainer.expected_value[1], shap_vals[1], app_id)    
     
-    #ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-              #(min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
-              #(min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
-              #(min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
-              #(min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
 
 ###############################################
 ## DASH BOARD
