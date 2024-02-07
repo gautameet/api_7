@@ -323,66 +323,65 @@ if page == "Customer":
     st.sidebar.markdown("Please select your ID:")
     #st.markdown("Your ID:")
     ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
-    try:
-        raw_app_id = get_data(raw_app,ID)
-        with st.spinner('Custumer details....'):
-            st.writer('## Customer details.....')
-            with st.container():
-                col1, col2 = st.columns([1.5,2.5])      
-                with col1:
-                    st.write("#### Customer detail " + str(ID))
-                    st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
-                    st.markdown("* **Number of children) : " + str(raw_app_id['CNT_CHILDREN'].values[0]) + "**")
-                    st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
-                    st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
-                with col2:
-                    fig = plt.figure(figsize=(3,3))
-                    radat_id_plot(ID,fig,features=features,raw_app=raw_app)
-                    st.pyplot(fig)
-            st.markdown("-----")
-    
-            with st.container():
-                st.write("#### Similar type of Customers ")
-                try:
-                    col3, col4 = st.columns([3,1])
-                    with col3:
-                        fig = plt.figure(figsize=(3,3))
-                        radat_knn_plot(ID,fig,features=features, raw_app=raw_app, get_data=get_data, get_similar_ID=get_similar_ID)
-                        st.pyplot(fig)
-                    with col4:
-                        N_knn, N_knn1 = get_stat_ID(ID)
-                        st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
-                        st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
-                        st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
-                except:
-                    st.info('**_No similar customer_**')
+    raw_app_id = get_data(raw_app,ID)
+    with st.spinner('Custumer details....'):
+        st.write('## Customer details.....')
+        with st.container():
+            col1, col2 = st.columns([1.5,2.5])      
+            with col1:
+                st.write("#### Customer detail " + str(ID))
+                st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
+                st.markdown("* **Number of children) : " + str(raw_app_id['CNT_CHILDREN'].values[0]) + "**")
+                st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
+                st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
             
-            st.markdown("-----")
-            with st.container():
-                st.write("#### Customer solvability prediction ")
-                prediction_button = st.button('Predict solvability')
+            with col2:
+                fig = plt.figure(figsize=(2,2))
+                radat_id_plot(ID,fig,features=features,fill=False)
+                #radat_id_plot(ID,fig,features=features,raw_app=raw_app)
+                st.pyplot(fig)
+                    
+        st.markdown("-----")
+        
+        with st.container():
+            st.write("#### Similar type of Customers ")
+            #try:
+            col3, col4 = st.columns([3,1])
+            with col3:
+                fig = plt.figure(figsize=(3,3))
+                radat_knn_plot(ID,fig,features=features,fill=False)
+                st.pyplot(fig)
+            with col4:
+                N_knn, N_knn1 = get_stat_ID(ID)
+                st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
+                st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
+                st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
+                
+            
+        st.markdown("-----")
+        with st.container():
+        st.write("#### Customer solvability prediction ")
+        prediction_button = st.button('Predict solvability')
                     #pred = st.button('Calculation')
-                if prediction_button:
-                    with st.spinner('Calculating...'):
-                        try:
-                            prediction = predict_target(ID)
+        if prediction_button:
+            with st.spinner('Calculating...'):
+                try:
+                    prediction = predict_target(ID)
                                 #prediction = requests.get("https://dashtest.streamlit.app//predict?ID=" + str(ID)).json()
-                            if prediction["target"]==0:
-                                st.write(':smiley:')
-                                st.success('Client solvable _(Target = 0)_, prediction difficulty level at **' + str(prediction["risk"] * 100) + '%**')
-                            elif prediction["target"]==1:
-                                st.write(':confused:')
-                                st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
-                            st.write('**Interpretability**')
-                            fig = plt.figure(figsize=(2,2))
-                            shap_id(ID)
-                            st.pyplot(fig)
-                        except Exception as e:
-                            st.warning('Programme error:'+str(e)) 
-                            st.write(':dizzy_face:')                                               
-    except:
-        st.warning('**_Customer not found_**')
-
+                    if prediction["target"]==0:
+                        st.write(':smiley:')
+                        st.success('Client solvable _(Target = 0)_, prediction difficulty level at **' + str(prediction["risk"] * 100) + '%**')
+                    elif prediction["target"]==1:
+                        st.write(':confused:')
+                        st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
+                        st.write('**Interpretability**')
+                        fig = plt.figure(figsize=(2,2))
+                        shap_id(ID)
+                        st.pyplot(fig)
+                    except Exception as e:
+                        st.warning('Programme error:'+str(e)) 
+                        st.write(':dizzy_face:')                                               
+    
 # Customer portfolio analysis        
 if page == 'Customer portfolio':
     st.write("### Customer portfolio analysis")
