@@ -218,12 +218,27 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     data_knn = get_data(raw_app,app_knn).dropna().copy()
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
+
+    # Calculate ranges for radar plot
+    ranges = [(data_knn[feature].min(), data_knn[feature].max()) for feature in features]
     
-    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-              (min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
-              (min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
-              (min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
-              (min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
+    # Create radar plot
+    radar = ComplexRadar(fig, features, ranges)
+    radar.plot(data_id, linewidth=3, label='Client ' + str(ID), color='darkseagreen')
+    radar.plot(moy_knn.iloc[1][features], linewidth=3, label='Average Similar Client having problems', color='red')
+    radar.plot(moy_knn.iloc[0][features], linewidth=3, label='Average similar client without having problems', color='royalblue')
+    
+    # Add legend to the plot
+    fig.legend(fontsize=5, loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5)
+    
+    if fill:
+        radar.fill(data_id, alpha=0.2)
+    
+    #ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
+              #(min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
+              #(min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
+              #(min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
+              #(min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
 
 ###############################################
 ## DASH BOARD
