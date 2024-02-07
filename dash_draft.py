@@ -294,5 +294,7 @@ page =  st.sidebar.selectbox("Menu", ["Home", "Customer", "Customer portfolio"])
     
             
 st.markdown("-----")
-    
+
+st.markdown("-----") 
+
 st.sidebar.write("By: Amit GAUTAM")
