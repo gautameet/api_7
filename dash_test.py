@@ -550,47 +550,48 @@ if page == 'Customer portfolio':
                 
             
             with col5:
-                    df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
-                    df.loc[:, 'COUNT_TG'] = df['TARGET']
+                df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
+                df.loc[:, 'COUNT_TG'] = df['TARGET']
                         #df.loc[:,'COUNT_TG'] = df['TARGET']
-
-                    # Group by target and income type and calculate mean annuity and credit amounts, and count of observations
-                    tg_df = df.groupby(['TARGET', 'NAME_INCOME_TYPE']).agg({'AMT_ANNUITY': 'mean', 'AMT_CREDIT': 'mean', 'COUNT_TG': 'count'}).reset_index()
                 
+                # Group by target and income type and calculate mean annuity and credit amounts, and count of observations
+                tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],
+                                    df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
+                tg_0 = tg_df.loc[0]
+                tg_1 = tg_df.loc[1]
 
-                    #tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],
-                                        #df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
-                    #tg_0 = tg_df.loc[0]
-                    #tg_1 = tg_df.loc[1]
+                # Create scatter plot
+                fig = plt.figure(figsize=2,2))
+                pt = sns.scatterplot(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100,label='With difficulty',color='red')
+                pt = sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100,label='Without difficulty', color='royalblue', alpha=0.3, ax=ax)
+
+                Customize plot
+                plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=8)
+                plt.xlabel('AMT_ANNUITY', fontsize=10)
+                plt.ylabel('AMT_CREDIT', fontsize=10)
+                plt.xlim([20000, 40000])
+                plt.ylim([400000, 800000])
+                plt.setp(pt.get_xticklabels(),fontsize=5)
+                plt.setp(pt.get_yticklabels(),fontsize=5) 
                 
+                Display plot
+                st.pyplot(fig)
+                
+                    #tg_df = df.groupby(['TARGET', 'NAME_INCOME_TYPE']).agg({'AMT_ANNUITY': 'mean', 'AMT_CREDIT': 'mean', 'COUNT_TG': 'count'}).reset_index()
+                    #fig, ax = plt.subplots(figsize=(6, 6))               
                     # Create scatter plot with seaborn
-                    fig, ax = plt.subplots(figsize=(8, 6))
-                    sns.scatterplot(data=tg_df, x='AMT_ANNUITY', y='AMT_CREDIT', hue='TARGET', size='COUNT_TG', sizes=(50, 500),
-                                    alpha=0.8, palette={0: 'royalblue', 1: 'red'}, legend='brief', ax=ax)
+                    #fig, ax = plt.subplots(figsize=(8, 6))
+                    #sns.scatterplot(data=tg_df, x='AMT_ANNUITY', y='AMT_CREDIT', hue='TARGET', size='COUNT_TG', sizes=(50, 500),
+                                    #alpha=0.8, palette={0: 'royalblue', 1: 'red'}, legend='brief', ax=ax)
 
                      # Customize plot
-                    ax.set_xlabel('Average AMT_ANNUITY', fontsize=12)
-                    ax.set_ylabel('Average AMT_CREDIT', fontsize=12)
-                    ax.set_title('Comparison of Average Annuity and Credit Amounts', fontsize=14)
-                    ax.legend(title='Payment Difficulty', loc='lower center', bbox_to_anchor=(0.5, -0.3), fontsize=10)
-                    ax.tick_params(axis='both', labelsize=10)            
-
-                    # Display plot
-                    st.pyplot(fig)
-
-                    # Create scatter plot
-                    #fig, ax = plt.subplots(figsize=(6, 6))
-                    #sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'] / 100, label='Avec Difficulté', color='red', ax=ax)
-                    #sns.scatterplot(x=tg_0['AMT_ANNUITY'], y=tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'] / 100, label='Sans Difficulté', color='royalblue', alpha=0.3, ax=ax)
-
-                    # Customize plot
-                    #plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=8)
-                    #plt.xlabel('AMT_ANNUITY', fontsize=10)
-                    #plt.ylabel('AMT_CREDIT', fontsize=10)
-                    #plt.xlim([20000, 40000])
-                    #plt.ylim([400000, 800000])
-                    #plt.xticks(fontsize=8)
-                    #plt.yticks(fontsize=8)
+                    #ax.set_xlabel('Average AMT_ANNUITY', fontsize=12)
+                    #ax.set_ylabel('Average AMT_CREDIT', fontsize=12)
+                    #ax.set_title('Comparison of Average Annuity and Credit Amounts', fontsize=14)
+                    #ax.legend(title='Payment Difficulty', loc='lower center', bbox_to_anchor=(0.5, -0.3), fontsize=10)
+                    #ax.tick_params(axis='both', labelsize=10)            
 
                     # Display plot
                     #st.pyplot(fig)
+
+                    
