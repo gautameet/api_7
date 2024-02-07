@@ -213,15 +213,15 @@ def radat_id_plot(ID,fig,features=features,fill=False,raw_app=None):
     if fill:
         radar.fill(customer, alpha=0.2)
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID, fig, features, fill=False, raw_app=None, get_data=None, get_similar_ID=None):
     # Get data for the specified customer ID
-    app_id = get_data(raw_app,ID)[features]
+    app_id = get_data(raw_app,ID).loc[:,features]
     #app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
-    data_knn = get_data(raw_app, app_knn).dropna().copy()
+    data_knn = get_data(raw_app, app_knn).dropna().copy()      
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
 
