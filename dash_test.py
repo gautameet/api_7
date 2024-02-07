@@ -563,7 +563,7 @@ if page == 'Customer portfolio':
                 # Create scatter plot
                 fig = plt.figure(figsize=(2,2))
                 pt = sns.scatterplot(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100,label='With difficulty',color='red')
-                pt = sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100,label='Without difficulty', color='royalblue', alpha=0.3, ax=ax)
+                pt = sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100,label='Without difficulty', color='royalblue', alpha=.3)
 
                 #Customize plot
                 plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=8)
