@@ -334,3 +334,12 @@ if page == "Customer":
                     st.pyplot(fig)
         
         st.markdown("-----")
+
+        with st.container():
+            st.write("#### Similar type of Customers ")
+            try:
+                col3, col4 = st.columns([3,1])
+                with col3:
+                    fig = plt.figure(figsize=(3,3))
+                    radat_knn_plot(ID,fig,features=features, raw_app=raw_app, get_data=get_data, get_similar_ID=get_similar_ID)
+                    st.pyplot(fig)
