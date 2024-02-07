@@ -318,7 +318,7 @@ if page == "Customer":
     ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
     raw_app_id = get_data(raw_app,ID)
     with st.spinner('Custumer details....'):
-        st.writer('## Customer details.....')
+        st.write('## Customer details.....')
         with st.container():
             col1, col2 = st.columns([1.5,2.5])      
             with col1:
