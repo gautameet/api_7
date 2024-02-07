@@ -226,7 +226,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     # Create radar plot
     radar = ComplexRadar(fig, features, ranges)
     radar.plot(data_id, linewidth=3, label='Client ' + str(ID), color='darkseagreen')
-    radar.plot(moy_knn.iloc[1][features], linewidth=3, label='Average Similar Client having problems', color='red')
+    #radar.plot(moy_knn.iloc[1][features], linewidth=3, label='Average Similar Client having problems', color='red')
     radar.plot(moy_knn.iloc[0][features], linewidth=3, label='Average similar client without having problems', color='royalblue')
     
     # Add legend to the plot
