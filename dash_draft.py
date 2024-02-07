@@ -281,7 +281,7 @@ initial_sidebar_state="expanded")
     
     # Sidebar
 with st.sidebar:
-    st.write("Credit Score Dashboard")
+    st.title("Credit Score Dashboard")
     logo_path = "logo.png"
     try:
         logo = Image.open(logo_path)
@@ -310,3 +310,10 @@ if page == "Home":
                                     
                 "\nThis dashboard is composed of following pages :\n"
                 "- **Customer**: to find out all the information related to the customer.\n")
+
+if page == "Customer":
+    st.title("💵 Welcome to the Customer Page")
+    ".\n"
+    st.sidebar.markdown("Please select your ID:")
+    ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+
