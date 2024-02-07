@@ -211,7 +211,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
 def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
-    data_id = app_id.iloc[0]  
+    customer = app_id.iloc[0]  
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
@@ -232,7 +232,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     fig.legend(fontsize=5, loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5)
     
     if fill:
-        radar.fill(data_id, alpha=0.2)
+        radar.fill(customer, alpha=0.2)
     
     #ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
               #(min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
