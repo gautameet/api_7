@@ -192,54 +192,64 @@ def radat_id_plot(ID,fig,features=features,fill=False,raw_app=None):
     raw_app_copy = raw_app.copy()    #Create a copy of raw_app
     
     app_id = get_data(raw_app_copy,ID).loc[:,features]
-    client = app_id.iloc[0]
+    customer = app_id.iloc[0]
 
     # Modify the copy of raw_app using .loc
-    raw_app_copy.loc[raw_app_copy.index[0], 'AGE'] = client['AGE'] - 5
-    raw_app_copy.loc[raw_app_copy.index[0], 'YEARS_EMPLOYED'] = client['YEARS_EMPLOYED'] - 1
-    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_INCOME_TOTAL'] = client['AMT_INCOME_TOTAL'] - 500
-    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_ANNUITY'] = client['AMT_ANNUITY'] - 100
-    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_CREDIT'] = client['AMT_CREDIT'] - 500
+    raw_app_copy.loc[raw_app_copy.index[0], 'AGE'] = customer['AGE'] - 5
+    raw_app_copy.loc[raw_app_copy.index[0], 'YEARS_EMPLOYED'] = customer['YEARS_EMPLOYED'] - 1
+    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_INCOME_TOTAL'] = customer['AMT_INCOME_TOTAL'] - 500
+    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_ANNUITY'] = customer['AMT_ANNUITY'] - 100
+    raw_app_copy.loc[raw_app_copy.index[0], 'AMT_CREDIT'] = customer['AMT_CREDIT'] - 500
     
-    ranges = [(client['AGE'] -5, client['AGE'] +5),
-              (client['YEARS_EMPLOYED'] -1, client['YEARS_EMPLOYED'] +1),
-              (client['AMT_INCOME_TOTAL'] -500, client['AMT_INCOME_TOTAL'] +500),
-              (client['AMT_ANNUITY'] -100, client['AMT_ANNUITY'] +100),
-              (client['AMT_CREDIT']-500, client['AMT_CREDIT'] +500)]
+    ranges = [(customer['AGE'] -5, customer['AGE'] +5),
+              (customer['YEARS_EMPLOYED'] -1, customer['YEARS_EMPLOYED'] +1),
+              (customer['AMT_INCOME_TOTAL'] -500, customer['AMT_INCOME_TOTAL'] +500),
+              (customer['AMT_ANNUITY'] -100, customer['AMT_ANNUITY'] +100),
+              (customer['AMT_CREDIT']-500, customer['AMT_CREDIT'] +500)]
     
     radar = ComplexRadar(fig, features,ranges)
-    radar.plot(client,linewidth=3,color='darkseagreen')
+    radar.plot(customer,linewidth=3,color='darkseagreen')
     
     if fill:
-        radar.fill(client, alpha=0.2)
+        radar.fill(customer, alpha=0.2)
 
 def radat_knn_plot(ID,fig,features=features,fill=False,raw_app=None,get_data=None,get_similar_ID=None):
-    # Get data for the specified client ID
+    # Get data for the specified customer ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app, app_knn).dropna().copy()
-    data_knn.loc[:,'TARGET'] = data_knn['TARGET'].astype(int)
+    data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
-    
-    # calculate ranges for radar plot
-    ranges = [(min(data_knn['AGE']),max(data_knn['AGE'])),
-              (min(data_knn['YEARS_EMPLOYED']),max(data_knn['YEARS_EMPLOYED'])),
-              (min(data_knn['AMT_INCOME_TOTAL']),max(data_knn['AMT_INCOME_TOTAL'])),
-              (min(data_knn['AMT_ANNUITY']),max(data_knn['AMT_ANNUITY'])),
-              (min(data_knn['AMT_CREDIT']),max(data_knn['AMT_CREDIT']))]
+
+    # Calculate ranges for radar plot
+    ranges = [(data_knn[col].min(), data_knn[col].max()) for col in features]
     
     # Create radar plot
-    radar = ComplexRadar(fig,features,ranges)
-    radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Average Similar Client having problems',color='red')
-    radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Average similar client without having problems',color='royalblue')
-    fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
+    radar = ComplexRadar(fig, features, ranges)
+    radar.plot(data_id, linewidth=3, label='customer ' + str(ID), color='darkseagreen')
+    radar.plot(moy_knn.iloc[1][features], linewidth=3, label='Average Similar customer having problems', color='red')
+    radar.plot(moy_knn.iloc[0][features], linewidth=3, label='Average similar customer without having problems', color='royalblue')
+    fig.legend(fontsize=5, loc='upper center', bbox_to_anchor=(0.5, -0.05), fancybox=True, shadow=True, ncol=5)
+        
+    # calculate ranges for radar plot
+    #ranges = [(min(data_knn['AGE']),max(data_knn['AGE'])),
+              #(min(data_knn['YEARS_EMPLOYED']),max(data_knn['YEARS_EMPLOYED'])),
+              #(min(data_knn['AMT_INCOME_TOTAL']),max(data_knn['AMT_INCOME_TOTAL'])),
+              #(min(data_knn['AMT_ANNUITY']),max(data_knn['AMT_ANNUITY'])),
+              #(min(data_knn['AMT_CREDIT']),max(data_knn['AMT_CREDIT']))]
+    
+    # Create radar plot
+    #radar = ComplexRadar(fig,features,ranges)
+    #radar.plot(data_id,linewidth=3,label='customer '+str(ID),color='darkseagreen')
+    #radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Average Similar customer having problems',color='red')
+    #radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Average similar customer without having problems',color='royalblue')
+    #fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
     
     if fill:
-        radar.fill(client, alpha=0.2)
+        radar.fill(customer, alpha=0.2)
     
 def shap_id(ID,app,X_name,explainer,shap):
     app_id = get_data(app,ID).loc[:, X_name].copy()
@@ -265,7 +275,7 @@ def predict_target(ID,data,feats,model,st,result):
         else:
             st.warning('Error in the program!')
     except:
-        st.error('Client not found!')
+        st.error('customer not found!')
 
 
 ###############################################
@@ -305,7 +315,7 @@ if page == "Home":
     st.title("💵 Credit Score Dashboard - Customer Page")
     ".\n"
            
-    st.markdown("This is an interactive dashboard website which lets the clients to know about their credit demands\n"
+    st.markdown("This is an interactive dashboard website which lets the customer to know about their credit demands\n"
                 "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                     
                 "\nThis dashboard is composed of following pages :\n"
@@ -348,7 +358,7 @@ if page == "Customer":
                 N_knn, N_knn1 = get_stat_ID(ID)
                 st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
                 st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
-                st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
+                st.markdown("_(either " + str(N_knn1*100/N_knn) + "% customers with similar payment problems)_")
             #except:
                 #st.info('**_No similar customer_**')
         
