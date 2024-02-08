@@ -282,10 +282,10 @@ def predict_target(ID,data,feats,model,st,result):
 
     ## Page configuration initialisation
 st.set_page_config(
-page_title="Credit Score Dashboard",
-page_icon="💵",
-layout="wide",
-initial_sidebar_state="expanded"
+    page_title="Credit Score Dashboard",
+    page_icon="💵",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
     
     # Sidebar
