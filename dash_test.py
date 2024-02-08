@@ -219,7 +219,7 @@ def radat_id_plot(ID,fig,features=features,fill=False):
     if fill:
         radar.fill(client, alpha=0.2)
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID,fig,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
     data_id = app_id.iloc[0]    
