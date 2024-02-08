@@ -228,7 +228,7 @@ def radat_knn_plot(ID,fig,fill=False):
     app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna().copy()
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
-    moy_knn = data_knn.groupby('TARGET').mean()
+    moy_knn = data_knn['TARGET'].groupby('TARGET').mean()
     
     # calculate ranges for radar plot
     ranges = [(min(data_knn['AGE']),max(data_knn['AGE'])),
