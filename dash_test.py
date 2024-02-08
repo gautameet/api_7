@@ -285,7 +285,8 @@ st.set_page_config(
 page_title="Credit Score Dashboard",
 page_icon="💵",
 layout="wide",
-initial_sidebar_state="expanded")
+initial_sidebar_state="expanded"
+)
     
     # Sidebar
 with st.sidebar:
