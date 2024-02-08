@@ -194,8 +194,6 @@ class ComplexRadar():
         
 # Graph Radar
 def radat_id_plot(ID,fig,features=features,fill=False):
-    #raw_app_copy = raw_app.copy()    #Create a copy of raw_app
-    
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
@@ -212,15 +210,15 @@ def radat_id_plot(ID,fig,features=features,fill=False):
               (client['AMT_ANNUITY'] -100, client['AMT_ANNUITY'] +100),
               (client['AMT_CREDIT']-500, client['AMT_CREDIT'] +500)]
     
-    radar = ComplexRadar(fig, features,ranges)
+    radar = ComplexRadar(fig,features,ranges)
     radar.plot(client,linewidth=3,color='darkseagreen')
     
     if fill:
         radar.fill(client, alpha=0.2)
 
-def radat_knn_plot(ID,fig,fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
-    app_id = get_data(raw_app,ID)[features]
+    app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
