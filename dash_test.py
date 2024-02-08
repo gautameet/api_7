@@ -35,8 +35,6 @@ raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'),usec
 zip_file_test = ZipFile('./application_test.zip')
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
-#raw_app = pd.concat([raw_train, raw_test]), reset_index(drop=True)        #concat
-#raw_app = raw_train.append(raw_test).reset_index(drop=True)
 raw_app = pd.concat([raw_train, raw_test], ignore_index=True)        #concat
 del raw_train
 del raw_test
@@ -66,9 +64,9 @@ knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
 # Loading data
-zip_file = ZipFile('data_selected1.zip')
-data = pd.read_csv(zip_file.open('data_selected1.csv'))
-feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
+#zip_file = ZipFile('data_selected1.zip')
+#data = pd.read_csv(zip_file.open('data_selected1.csv'))
+#feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
 
 # Loading the model
 with open('model11.pkl', 'rb') as file:
@@ -85,7 +83,6 @@ X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 zip_file = ZipFile('X_train_sm_split3.zip')
 X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
-#X_train_sm = X_train_sm_1.append(X_train_sm_2).reset_index(drop=True).append(X_train_sm_3).reset_index(drop=True)
 X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3], ignore_index=True)
 X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have a continuous index for the concatenated DataFrame
 X_name = list(X_train_sm.columns)
