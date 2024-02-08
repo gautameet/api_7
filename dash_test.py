@@ -44,7 +44,7 @@ raw_app.loc[:, 'AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x: -x/-365) // (-365)
 #raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
 raw_app.loc[:, 'CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
 
-#st.dataframe(raw_app)
+st.dataframe(raw_app)
 
 # Drop unnecessary columns
 raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1).copy()
@@ -58,7 +58,7 @@ test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 #Concat
 app = pd.concat([train, test], ignore_index=True)
-
+ 
 # Nearest neighbors
 knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
