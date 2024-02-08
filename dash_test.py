@@ -36,8 +36,8 @@ zip_file_test = ZipFile('./application_test.zip')
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 raw_app = pd.concat([raw_train, raw_test], ignore_index=True)        #concat
-#del raw_train
-#del raw_test
+del raw_train
+del raw_test
  
 raw_app.loc[:, 'YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x: -x/-365)
 raw_app.loc[:, 'AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x: -x/-365) // (-365)
