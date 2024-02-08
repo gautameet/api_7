@@ -345,7 +345,7 @@ if page == "Customer":
             col3, col4 = st.columns([3,1])
             with col3:
                 fig = plt.figure(figsize=(3,3))
-                radat_knn_plot(ID,fig,features=features,fill=False)
+                radat_knn_plot(ID,fig)
                 st.pyplot(fig)
             with col4:
                 N_knn, N_knn1 = get_stat_ID(ID)
