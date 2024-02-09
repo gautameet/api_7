@@ -63,11 +63,6 @@ app = pd.concat([train, test], ignore_index=True)
 knn = NearestNeighbors(n_neighbors=10)
 knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
-# Loading data
-#zip_file = ZipFile('data_selected1.zip')
-#data = pd.read_csv(zip_file.open('data_selected1.csv'))
-#feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
-
 # Loading the model
 with open('model11.pkl', 'rb') as file:
     model = pickle.load(file)
@@ -249,26 +244,41 @@ def shap_id(ID,app,X_name,explainer,shap):
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
+# Loading data
+zip_file = ZipFile('data_selected1.zip')
+df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
+feats = [c for c in df_sel.columns if c not in ['TARGET','SK_ID_CURR']]
+
 # defining Prediction
-def predict_target(ID,data,feats,model,st,result):
+def predict_target():
+    ID = st.number_input('Enter client ID:', value=0, step=1)    
+#def predict_target(ID,data,feats,model,st,result):
     #ID=int(ID)
     try:
-        ID_data = data.loc[data['SK_ID_CURR'] == ID]
+        ID_data = df_sel.loc[df_sel['SK_ID_CURR'] == ID]
         ID_to_predict = ID_data.loc[feats]        #feature of data_selected1
 
         # Make predictions
-        prediction = model.prediction(ID_to_predict)
-        proba = model.predict.proba(ID_to_predict)
-
-        prediction = int(prediction[0])        # Assuming model.predict returns integers
-
-        if prediction in [0, 1]:
-            results = {'target': prediction, 'risk':round(proba[0][1],2)}
-            st.json(result)
+        prediction = model.predict(ID_to_predict)
+        #prediction = model.prediction(ID_to_predict)
+        proba = model.predict_proba(ID_to_predict)
+        if (prediction == 0) or (prediction == 1):
+            res = '{ "target":' + str(int(prediction)) + ', "risk":%.2f }' % tuple(proba[0])[1]
         else:
-            st.warning('Error in the program!')
+            res = "Programme Error!"
+        return res
     except:
-        st.error('Client not found!')
+        return "Client not found !"
+
+
+        #prediction = int(prediction[0])        # Assuming model.predict returns integers
+        #if prediction in [0, 1]:
+            #results = {'target': prediction, 'risk':round(proba[0][1],2)}
+            #st.json(result)
+        #else:
+            #st.warning('Error in the program!')
+    #except:
+        #st.error('Client not found!')
 
 #if __name__ == '__main__':
     #predict_target(ID)
