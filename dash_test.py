@@ -82,7 +82,6 @@ X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3], ignore_index=
 X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have a continuous index for the concatenated DataFrame
 X_name = list(X_train_sm.columns)
 
-##ADDED TODAY
 np.bool = np.bool_
 np.int = np.int_
 explainer = shap.TreeExplainer(model, X_train_sm)
