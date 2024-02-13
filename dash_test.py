@@ -26,13 +26,12 @@ feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
         'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
 # Nombre de ligne
-num_rows = 100000
+num_rows = 150000
 
 # Original Data
 zip_file_train = ZipFile('sample_application_train.zip')
 raw_train = pd.read_csv(zip_file_train.open('sample_application_train.csv'),usecols=feat, nrows=num_rows)
-
-zip_file_test = ZipFile('./application_test.zip')
+zip_file_test = ZipFile('application_test.zip')
 raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 raw_app = pd.concat([raw_train, raw_test], ignore_index=True)        #concat
