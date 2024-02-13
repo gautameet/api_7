@@ -185,7 +185,7 @@ class ComplexRadar():
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,fig,features=features,fill=False):
+def radat_id_plot(ID,fig,usecols=features,fill=False):
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
@@ -202,13 +202,13 @@ def radat_id_plot(ID,fig,features=features,fill=False):
               (client['AMT_ANNUITY'] -100, client['AMT_ANNUITY'] +100),
               (client['AMT_CREDIT']-500, client['AMT_CREDIT'] +500)]
     
-    radar = ComplexRadar(fig,features,ranges)
+    radar = ComplexRadar(fig,usecols,ranges)
     radar.plot(client,linewidth=3,color='darkseagreen')
     
     if fill:
         radar.fill(client, alpha=0.2)
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID,fig,usecols=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
@@ -234,7 +234,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
               (min(data_knn['AMT_CREDIT']),max(data_knn['AMT_CREDIT']))]
     
     # Create radar plot
-    radar = ComplexRadar(fig,features,ranges)
+    radar = ComplexRadar(fig,usecols,ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
     radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Average Similar Client having problems',color='red')
     radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Average similar client without having problems',color='royalblue')
