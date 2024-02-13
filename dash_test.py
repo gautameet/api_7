@@ -96,17 +96,16 @@ del X_train_sm
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
 # Data
-def get_data(data, ID):
-    if isinstance(ID, list):
-        return data[data['SK_ID_CURR'].isin(ID)].copy()
+def get_data(data,ID):
+    if type(ID) == list:
+        return data[data['SK_ID_CURR'].isin(ID)]
     else:
-        return data[data['SK_ID_CURR'] == ID].head(1).copy()
-#def get_data(data,ID):
-    #if type(ID) == list:
-        #return data[data['SK_ID_CURR'].isin(ID)]
+        return data[data['SK_ID_CURR']==ID].head(1)
+#def get_data(data, ID):
+    #if isinstance(ID, list):
+        #return data[data['SK_ID_CURR'].isin(ID)].copy()
     #else:
-        #return data[data['SK_ID_CURR']==ID].head(1)
-
+        #return data[data['SK_ID_CURR'] == ID].head(1).copy()
 # Neighbor
 
 def get_similar_ID(ID):
