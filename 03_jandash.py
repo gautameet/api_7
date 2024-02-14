@@ -345,7 +345,7 @@ if page == "Information du client":
 
     # Affichage des informations client
     with st.expander("Afficher les informations du client", expanded=False):
-        st.info("Voici les informations du client:")
+        st.info("Voici les informations du client:", icon='ℹ️')
         #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
         st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == client_id]))
 
@@ -368,7 +368,7 @@ if page == "Interprétation locale":
                 st.pyplot(fig)
             else:
                 st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données.")
-        else:
+            else:
              st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
     
         with st.expander("Explication du graphique", expanded=False):
