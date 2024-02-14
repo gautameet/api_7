@@ -310,10 +310,17 @@ if page == "Interprétation locale":
         st.info("Interprétation locale de la prédiction")
         shap_val = shap_val_local(id_client_dash)
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
+     
+        if shap_val is not None and shap_val.shape[0] == nb_features:
         # Affichage du waterfall plot : shap local
         fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
-        st.pyplot(fig)
-
+         if fig:
+             st.pyplot(fig)
+         else:
+             st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données."
+        else:
+             st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
+    
         with st.expander("Explication du graphique", expanded=False):
             st.caption("Ici sont affichées les caractéristiques influençant de manière locale la décision. "
                        "C'est-à-dire que ce sont les caractéristiques qui ont influençé la décision pour ce client "
