@@ -40,7 +40,7 @@ data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
 col = data_train.select_dtypes(['float64']).columns
 data_train_scaled = data_train.copy()
-data_train_scaled[cols] = StandardScaler().fit_transform(data_train[col])
+data_train_scaled[col] = StandardScaler().fit_transform(data_train[col])
 
 explainer = shap.TreeExplainer(model)
 
@@ -69,7 +69,7 @@ def minmax_scale(df, scaler):
     else:
         scal = StandardScaler()
 
-    df_scaled[cols] = scal.fit_transform(df[colmns])
+    df_scaled[colmns] = scal.fit_transform(df[colmns])
     return df_scaled
 
 data_train_mm = minmax_scale(data_train, 'minmax')
@@ -78,29 +78,49 @@ data_test_mm = minmax_scale(data_test, 'minmax')
 def get_prediction(client_id):
     """
     Calculates the probability of default for a client.
-    :param: client_id (int)
-    :return: probability of default (float).
+    :param client_id: Client ID (int).
+    :return: Dictionary containing target and risk information (dict).
     """
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
-    prediction = model.predict(info_client)
-    proba = model.predict_proba(info_client)
-    if (prediction == 0) | (prediction == 1):
-        res = '{ "target":'+str(int(prediction))+', "risk":%.2f }'%tuple(proba[0])[1]
-    else:
-        res = 'Erreur du programme!'
+    
+    try:
+        proba = model.predict_proba(info_client)
+        probability_of_default = proba[0][1]  # Probability of the positive class (default)
+        target = int(model.predict(info_client)[0])  # Predicted target class
+        decision = "Accepted" if probability_of_default < 0.54 else "Rejected"
+        res = {"target": target, "probability_of_default": round(probability_of_default, 2), "decision": decision}
+    except Exception as e:
+        res = {"error": str(e)}
+    
+    return res
+
+#def get_prediction(client_id):
+    """
+    Calculates the probability of default for a client.
+    :param: client_id (int)
+    :return: probability of default (float).
+    """
+    #client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+    #info_client = client_data.drop('SK_ID_CURR', axis=1)
+   # prediction = model.predict(info_client)
+    #proba = model.predict_proba(info_client)
+    #if (prediction == 0) | (prediction == 1):
+        #res = '{ "target":'+str(int(prediction))+', "risk":%.2f }'%tuple(proba[0])[1]
+    #else:
+        #res = 'Erreur du programme!'
     #prediction = model.predict_proba(info_client)[0][1]
     #return prediction
 
 def jauge_score(proba):
-    """Construit une jauge indiquant le score du client.
+    """Constructs a gauge indicating the client's score.
     :param: proba (float).
     """
     fig = go.Figure(go.Indicator(
         domain={'x': [0, 1], 'y': [0, 1]},
         value=proba * 100,
         mode="gauge+number+delta",
-        title={'text': "Jauge de score"},
+        title={'text': "Score Gauge"},
         delta={'reference': 54},
         gauge={'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
                'bar': {'color': "MidnightBlue"},
@@ -111,54 +131,55 @@ def jauge_score(proba):
                    {'range': [54, 100], 'color': "Red"}],
                'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}}))
 
-    st.plotly_chart(fig)   
+    st.plotly_chart(fig)
+
+#def data_voisins(client_id: int):
+def df_voisins(client_id: int):
+    """Calculates the nearest neighbors of the client_id and returns the dataframe of these neighbors.
+    :param client_id: Client ID (int)
+    :return: Dataframe of similar clients (DataFrame).
+    """
+    features = list(data_train_scaled.columns)
+    features.remove('SK_ID_CURR')
+    features.remove('TARGET')
+
+    # Creating an instance of NearestNeighbors
+    nn = NearestNeighbors(n_neighbors=10, metric='euclidean')
+
+    # Training the model on the data
+    nn.fit(data_train_scaled[features])
+    
+    reference_id = client_id
+    reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
+    indices = nn.kneighbors(reference_observation, return_distance=False)
+    df_voisins = data_train.iloc[indices[0], :]
+    
+    return df_voisins
 
 def shap_val_local(client_id: int):
     """ Calcul les shap values pour un client.
         :param: client_id (int)
         :return: shap values du client (json).
         """
-    client_data = data_scaled[data_scaled['SK_ID_CURR'] == client_id]
+    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == client_id]
     client_data = client_data.drop('SK_ID_CURR', axis=1)
-    shap_val = explainer(client_data)[0][:, 1]
+    shap_val = explainer.shap_values(client_data)[1]
 
     return {'shap_values': shap_val.values.tolist(),
             'base_value': shap_val.base_values,
             'data': client_data.values.tolist(),
             'feature_names': client_data.columns.tolist()}
 
-def shap_values():
+def shap_val():
     """ Calcul les shap values de l'ensemble du jeu de données
     :param:
     :return: shap values
     """
     # explainer = shap.TreeExplainer(model['classifier'])
-    shap_val = explainer.shap_values(data_scaled.drop('SK_ID_CURR', axis=1))
+    shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
     return {'shap_values_0': shap_val[0].tolist(),
             'shap_values_1': shap_val[1].tolist()}
 
-#def data_voisins(client_id: int):
-def df_voisins(client_id: int):
-    """ Calcul les plus proches voisins du client_id et retourne le dataframe de ces derniers.
-    :param: client_id (int)
-    :return: dataframe de clients similaires (json).
-    """
-    features = list(data_train_scaled.columns)
-    features.remove('SK_ID_CURR')
-    features.remove('TARGET')
-
-    # Création d'une instance de NearestNeighbors
-    nn = NearestNeighbors(n_neighbors=10, metric='euclidean')
-
-    # Entraînement du modèle sur les données
-    nn.fit(data_train_scaled[features])
-    reference_id = client_id
-    reference_observation = data_scaled[data_scaled['SK_ID_CURR'] == reference_id][features].values
-    indices = nn.kneighbors(reference_observation, return_distance=False)
-    df_voisins = data_train.iloc[indices[0], :]
-
-    #return df_voisins.to_json()
- 
 def distribution(feature, id_client, df):
     """Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
     Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
@@ -193,7 +214,8 @@ def scatter(id_client, feature_x, feature_y, df):
     ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
                alpha=0.5, label='refusé')
 
-    data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
+    data_client = df.loc[df['SK_ID_CURR'] == id_client]
+    #data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
     observation_x = data_client[feature_x]
     observation_y = data_client[feature_y]
     ax.scatter(observation_x, observation_y, marker='*', s=200, color='black', label='Client')
