@@ -284,8 +284,9 @@ with st.sidebar:
 
     list_id_client = list(data_test['SK_ID_CURR'])
     list_id_client.insert(0, '<Select>')
-    id_client_dash = st.selectbox("ID Client", list_id_client)
-    st.write('Vous avez choisi le client ID : '+str(id_client_dash))
+    client_id = st.selectbox("ID Client", list_id_client)
+    #id_client_dash = st.selectbox("ID Client", list_id_client)
+    st.write('Vous avez choisi le client ID : '+str(client_id))
 
     st.markdown("""---""")
     st.write("Created by ...............")
@@ -342,7 +343,8 @@ if page == "Interprétation locale":
     locale = st.checkbox("Interprétation locale")
     if locale:
         st.info("Interprétation locale de la prédiction")
-        shap_val = shap_val_local(id_client_dash)          ##################
+        #shap_val = shap_val_local(id_client_dash)          ##################
+        shap_val = shap_val_local(client_id)          ##################
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
 
         if shap_val is not None and len(shap_val) == nb_features:
