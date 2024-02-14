@@ -240,7 +240,7 @@ st.set_page_config(page_title="Dashboard Prêt à dépenser", layout="wide")
 
 # Sidebar
 with st.sidebar:
-    logo = Image.open('img/logo pret à dépenser.png')
+    logo = Image.open('logo.png')
     st.image(logo, width=200)
     # Page selection
     page = st.selectbox('Navigation', ["Home", "Information du client", "Interprétation locale",
