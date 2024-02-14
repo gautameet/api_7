@@ -90,7 +90,7 @@ def get_prediction(client_id: int):
     else:
         res = 'Erreur du programme!'
     #prediction = model.predict_proba(info_client)[0][1]
-    #return prediction
+    return prediction
 
 
 def jauge_score(proba):
