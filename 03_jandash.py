@@ -156,15 +156,15 @@ def df_voisins(client_id: int):
     
     return df_voisins
 
-def shap_val_local(client_id: int):
+def shap_values_local(id_client):
     """ Calcul les shap values pour un client.
         :param: client_id (int)
         :return: shap values du client (json).
         """
-    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == client_id]
+    client_data = data_scaled[data_scaled['SK_ID_CURR'] == client_id]
     client_data = client_data.drop('SK_ID_CURR', axis=1)
-    shap_val = explainer.shap_values(client_data)[1]
-
+    shap_val = explainer(client_data)[0][:, 1]
+    #shap_val = compute_shap_values(id_client_dash)
     return {'shap_values': shap_val.values.tolist(),
             'base_value': shap_val.base_values,
             'data': client_data.values.tolist(),
@@ -175,9 +175,9 @@ def shap_val():
     :param:
     :return: shap values
     """
-    # explainer = shap.TreeExplainer(model['classifier'])
+    explainer = shap.TreeExplainer(model)
     shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
-    return {'shap_values_0': shap_val[0].tolist(),
+    return {'shap_values_0_list': shap_val[0].tolist(),
             'shap_values_1': shap_val[1].tolist()}
 
 def distribution(feature, id_client, df):
