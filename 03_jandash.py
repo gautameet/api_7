@@ -118,7 +118,7 @@ def jauge_score(proba):
     """
     fig = go.Figure(go.Indicator(
         domain={'x': [0, 1], 'y': [0, 1]},
-        value=proba * 100,
+        value=(proba*100),
         mode="gauge+number+delta",
         title={'text': "Score Gauge"},
         delta={'reference': 54},
