@@ -368,7 +368,7 @@ if page == "Interprétation locale":
                 st.pyplot(fig)
             else:
                 st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données.")
-            else:
+        else:
              st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
     
         with st.expander("Explication du graphique", expanded=False):
