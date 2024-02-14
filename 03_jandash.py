@@ -138,7 +138,8 @@ def shap_values():
     return {'shap_values_0': shap_val[0].tolist(),
             'shap_values_1': shap_val[1].tolist()}
 
-def data_voisins(client_id: int):
+#def data_voisins(client_id: int):
+def df_voisins(client_id: int):
     """ Calcul les plus proches voisins du client_id et retourne le dataframe de ces derniers.
     :param: client_id (int)
     :return: dataframe de clients similaires (json).
@@ -157,7 +158,7 @@ def data_voisins(client_id: int):
     indices = nn.kneighbors(reference_observation, return_distance=False)
     df_voisins = data_train.iloc[indices[0], :]
 
-    return df_voisins.to_json()
+    #return df_voisins.to_json()
  
 def distribution(feature, id_client, df):
     """Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
@@ -292,7 +293,7 @@ if page == "Information du client":
         if id_client_dash != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
-            probability, decision = get_prediction(id_client)
+            probability, decision = get_prediction(id_client_dash)
 
             if decision == 'Accordé':
                 st.success("Crédit accordé")
@@ -337,7 +338,7 @@ if page == "Interprétation locale":
 if page == "Interprétation globale":
     st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
     # Création du dataframe de voisins similaires
-    data_voisins = df_voisins(id_client_dash)
+    data_voisin = df_voisins(id_client_dash)
 
     globale = st.checkbox("Importance globale")
     if globale:
