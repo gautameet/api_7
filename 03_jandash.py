@@ -334,7 +334,7 @@ if page == "Information du client":
                 decision = None  # Or handle this case as appropriate for your application
             
             #probability, decision = get_prediction(client_id)
-            #probability, decision = get_prediction(id_client_dash)            ###############
+            #probability, decision = get_prediction(id_client_dash)       
 
             if decision == 'Accordé':
                 st.success("Crédit accordé")
@@ -358,7 +358,7 @@ if page == "Interprétation locale":
     if locale:
         st.info("Interprétation locale de la prédiction")
         #shap_val = shap_val_local(id_client_dash)          ##################
-        shap_val = shap_val()          ##################
+        shap_val = shap_val()     
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
 
         if shap_val is not None and len(shap_val) == nb_features:
