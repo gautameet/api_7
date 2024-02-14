@@ -293,7 +293,7 @@ if page == "Home":
                 "Les données utilisées sont disponibles [ici](https://www.kaggle.com/c/home-credit-default-risk/data). "
                 "Lors du déploiement, un échantillon de ces données a été utilisé.\n"
                 
-                "\nLe dashboard est composé de plusieurs pages :\n"
+                "\nLe dashboard est composé de plusieurs pages :"
                 "- **Information du client**: Vous pouvez y retrouver toutes les informations relatives au client "
                 "selectionné dans la colonne de gauche, ainsi que le résultat de sa demande de crédit. "
                 "Je vous invite à accéder à cette page afin de commencer.\n"
