@@ -316,8 +316,9 @@ if page == "Interprétation locale":
         st.info("Interprétation locale de la prédiction")
         shap_val = shap_val_local(id_client_dash)
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
-        
-        if shap_val is not None and shap_val.shape[0] == nb_features:
+
+        if shap_val is not None and len(shap_val) == nb_features:
+        #if shap_val is not None and shap_val.shape[0] == nb_features:
         # Affichage du waterfall plot : shap local
             fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
             if fig:
