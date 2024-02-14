@@ -169,7 +169,7 @@ def shap_values_local(id_client):
         :param: client_id (int)
         :return: shap values du client (json).
         """
-    client_data = data_scaled[data_scaled['SK_ID_CURR'] == id_client]
+    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == id_client]
     client_data = client_data.drop('SK_ID_CURR', axis=1)
     shap_val = explainer(client_data)[0][:, 1]
     #shap_val = compute_shap_values(id_client_dash)
