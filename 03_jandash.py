@@ -316,7 +316,7 @@ if page == "Information du client":
     st.write("Cliquez sur le bouton ci-dessous pour commencer l'analyse de la demande :")
     button_start = st.button("Statut de la demande")
     if button_start:
-        if id_client != '<Select>':
+        if client_id != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
             probability, decision = get_prediction(client_id)
