@@ -314,10 +314,10 @@ if page == "Interprétation locale":
         if shap_val is not None and shap_val.shape[0] == nb_features:
         # Affichage du waterfall plot : shap local
             fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
-             if fig:
-                 st.pyplot(fig)
-             else:
-                 st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données."
+            if fig:
+                st.pyplot(fig)
+            else:
+                st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données."
         else:
              st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
     
