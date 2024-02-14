@@ -292,7 +292,7 @@ if page == "Information du client":
         if id_client_dash != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
-            probability, decision = get_prediction(id_client_dash)
+            probability, decision = get_prediction(id_client)
 
             if decision == 'Accordé':
                 st.success("Crédit accordé")
