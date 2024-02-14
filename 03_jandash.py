@@ -6,7 +6,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 import requests
-import plotly
+import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import shap
 import seaborn as sns
