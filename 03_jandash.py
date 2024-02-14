@@ -83,8 +83,14 @@ def get_prediction(client_id: int):
     """
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
-    prediction = model.predict_proba(info_client)[0][1]
-    return prediction
+    prediction = model.predict(info_client)
+    proba = model.predict_proba(info_client)
+    if (prediction == 0) | (prediction == 1):
+        res = '{ "target":'+str(int(prediction))+', "risk":%.2f }'%tuple(proba[0])[1]
+    else:
+        res = 'Erreur du programme!'
+    #prediction = model.predict_proba(info_client)[0][1]
+    #return prediction
 
 
 def jauge_score(proba):
