@@ -108,7 +108,7 @@ def jauge_score(proba):
 
     st.plotly_chart(fig)   
 
-def shap_values_local(client_id: int):
+def shap_val_local(client_id: int):
     """ Calcul les shap values pour un client.
         :param: client_id (int)
         :return: shap values du client (json).
