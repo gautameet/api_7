@@ -42,7 +42,7 @@ cols = data_train.select_dtypes(['float64']).columns
 data_train_scaled = data_train.copy()
 data_train_scaled[cols] = StandardScaler().fit_transform(data_train[cols])
 
-explainer = shap.TreeExplainer(model['classifier'])
+explainer = shap.TreeExplainer(model)
 
 def check_client_id(client_id: int):
     """
