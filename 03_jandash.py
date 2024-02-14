@@ -62,14 +62,14 @@ def minmax_scale(df, scaler):
     :param: df, scaler (str).
     :return: df_scaled.
     """
-    cols = df.select_dtypes(['float64']).columns
+    colmns = df.select_dtypes(['float64']).columns
     df_scaled = df.copy()
     if scaler == 'minmax':
         scal = MinMaxScaler()
     else:
         scal = StandardScaler()
 
-    df_scaled[cols] = scal.fit_transform(df[cols])
+    df_scaled[cols] = scal.fit_transform(df[colmns])
     return df_scaled
 
 data_train_mm = minmax_scale(data_train, 'minmax')
@@ -91,7 +91,6 @@ def get_prediction(client_id):
         res = 'Erreur du programme!'
     #prediction = model.predict_proba(info_client)[0][1]
     #return prediction
-
 
 def jauge_score(proba):
     """Construit une jauge indiquant le score du client.
@@ -180,7 +179,6 @@ def distribution(feature, id_client, df):
 
     st.pyplot(fig)
 
-
 def scatter(id_client, feature_x, feature_y, df):
     """Affiche le nuage de points de la feature_y en focntion de la feature_x.
     Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
@@ -206,7 +204,6 @@ def scatter(id_client, feature_x, feature_y, df):
     ax.legend()
 
     st.pyplot(fig)
-
 
 def boxplot_graph(id_client, feat, df_vois):
     """Affiche les boxplot des variables renseignéees en paramètre pour chaque target.
