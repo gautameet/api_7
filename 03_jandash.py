@@ -320,7 +320,19 @@ if page == "Information du client":
         if client_id != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
-            probability, decision = get_prediction(client_id)
+
+            # Call the function and assign the return value to a single variable
+            result = get_prediction(client_id)
+
+            # Check if the result is a tuple with two values (probability and decision)
+            if isinstance(result, tuple) and len(result) == 2:
+                probability, decision = result
+            else:
+                # Handle the case where only one value is returned
+                probability = result
+                decision = None  # Or handle this case as appropriate for your application
+            
+            #probability, decision = get_prediction(client_id)
             #probability, decision = get_prediction(id_client_dash)            ###############
 
             if decision == 'Accordé':
