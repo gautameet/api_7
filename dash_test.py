@@ -186,7 +186,7 @@ class ComplexRadar():
         
 # Graph Radar
 def radat_id_plot(ID,fig,usecols=features,fill=False):
-    app_id = get_data(raw_app,ID).loc[:,features]
+    app_id = get_data(raw_app,ID).loc[:,usecols]
     client = app_id.iloc[0]
 
     # Modify the copy of raw_app using .loc
@@ -210,7 +210,7 @@ def radat_id_plot(ID,fig,usecols=features,fill=False):
 
 def radat_knn_plot(ID,fig,usecols=features,fill=False):
     # Get data for the specified client ID
-    app_id = get_data(raw_app,ID).loc[:,features]
+    app_id = get_data(raw_app,ID).loc[:,usecols]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
@@ -236,8 +236,8 @@ def radat_knn_plot(ID,fig,usecols=features,fill=False):
     # Create radar plot
     radar = ComplexRadar(fig,usecols,ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Average Similar Client having problems',color='red')
-    radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Average similar client without having problems',color='royalblue')
+    radar.plot(moy_knn.iloc[1][usecols],linewidth=3,label='Average Similar Client having problems',color='red')
+    radar.plot(moy_knn.iloc[0][usecols],linewidth=3,label='Average similar client without having problems',color='royalblue')
     fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
     
     if fill:
