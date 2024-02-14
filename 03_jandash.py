@@ -150,7 +150,14 @@ def df_voisins(client_id: int):
     nn.fit(data_train_scaled[features])
     
     reference_id = client_id
-    reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
+    #reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
+    reference_observation = data_test_scaled[data_test_scaled['SK_ID_CURR'] == reference_id][features].values
+    
+    #Check if reference_observation is empty or contains NaN values
+    if len(reference_observation) == 0 or any([np.isnan(x) for x in reference_observation]):
+        return pd.DataFrame()  # Return an empty DataFrame
+    
+    # Find nearest neighbors only if reference_observation is not empty
     indices = nn.kneighbors(reference_observation, return_distance=False)
     df_voisins = data_train.iloc[indices[0], :]
     
@@ -312,7 +319,7 @@ if page == "Information du client":
         if id_client_dash != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
-            probability, decision = get_prediction(id_client_dash)
+            probability, decision = get_prediction(id_client_dash)            ###############
 
             if decision == 'Accordé':
                 st.success("Crédit accordé")
@@ -334,7 +341,7 @@ if page == "Interprétation locale":
     locale = st.checkbox("Interprétation locale")
     if locale:
         st.info("Interprétation locale de la prédiction")
-        shap_val = shap_val_local(id_client_dash)
+        shap_val = shap_val_local(id_client_dash)          ##################
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
 
         if shap_val is not None and len(shap_val) == nb_features:
@@ -357,7 +364,7 @@ if page == "Interprétation locale":
 if page == "Interprétation globale":
     st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
     # Création du dataframe de voisins similaires
-    data_voisin = df_voisins(id_client_dash)
+    data_voisin = df_voisins(id_client_dash)   ######
 
     globale = st.checkbox("Importance globale")
     if globale:
