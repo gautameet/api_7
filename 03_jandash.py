@@ -132,7 +132,7 @@ def shap_values():
     return {'shap_values_0': shap_val[0].tolist(),
             'shap_values_1': shap_val[1].tolist()}
 
-def get_data_voisins(client_id: int):
+def data_voisins(client_id: int):
     """ Calcul les plus proches voisins du client_id et retourne le dataframe de ces derniers.
     :param: client_id (int)
     :return: dataframe de clients similaires (json).
@@ -308,7 +308,7 @@ if page == "Interprétation locale":
     locale = st.checkbox("Interprétation locale")
     if locale:
         st.info("Interprétation locale de la prédiction")
-        shap_val = get_shap_val_local(id_client_dash)
+        shap_val = shap_val_local(id_client_dash)
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
         # Affichage du waterfall plot : shap local
         fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
