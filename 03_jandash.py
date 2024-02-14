@@ -155,7 +155,8 @@ def df_voisins(client_id: int):
     reference_observation = data_test_scaled[data_test_scaled['SK_ID_CURR'] == reference_id][features].values
     
     #Check if reference_observation is empty or contains NaN values
-    if len(reference_observation) == 0 or any([np.isnan(x) for x in reference_observation]):
+    if reference_observation.empty or reference_observation.isna().any().any():
+    #if len(reference_observation) == 0 or any([np.isnan(x) for x in reference_observation]):
         return pd.DataFrame()  # Return an empty DataFrame
     
     # Find nearest neighbors only if reference_observation is not empty
