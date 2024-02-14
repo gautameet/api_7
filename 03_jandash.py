@@ -35,12 +35,12 @@ with open('model11.pkl', 'rb') as file:
     model = pickle.load(file)
 
 cols = data_test.select_dtypes(['float64']).columns
-data_scaled = data_test.copy()
-data_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
+data_test_scaled = data_test.copy()
+data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
-cols = data_train.select_dtypes(['float64']).columns
+col = data_train.select_dtypes(['float64']).columns
 data_train_scaled = data_train.copy()
-data_train_scaled[cols] = StandardScaler().fit_transform(data_train[cols])
+data_train_scaled[cols] = StandardScaler().fit_transform(data_train[col])
 
 explainer = shap.TreeExplainer(model)
 
@@ -75,7 +75,7 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def get_prediction(client_id: int):
+def get_prediction(client_id):
     """
     Calculates the probability of default for a client.
     :param: client_id (int)
@@ -90,7 +90,7 @@ def get_prediction(client_id: int):
     else:
         res = 'Erreur du programme!'
     #prediction = model.predict_proba(info_client)[0][1]
-    return prediction
+    #return prediction
 
 
 def jauge_score(proba):
