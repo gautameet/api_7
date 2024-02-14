@@ -357,7 +357,7 @@ if page == "Interprétation locale":
     if locale:
         st.info("Interprétation locale de la prédiction")
         #shap_val = shap_val_local(id_client_dash)          ##################
-        shap_val = shap_val_local(client_id)          ##################
+        shap_val = shap_values_local(id_client)          ##################
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
 
         if shap_val is not None and len(shap_val) == nb_features:
