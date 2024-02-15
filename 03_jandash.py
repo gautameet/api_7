@@ -21,6 +21,8 @@ import json
 #import Pillow
 from PIL import Image
 
+np.seterr(divide='ignore', invalid='ignore')
+
 #API_URL = 'https://dashtest.streamlit.app/'
 
 # Loading the Treated Data
