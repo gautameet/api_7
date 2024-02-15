@@ -154,10 +154,18 @@ def df_voisins(client_id: int):
     #reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
     reference_observation = data_test_scaled[data_test_scaled['SK_ID_CURR'] == reference_id][features].values
     
+    if isinstance(reference_observation, np.ndarray):
+        reference_df = pd.DataFrame(reference_observation)
+        if reference_df.empty or reference_df.isna().any().any():
+            return pd.DataFrame()  # Return an empty DataFrame
+    else:
+        # Handle other types or raise an error if necessary
+        pass
+    
     #Check if reference_observation is empty or contains NaN values
-    if reference_observation.empty or reference_observation.isna().any().any():
+    #if reference_observation.empty or reference_observation.isna().any().any():
     #if len(reference_observation) == 0 or any([np.isnan(x) for x in reference_observation]):
-        return pd.DataFrame()  # Return an empty DataFrame
+        #return pd.DataFrame()  # Return an empty DataFrame
     
     # Find nearest neighbors only if reference_observation is not empty
     indices = nn.kneighbors(reference_observation, return_distance=False)
