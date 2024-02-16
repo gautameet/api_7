@@ -234,8 +234,8 @@ def scatter(id_client, feature_x, feature_y, df):
     ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
                alpha=0.5, label='refusé')
 
-    data_client = df.loc[df['SK_ID_CURR'] == id_client]
-    #data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
+    #data_client = df.loc[df['SK_ID_CURR'] == id_client]
+    data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
     observation_x = data_client[feature_x]
     observation_y = data_client[feature_y]
     ax.scatter(observation_x, observation_y, marker='*', s=200, color='black', label='Client')
@@ -297,9 +297,9 @@ with st.sidebar:
 
     list_id_client = list(data_test['SK_ID_CURR'])
     list_id_client.insert(0, '<Select>')
-    client_id = st.selectbox("ID Client", list_id_client)
-    #id_client_dash = st.selectbox("ID Client", list_id_client)
-    st.write('Vous avez choisi le client ID : '+str(client_id))
+    #client_id = st.selectbox("ID Client", list_id_client)
+    id_client_dash = st.selectbox("ID Client", list_id_client)
+    st.write('Vous avez choisi le client ID : '+str(id_client_dash))
 
     st.markdown("""---""")
     st.write("Created by ...............")
@@ -330,12 +330,12 @@ if page == "Information du client":
     st.write("Cliquez sur le bouton ci-dessous pour commencer l'analyse de la demande :")
     button_start = st.button("Statut de la demande")
     if button_start:
-        if client_id != '<Select>':
+        if id_client_dash != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
 
             # Call the function and assign the return value to a single variable
-            probability, decision = get_prediction(client_id)
+            probability, decision = get_prediction(id_client_dash)
 
             if probability is not None and decision is not None:
                 st.write(f"Probability of Default: {probability}")
@@ -369,8 +369,8 @@ if page == "Information du client":
     # Affichage des informations client
     with st.expander("Afficher les informations du client", expanded=False):
         st.info("Voici les informations du client:", icon='ℹ️')
-        #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
-        st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == client_id]))
+        st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
+        #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == client_id]))
 
 
 if page == "Interprétation locale":
@@ -379,8 +379,8 @@ if page == "Interprétation locale":
     locale = st.checkbox("Interprétation locale")
     if locale:
         st.info("Interprétation locale de la prédiction")
-        #shap_val = shap_val_local(id_client_dash)          ##################
-        shap_val = shap_val()     
+        shap_val = shap_val_local(id_client_dash)
+        #shap_val = shap_val()     
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
 
         if shap_val is not None and len(shap_val) == nb_features:
@@ -403,7 +403,7 @@ if page == "Interprétation locale":
 if page == "Interprétation globale":
     st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
     # Création du dataframe de voisins similaires
-    data_voisin = df_voisins(client_id)
+    data_voisin = df_voisins(id_client_dash)
 
     globale = st.checkbox("Importance globale")
     if globale:
@@ -434,20 +434,20 @@ if page == "Interprétation globale":
                 feature1 = st.selectbox("Choisissez une caractéristique", list_features,
                                         index=list_features.index('AMT_CREDIT'))
                 if distrib_compa == 'Tous':
-                    #distribution(feature1, id_client_dash, data_train)
-                    distribution(feature1, client_id, data_train)
+                    distribution(feature1, id_client_dash, data_train)
+                    #distribution(feature1, client_id, data_train)
                 else:
-                    distribution(feature1, client_id, data_voisins)
-                    #distribution(feature1, id_client_dash, data_voisins)
+                    #distribution(feature1, client_id, data_voisins)
+                    distribution(feature1, id_client_dash, data_voisins)
             with col2:
                 feature2 = st.selectbox("Choisissez une caractéristique", list_features,
                                         index=list_features.index('EXT_SOURCE_2'))
                 if distrib_compa == 'Tous':
-                    distribution(feature2, client_id, data_train)
-                    #distribution(feature2, id_client_dash, data_train)
+                    #distribution(feature2, client_id, data_train)
+                    distribution(feature2, id_client_dash, data_train)
                 else:
-                    distribution(feature2, client_id, data_voisins)
-                    #distribution(feature2, id_client_dash, data_voisins)
+                    #distribution(feature2, client_id, data_voisins)
+                    distribution(feature2, id_client_dash, data_voisins)
 
             with st.expander("Explication des distributions", expanded=False):
                 st.caption("Vous pouvez sélectionner la caractéristique dont vous souhaitez observer la distribution. "
@@ -475,11 +475,11 @@ if page == "Interprétation globale":
         # Affichage des nuages de points de la feature 2 en fonction de la feature 1
         if (feat1 != '<Select>') & (feat2 != '<Select>'):
             if bivar_compa == 'Tous':
-                scatter(client_id, feat1, feat2, data_train)
-                #scatter(id_client_dash, feat1, feat2, data_train)
+                #scatter(client_id, feat1, feat2, data_train)
+                scatter(id_client_dash, feat1, feat2, data_train)
             else:
-                scatter(client_id, feat1, feat2, data_voisins)
-                #scatter(id_client_dash, feat1, feat2, data_voisins)
+                #scatter(client_id, feat1, feat2, data_voisins)
+                scatter(id_client_dash, feat1, feat2, data_voisins)
             with st.expander("Explication des scatter plot", expanded=False):
                 st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
                            "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
@@ -498,7 +498,7 @@ if page == "Interprétation globale":
                                   default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
 
         # Affichage des boxplot
-        boxplot_graph(client_id, features, data_voisins)
+        boxplot_graph(id_client_dash, features, data_voisins)
         #boxplot_graph(id_client_dash, features, data_voisins)
         with st.expander("Explication des boxplot", expanded=False):
             st.caption("Les boxplot permettent d'observer les distributions des variables renseignées. "
