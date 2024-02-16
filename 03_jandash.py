@@ -85,7 +85,7 @@ def get_prediction(client_id: int):
     """
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
-    info_client = info_client[model.feature_names_]
+    #info_client = info_client[model.feature_names_]
     prediction = model.predict_proba(info_client)[0][1]
     
     proba_default = round(predictions[:, 1].mean(), 3) if predictions.ndim > 1 else round(predictions[0][1], 3)  
