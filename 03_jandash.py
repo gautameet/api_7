@@ -85,12 +85,13 @@ def get_prediction(client_id):
     """
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
-    
+    proba = model.predict_proba(info_client)
+    probability_of_default = proba[0][1]  # Probability of the positive class (default)
     try:
-        proba = model.predict_proba(info_client)
-        probability_of_default = proba[0][1]  # Probability of the positive class (default)
-        target = int(model.predict(info_client)[0])  # Predicted target class
-        decision = "Accepted" if probability_of_default < 0.54 else "Rejected"
+        #proba = model.predict_proba(info_client)
+        #probability_of_default = proba[0][1]  # Probability of the positive class (default)
+        #target = int(model.predict(info_client)[0])  # Predicted target class
+        decision = "Accepted" if probability_of_default >= 0.54 else "Rejected"
         res = {"target": target, "probability_of_default": round(probability_of_default, 2), "decision": decision}
     except Exception as e:
         res = {"error": str(e)}
