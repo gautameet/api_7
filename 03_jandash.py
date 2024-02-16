@@ -95,7 +95,7 @@ def get_prediction(client_id):
         res = {"probability_of_default": round(probability_of_default, 2), "decision": decision}
     except Exception as e:
         res = {"error": str(e)}
-    return res
+    return probability_of_default, decision
 
 #def get_prediction(client_id):
     """
@@ -334,15 +334,16 @@ if page == "Information du client":
             st.markdown("RÉSULTAT DE LA DEMANDE")
 
             # Call the function and assign the return value to a single variable
-            result = get_prediction(client_id)
+            probability, decision = get_prediction(client_id)
+            #result = get_prediction(client_id)
 
             # Check if the result is a tuple with two values (probability and decision)
-            if isinstance(result, tuple) and len(result) == 2:
-                probability, decision = result
-            else:
+            #if isinstance(result, tuple) and len(result) == 2:
+                #probability, decision = result
+            #else:
                 # Handle the case where only one value is returned
-                probability = result
-                decision = None  # Or handle this case as appropriate for your application
+                #probability = result
+                #decision = None  # Or handle this case as appropriate for your application
             
             #probability, decision = get_prediction(client_id)
             #probability, decision = get_prediction(id_client_dash)       
