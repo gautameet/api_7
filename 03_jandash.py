@@ -347,8 +347,8 @@ if page == "Information du client":
             probability, decision = get_prediction(client_id)
 
             if probability is not None and decision is not None:
-            st.write(f"Probability of Default: {probability}")
-            st.write(f"Decision: {decision}")
+                st.write(f"Probability of Default: {probability}")
+                st.write(f"Decision: {decision}")
 
              # Affichage de la jauge
             jauge_score(proba)
