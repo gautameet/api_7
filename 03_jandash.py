@@ -175,29 +175,71 @@ def df_voisins(client_id: int):
     
     return df_voisins
 
-def shap_values_local(id_client):
+#def shap_values_local(id_client: int):
     """ Calcul les shap values pour un client.
         :param: client_id (int)
         :return: shap values du client (json).
         """
-    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == id_client]
-    client_data = client_data.drop('SK_ID_CURR', axis=1)
-    shap_val = explainer(client_data)[0][:, 1]
-    #shap_val = compute_shap_values(id_client_dash)
-    return {'shap_values': shap_val.values.tolist(),
-            'base_value': shap_val.base_values,
-            'data': client_data.values.tolist(),
-            'feature_names': client_data.columns.tolist()}
+    #client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == id_client]
+    #client_data = client_data.drop('SK_ID_CURR', axis=1)
+    #shap_val = explainer(client_data)[0][:, 1]
+    ##shap_val = compute_shap_values(id_client_dash)
+    #return {'shap_values': shap_val.values.tolist(),
+     #       'base_value': shap_val.base_values,
+      #      'data': client_data.values.tolist(),
+       #     'feature_names': client_data.columns.tolist()}
 
-def shap_val():
+def shap_values_local(client_id: int):
+    """Calculate the SHAP values for a client.
+    :param client_id: Client ID (int)
+    :return: SHAP values for the client (dict)
+    """
+    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == client_id]
+    client_data = client_data.drop('SK_ID_CURR', axis=1)
+    
+    # Compute SHAP values
+    shap_values = explainer.shap_values(client_data)
+    
+    # Construct the output dictionary
+    shap_values_dict = {
+        'shap_values': shap_values.tolist(),
+        'base_value': explainer.expected_value,
+        'data': client_data.values.tolist(),
+        'feature_names': client_data.columns.tolist()
+    }
+
+    return shap_values_dict
+
+def shap_values(explainer, data_scaled):
+    """Calculate the SHAP values for the entire dataset.
+    :param explainer: SHAP explainer object
+    :param data_scaled: Scaled dataset (DataFrame)
+    :return: SHAP values as a dictionary
+    """
+    shap_val = explainer.shap_values(data_scaled.drop('SK_ID_CURR', axis=1))
+    return {
+        'shap_values_0': shap_val[0].tolist(),
+        'shap_values_1': shap_val[1].tolist()
+    }
+
+def shap_globales(shap_val_glob_0, shap_val_glob_1):
+    """Combine and return the global SHAP values.
+    :param shap_val_glob_0: SHAP values for class 0 (list)
+    :param shap_val_glob_1: SHAP values for class 1 (list)
+    :return: Combined SHAP values as a NumPy array
+    """
+    shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
+    return shap_globales
+    
+#def shap_val():
     """ Calcul les shap values de l'ensemble du jeu de données
     :param:
     :return: shap values
     """
-    explainer = shap.TreeExplainer(model)
-    shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
-    return {'shap_values_0_list': shap_val[0].tolist(),
-            'shap_values_1': shap_val[1].tolist()}
+   # explainer = shap.TreeExplainer(model)
+   # shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
+   # return {'shap_values_0_list': shap_val[0].tolist(),
+    #        'shap_values_1': shap_val[1].tolist()}
 
 def distribution(feature, id_client, df):
     """Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
