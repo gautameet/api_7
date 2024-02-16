@@ -368,8 +368,8 @@ if page == "Information du client":
             #probability, decision = get_prediction(id_client_dash)       
 
             #if decision == 'Accordé':
-                "st.success("Crédit accordé")
-            "else:
+                #"st.success("Crédit accordé")
+            #else:
                 #st.error("Crédit refusé")
 
             # Affichage de la jauge
