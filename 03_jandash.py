@@ -92,10 +92,9 @@ def get_prediction(client_id):
         #probability_of_default = proba[0][1]  # Probability of the positive class (default)
         #target = int(model.predict(info_client)[0])  # Predicted target class
         decision = "Accepted" if probability_of_default >= 0.54 else "Rejected"
-        res = {"target": target, "probability_of_default": round(probability_of_default, 2), "decision": decision}
+        res = {"probability_of_default": round(probability_of_default, 2), "decision": decision}
     except Exception as e:
         res = {"error": str(e)}
-    
     return res
 
 #def get_prediction(client_id):
