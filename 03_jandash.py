@@ -77,7 +77,7 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def get_prediction(client_id: int):
+def prediction(client_id: int):
     """
     Calculates the probability of default for a client.
     :param client_id: Client ID (int)
@@ -335,7 +335,7 @@ if page == "Information du client":
             st.markdown("RÉSULTAT DE LA DEMANDE")
 
             # Call the function and assign the return value to a single variable
-            probability, decision = get_prediction(id_client_dash)
+            probability, decision = prediction(id_client_dash)
 
             if probability is not None and decision is not None:
                 st.write(f"Probability of Default: {probability}")
@@ -408,7 +408,7 @@ if page == "Interprétation globale":
     globale = st.checkbox("Importance globale")
     if globale:
         st.info("Importance globale")
-        shap_values = get_shap_val()
+        shap_values = shap_val()
         data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
         fig, ax = plt.subplots()
