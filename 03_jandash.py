@@ -77,32 +77,19 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def get_prediction(client_id: int):
+def get_prediction(client_id):
     """
-    Calculates the probability of default for a client.
+    Calculates the probability of default for a client using model prediction.
+    
     :param client_id: Client ID (int).
-    :return: Dictionary containing target and risk information (dict).
+    :return: Probability of default (float) and decision (str).
     """
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
-    proba = model.predict_proba(info_client)[0][1]
-    probability_of_default = round(float(proba), 3)  
-
-    if probability_of_default >= 0.54:
-        decision = "Refused"
-    else:
-        decision = "Accepted"
+    proba = model.predict_proba(info_client)
+    probability_of_default = proba[0][1]  # Probability of the positive class (default)
+    decision = "Accepted" if probability_of_default >= 0.54 else "Rejected"
     return probability_of_default, decision
-    
-    #try:
-        #proba = model.predict_proba(info_client)
-        #probability_of_default = proba[0][1]  # Probability of the positive class (default)
-        #target = int(model.predict(info_client)[0])  # Predicted target class
-        #decision = "Accepted" if probability_of_default >= 0.54 else "Rejected"
-        #res = {"probability_of_default": round(probability_of_default, 2), "decision": decision}
-    #except Exception as e:
-        #res = {"error": str(e)}
-    #return proba, decision
 
 #def get_prediction(client_id):
     """
@@ -341,7 +328,7 @@ if page == "Information du client":
             st.markdown("RÉSULTAT DE LA DEMANDE")
 
             # Call the function and assign the return value to a single variable
-            probability_of_default, decision = get_prediction(client_id)
+            probability, decision = get_prediction(client_id)
             #result = get_prediction(client_id)
 
             # Check if the result is a tuple with two values (probability and decision)
