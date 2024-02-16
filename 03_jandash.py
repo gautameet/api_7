@@ -58,7 +58,6 @@ def check_client_id(client_id: int):
         return False
 
 # Fonctions
-
 def minmax_scale(df, scaler):
     """Preprocessing du dataframe en paramètre avec le scaler renseigné.
     :param: df, scaler (str).
