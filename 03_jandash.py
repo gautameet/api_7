@@ -77,35 +77,24 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def get_prediction(client_id):
+def get_prediction(client_id: int):
     """
-    Calculates the probability of default for a client using model prediction.
-    
-    :param client_id: Client ID (int).
-    :return: Probability of default (float) and decision (str).
+    Calculates the probability of default for a client.
+    :param client_id: Client ID (int)
+    :return: Probability of default (float) and decision (str)
     """
-    # Check if client_id is valid (you may need to adjust this condition based on your data)
-    if client_id not in data_test['SK_ID_CURR'].values:
-        st.error("Invalid client ID. Please enter a valid client ID.")
-        return None, None
-    
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
-    
-    # Check if info_client contains any features
-    if info_client.empty:
-        st.error("No data available for the given client ID.")
-        return None, None
-    
-    # Check if info_client contains all required features used during model training
-    if set(info_client.columns) != set(model.feature_names_):
-        st.error("Input data does not contain all required features.")
-        return None, None
-    
-    proba = model.predict_proba(info_client)
-    probability_of_default = proba[0][1]  # Probability of the positive class (default)
-    decision = "Accepted" if probability_of_default >= 0.54 else "Rejected"
-    return probability_of_default, decision
+    prediction = model.predict_proba(info_client)[0][1]
+    proba_default = round(prediction, 3)  
+    best_threshold = 0.54
+    if proba_default >= best_threshold:
+        decision = "Refused"
+    else:
+        decision = "Accepted"
+
+    return proba_default, decision
+
 
 #def get_prediction(client_id):
     """
