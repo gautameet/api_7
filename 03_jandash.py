@@ -36,11 +36,11 @@ data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 with open('model11.pkl', 'rb') as file:
     model = pickle.load(file)
 
-cols = data_test.select_dtypes(['float64']).columns
+cols = data_test.select_dtypes(include=['float64','int64']).columns
 data_test_scaled = data_test.copy()
 data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
-col = data_train.select_dtypes(['float64']).columns
+col = data_train.select_dtypes(include=['float64','int64']).columns
 data_train_scaled = data_train.copy()
 data_train_scaled[col] = StandardScaler().fit_transform(data_train[col])
 
