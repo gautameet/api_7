@@ -33,7 +33,7 @@ zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 # Loading the model
-model = pickle.load(open('model11.pkl', 'rb')
+model = pickle.load(open('model11.pkl', 'rb'))
 #with open('model11.pkl', 'rb') as file:
     #model = pickle.load(file)
 
