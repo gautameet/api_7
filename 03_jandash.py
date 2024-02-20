@@ -33,8 +33,9 @@ zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 # Loading the model
-with open('model11.pkl', 'rb') as file:
-    model = pickle.load(file)
+model = pickle.load(open('model11.pkl', 'rb')
+#with open('model11.pkl', 'rb') as file:
+    #model = pickle.load(file)
 
 cols = data_test.select_dtypes(include=['float64','int64']).columns
 data_test_scaled = data_test.copy()
