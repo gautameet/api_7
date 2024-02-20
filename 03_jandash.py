@@ -45,7 +45,7 @@ col = data_train.select_dtypes(include=['float64','int64']).columns
 data_train_scaled = data_train.copy()
 data_train_scaled[col] = StandardScaler().fit_transform(data_train[col])
 
-explainer = shap.TreeExplainer(model)
+explainer = shap.TreeExplainer(model1)
 
 def check_client_id(client_id: int):
     """
