@@ -87,7 +87,7 @@ def prediction(client_id: int):
     #info_client = info_client[model.feature_names_]
     prediction = model.predict_proba(info_client)[0][1]
     
-    proba_default = round(predictions[:, 1].mean(), 3) if predictions.ndim > 1 else round(predictions[0][1], 3)  
+    proba_default = round(prediction[:, 1].mean(), 3) if prediction.ndim > 1 else round(prediction[0][1], 3)  
     best_threshold = 0.54
     if proba_default >= best_threshold:
         decision = "Rejected"
