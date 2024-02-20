@@ -83,13 +83,13 @@ def prediction(client_id: int):
     :param client_id: Client ID (int)
     :return: Probability of default (float) and decision (str)
     """
-    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
     #info_client = info_client[model.feature_names_]
-    prediction = model.predict_proba(info_client)
+    prediction_proba = model.predict_proba(info_client)
     #prediction = model.predict_proba(info_client)[0][1]
     
-    proba_default = round(prediction[:, 1].mean(), 3) if prediction.ndim > 1 else round(prediction[0][1], 3)  
+    proba_default = round(prediction_proba[:, 1].mean(), 3) if prediction_proba.ndim > 1 else round(prediction_proba[0][1], 3)  
     best_threshold = 0.54
     if proba_default >= best_threshold:
         decision = "Rejected"
