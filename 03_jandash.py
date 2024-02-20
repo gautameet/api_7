@@ -33,7 +33,7 @@ zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 # Loading the model
-model1 = pickle.load(open('model1.pkl', 'rb'))
+model = pickle.load(open('model1.pkl', 'rb'))
 #with open('model11.pkl', 'rb') as file:
     #model = pickle.load(file)
 
@@ -45,7 +45,7 @@ col = data_train.select_dtypes(include=['float64','int64']).columns
 data_train_scaled = data_train.copy()
 data_train_scaled[col] = StandardScaler().fit_transform(data_train[col])
 
-explainer = shap.TreeExplainer(model1)
+explainer = shap.TreeExplainer(model)
 
 def check_client_id(client_id: int):
     """
