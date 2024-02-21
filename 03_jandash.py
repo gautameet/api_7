@@ -26,7 +26,7 @@ np.seterr(divide='ignore', invalid='ignore')
 #API_URL = 'https://dashtest.streamlit.app/'
 
 # Loading the Treated Data
-zip_file_path = ZipFile('data_train.zip')
+zip_file_path = ZipFile('data_train1.zip')
 data_train = pd.read_csv(zip_file_path.open('data_train.csv'))
 
 zip_file_test = ZipFile('data_test.zip')
@@ -41,9 +41,9 @@ cols = data_test.select_dtypes(include=['float64','int32','int64']).columns
 data_test_scaled = data_test.copy()
 data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
-col = data_train.select_dtypes(include=['float64','int32','int64']).columns
+cols = data_train.select_dtypes(include=['float64','int32','int64']).columns
 data_train_scaled = data_train.copy()
-data_train_scaled[col] = StandardScaler().fit_transform(data_train[col])
+data_train_scaled[cols] = StandardScaler().fit_transform(data_train[cols])
 
 explainer = shap.TreeExplainer(model)
 
