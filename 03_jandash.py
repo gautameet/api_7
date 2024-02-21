@@ -27,7 +27,7 @@ np.seterr(divide='ignore', invalid='ignore')
 
 # Loading the Treated Data
 zip_file_path = ZipFile('data_train1.zip')
-data_train = pd.read_csv(zip_file_path.open('data_train.csv'))
+data_train = pd.read_csv(zip_file_path.open('data_train1.csv'))
 
 zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
