@@ -81,7 +81,7 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def prediction(client_id: int):
+def prediction(client_id: int, data_test):
     """
     Calculates the probability of default for a client.
     :param client_id: Client ID (int)
@@ -148,7 +148,7 @@ def df_voisins(client_id: int):
     :param client_id: Client ID (int)
     :return: Dataframe of similar clients (DataFrame).
     """
-    features = list(data_train.columns)
+    features = list(data_train_scaled.columns)
     features.remove('SK_ID_CURR')
     features.remove('TARGET')
 
@@ -156,19 +156,25 @@ def df_voisins(client_id: int):
     nn = NearestNeighbors(n_neighbors=10, metric='euclidean')
 
     # Training the model on the data
-    nn.fit(data_train[features])
+    nn.fit(data_train_scaled[features])
     
     reference_id = client_id
     #reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
-    reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
+    reference_observation = data_test_scaled[data_test_scaled['SK_ID_CURR'] == reference_id][features].values
+
+    # Find nearest neighbors only if reference_observation is not empty
+    indices = nn.kneighbors(reference_observation, return_distance=False)
+    df_voisins = data_train.iloc[indices[0], :]
+
+    return df_voisins
     
-    if isinstance(reference_observation, np.ndarray):
-        reference_df = pd.DataFrame(reference_observation)
-        if reference_df.empty or reference_df.isna().any().any():
-            return pd.DataFrame()  # Return an empty DataFrame
-    else:
+    #if isinstance(reference_observation, np.ndarray):
+        #reference_df = pd.DataFrame(reference_observation)
+      #  if reference_df.empty or reference_df.isna().any().any():
+     #       return pd.DataFrame()  # Return an empty DataFrame
+    #else:
         # Handle other types or raise an error if necessary
-        pass
+     #   pass
     
     #Check if reference_observation is empty or contains NaN values
     #if reference_observation.empty or reference_observation.isna().any().any():
@@ -176,10 +182,10 @@ def df_voisins(client_id: int):
         #return pd.DataFrame()  # Return an empty DataFrame
     
     # Find nearest neighbors only if reference_observation is not empty
-    indices = nn.kneighbors(reference_observation, return_distance=False)
-    df_voisins = data_train.iloc[indices[0], :]
+    #indices = nn.kneighbors(reference_observation, return_distance=False)
+    #df_voisins = data_train.iloc[indices[0], :]
     
-    return df_voisins
+    #return df_voisins
 
 #def shap_values_local(id_client: int):
     """ Calcul les shap values pour un client.
@@ -200,16 +206,17 @@ def shap_values_local(client_id: int):
     :param client_id: Client ID (int)
     :return: SHAP values for the client (dict)
     """
-    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+    client_data = data_scaled_test[data_scaled_test['SK_ID_CURR'] == client_id]
     client_data = client_data.drop('SK_ID_CURR', axis=1)
     
     # Compute SHAP values
-    shap_values = explainer.shap_values(client_data)
+    shap_val = explainer(client_data)[0][:, 1
+    #shap_values = explainer.shap_values(client_data)
     
     # Construct the output dictionary
     shap_values_dict = {
-        'shap_values': shap_values.tolist(),
-        'base_value': explainer.expected_value,
+        'shap_values': shap_val.values.tolist(),
+        'base_value': shap_val.base_values,
         'data': client_data.values.tolist(),
         'feature_names': client_data.columns.tolist()
     }
@@ -222,7 +229,7 @@ def shap_values(explainer, data_scaled):
     :param data_scaled: Scaled dataset (DataFrame)
     :return: SHAP values as a dictionary
     """
-    shap_val = explainer.shap_values(data_scaled.drop('SK_ID_CURR', axis=1))
+    shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
     return {
         'shap_values_0': shap_val[0].tolist(),
         'shap_values_1': shap_val[1].tolist()
