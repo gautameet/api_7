@@ -37,13 +37,13 @@ model = pickle.load(open('model11.pkl', 'rb'))
 #with open('model11.pkl', 'rb') as file:
     #model = pickle.load(file)
 
-cols = data_test.select_dtypes(include=['float64','int32','int64']).columns
-data_test_scaled = data_test.copy()
-data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
+#cols = data_test.select_dtypes(include=['float64','int32','int64']).columns
+#data_test_scaled = data_test.copy()
+#data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
-cols = data_train.select_dtypes(include=['float64','int32','int64']).columns
-data_train_scaled = data_train.copy()
-data_train_scaled[cols] = StandardScaler().fit_transform(data_train[cols])
+#cols = data_train.select_dtypes(include=['float64','int32','int64']).columns
+#data_train_scaled = data_train.copy()
+#data_train_scaled[cols] = StandardScaler().fit_transform(data_train[cols])
 
 explainer = shap.TreeExplainer(model)
 
@@ -66,10 +66,10 @@ def minmax_scale(df, scaler):
     """
     colmns = df.select_dtypes(['float64']).columns
     df_scaled = df.copy()
-    if scaler == 'minmax':
-        scal = MinMaxScaler()
-    else:
-        scal = StandardScaler()
+    #if scaler == 'minmax':
+    scal = MinMaxScaler()
+    #else:
+        #scal = StandardScaler()
 
     df_scaled[colmns] = scal.fit_transform(df[colmns])
     return df_scaled
