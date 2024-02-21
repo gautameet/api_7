@@ -210,7 +210,7 @@ def shap_values_local(client_id: int):
     client_data = client_data.drop('SK_ID_CURR', axis=1)
     
     # Compute SHAP values
-    shap_val = explainer(client_data)[0][:, 1
+    shap_val = explainer(client_data)[0][:, 1]
     #shap_values = explainer.shap_values(client_data)
     
     # Construct the output dictionary
