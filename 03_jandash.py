@@ -83,7 +83,7 @@ def prediction(client_id: int):
     :param client_id: Client ID (int)
     :return: Probability of default (float) and decision (str)
     """
-    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == client_id]
+    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
     #info_client = info_client[model.feature_names_]
     prediction_proba = model.predict_proba(info_client)[0][1]
@@ -144,7 +144,7 @@ def df_voisins(client_id: int):
     :param client_id: Client ID (int)
     :return: Dataframe of similar clients (DataFrame).
     """
-    features = list(data_train_scaled.columns)
+    features = list(data_train.columns)
     features.remove('SK_ID_CURR')
     features.remove('TARGET')
 
@@ -152,11 +152,11 @@ def df_voisins(client_id: int):
     nn = NearestNeighbors(n_neighbors=10, metric='euclidean')
 
     # Training the model on the data
-    nn.fit(data_train_scaled[features])
+    nn.fit(data_train[features])
     
     reference_id = client_id
     #reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
-    reference_observation = data_test_scaled[data_test_scaled['SK_ID_CURR'] == reference_id][features].values
+    reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
     
     if isinstance(reference_observation, np.ndarray):
         reference_df = pd.DataFrame(reference_observation)
@@ -196,7 +196,7 @@ def shap_values_local(client_id: int):
     :param client_id: Client ID (int)
     :return: SHAP values for the client (dict)
     """
-    client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == client_id]
+    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     client_data = client_data.drop('SK_ID_CURR', axis=1)
     
     # Compute SHAP values
@@ -239,7 +239,7 @@ def shap_globales(shap_val_glob_0, shap_val_glob_1):
     :return: shap values
     """
    # explainer = shap.TreeExplainer(model)
-   # shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
+   # shap_val = explainer.shap_values(data_test.drop('SK_ID_CURR', axis=1))
    # return {'shap_values_0_list': shap_val[0].tolist(),
     #        'shap_values_1': shap_val[1].tolist()}
 
