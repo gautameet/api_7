@@ -117,7 +117,7 @@ def prediction(client_id):
 	try :
 		client = data[data['SK_ID_CURR']== client_id]
 		if client.empty:
-			return 'Client not found !', None
+			return 'Client not found !'
 			
 		ID_to_predict = client[feats]
 		ID_to_predict.fillna(0, inplace = True)
