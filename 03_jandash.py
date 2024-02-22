@@ -37,9 +37,9 @@ model = pickle.load(open('model11.pkl', 'rb'))
 #with open('model11.pkl', 'rb') as file:
     #model = pickle.load(file)
 
-cols = data_test.select_dtypes(include=['float64','int32','int64']).columns
-data_test_scaled = data_test.copy()
-data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
+#cols = data_test.select_dtypes(include=['float64','int32','int64']).columns
+#data_test_scaled = data_test.copy()
+#data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
 cols_train = data_train.select_dtypes(include=['float64','int32','int64']).columns
 data_train_scaled = data_train.copy()
@@ -81,7 +81,7 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def prediction(client_id: int, data_test):
+def prediction(client_id: int):
     """
     Calculates the probability of default for a client.
     :param client_id: Client ID (int)
@@ -90,7 +90,7 @@ def prediction(client_id: int, data_test):
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     info_client = client_data.drop('SK_ID_CURR', axis=1)
     #info_client = info_client[model.feature_names_]
-    prediction_proba = model.predict_proba(info_client)[0][1]
+    prediction_proba = model.predict_proba(info_client)[:, 1]
     #prediction = model.predict_proba(info_client)[0][1]
     
     proba_default = round(prediction_proba[:, 1].mean(), 3) if prediction_proba.ndim > 1 else round(prediction_proba[0][1], 3)  
