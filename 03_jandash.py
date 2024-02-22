@@ -60,7 +60,7 @@ def check_client_id(client_id: int):
         return False
 
 # Fonctions
-def minmax_scale(df, MinMaxScaler):
+def minmax_scale(df, scaler):
     """
     Perform min-max scaling on the DataFrame using the provided scaler.
     Parameters:
@@ -69,9 +69,12 @@ def minmax_scale(df, MinMaxScaler):
     Returns:
         DataFrame: The scaled DataFrame.
     """
-    cols = df.select_dtypes(['float64','int32','int64'])
+    cols = df.select_dtypes(['float64','int32','int64']).columns
     df_scaled = df.copy()
-    scal = MinMaxScaler()
+    if scaler == 'minmax':
+        scal = MinMaxScaler()  # Corrected class name
+    else:
+        scal = StandardScaler()
     df_scaled[cols] = scal.fit_transform(df[cols])
     return df_scaled
 
