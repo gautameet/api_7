@@ -24,6 +24,7 @@ from PIL import Image
 np.seterr(divide='ignore', invalid='ignore')
 
 #API_URL = 'https://dashtest.streamlit.app/'
+
 feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
         'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
@@ -33,7 +34,7 @@ zip_file_path = ZipFile('data_train1.zip')
 data_train = pd.read_csv(zip_file_path.open('data_train1.csv'), usecols=feat)
 
 zip_file_test = ZipFile('data_test.zip')
-data_test = pd.read_csv(zip_file_test.open('data_test.csv'), usecols=feat)
+data_test = pd.read_csv(zip_file_test.open('data_test.csv'),usecols=[f for f in feat if f!='TARGET'])
 
 # Loading the model
 model = pickle.load(open('model11.pkl', 'rb'))
@@ -44,7 +45,7 @@ model = pickle.load(open('model11.pkl', 'rb'))
 #data_test_scaled = data_test.copy()
 #data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
-cols_train = data_train.select_dtypes(include=['float64','int32','int64']).columns
+cols_train = data_train.select_dtypes(include=['float64','int32','int64'])
 data_train_scaled = data_train.copy()
 data_train_scaled[cols_train] = StandardScaler().fit_transform(data_train[cols_train])
 
