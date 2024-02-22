@@ -319,7 +319,7 @@ def boxplot_graph(id_client, feat, df_vois):
     df_voisins_box = df_voisins.melt(id_vars=['TARGET'], value_vars=feat,
                                             var_name="var", value_name="val")
     #df_voisins_box = df_voisins_scaled.melt(id_vars=['TARGET'], value_vars=feat,
-                                            var_name="var", value_name="val")
+                                            #var_name="var", value_name="val")
     sns.swarmplot(data=df_voisins_box, x='var', y='val', hue='TARGET', size=8,
                   palette=['green', 'red'], ax=ax)
 
