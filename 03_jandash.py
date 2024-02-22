@@ -25,16 +25,13 @@ np.seterr(divide='ignore', invalid='ignore')
 
 #API_URL = 'https://dashtest.streamlit.app/'
 
-feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
-        'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
-
 
 # Loading the Treated Data
 zip_file_path = ZipFile('data_train1.zip')
-data_train = pd.read_csv(zip_file_path.open('data_train1.csv'), usecols=feat)
+data_train = pd.read_csv(zip_file_path.open('data_train1.csv'))
 
 zip_file_test = ZipFile('data_test.zip')
-data_test = pd.read_csv(zip_file_test.open('data_test.csv'),usecols=[f for f in feat if f!='TARGET'])
+data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
 # Loading the model
 model = pickle.load(open('model11.pkl', 'rb'))
