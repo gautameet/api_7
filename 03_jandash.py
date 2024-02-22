@@ -390,7 +390,7 @@ if page == "Information du client":
             st.markdown("RÉSULTAT DE LA DEMANDE")
 
             # Call the function and assign the return value to a single variable
-            probability, decision = prediction(id_client_dash, data_test)
+            probability, decision = prediction(id_client_dash)
 
             if probability is not None and decision is not None:
                 st.write(f"Probability of Default: {probability}")
