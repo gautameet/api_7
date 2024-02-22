@@ -60,7 +60,7 @@ def check_client_id(client_id: int):
         return False
 
 # Fonctions
-def minmax_scale(df, scaler):
+def minmax_scale(df, MinMaxScaler):
     """
     Perform min-max scaling on the DataFrame using the provided scaler.
     Parameters:
