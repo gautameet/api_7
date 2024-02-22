@@ -129,7 +129,7 @@ def prediction(client_id):
 			decision = "Rejected"
 		else:
 			decision = "Accepted"
-		return proba_default
+		return proba_default, decision
 	except:
 		return "Client not found !"
   
