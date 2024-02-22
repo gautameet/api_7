@@ -33,6 +33,11 @@ data_train = pd.read_csv(zip_file_path.open('data_train1.csv'))
 zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
+zip_file = ZipFile('data_selected1.zip')
+data = pd.read_csv(zip_file.open('data_selected1.csv'))
+feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
+
+
 # Loading the model
 model = pickle.load(open('model11.pkl', 'rb'))
 #with open('model11.pkl', 'rb') as file:
@@ -81,45 +86,47 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-def prediction(client_id: int):
+#def prediction(client_id: int):
     """
     Calculates the probability of default for a client.
     :param client_id: Client ID (int)
     :return: Probability of default (float) and decision (str)
     """
-    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-    info_client = client_data.drop('SK_ID_CURR', axis=1)
+    #client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+    ~#info_client = client_data.drop('SK_ID_CURR', axis=1)
     #info_client = info_client[model.feature_names_]
-    prediction_proba = model.predict_proba(info_client)
+    #prediction_proba = model.predict_proba(info_client)
     #prediction = model.predict_proba(info_client)[0][1]
     
-    proba_default = round(prediction_proba[:, 1].mean(), 3) if prediction_proba.ndim > 1 else round(prediction_proba[0][1], 3)  
-    best_threshold = 0.54
-    if proba_default >= best_threshold:
-        decision = "Rejected"
-    else:
-        decision = "Accepted"
-
-    return proba_default, decision
-
-
-#def get_prediction(client_id):
-    """
-    Calculates the probability of default for a client.
-    :param: client_id (int)
-    :return: probability of default (float).
-    """
-    #client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-    #info_client = client_data.drop('SK_ID_CURR', axis=1)
-   # prediction = model.predict(info_client)
-    #proba = model.predict_proba(info_client)
-    #if (prediction == 0) | (prediction == 1):
-        #res = '{ "target":'+str(int(prediction))+', "risk":%.2f }'%tuple(proba[0])[1]
+    #proba_default = round(prediction_proba[:, 1].mean(), 3) if prediction_proba.ndim > 1 else round(prediction_proba[0][1], 3)  
+    #best_threshold = 0.54
+    #if proba_default >= best_threshold:
+     #   decision = "Rejected"
     #else:
-        #res = 'Erreur du programme!'
-    #prediction = model.predict_proba(info_client)[0][1]
-    #return prediction
+     #   decision = "Accepted"
 
+#    return proba_default, decision
+
+def prediction(client_id):
+	"""
+    Calculates the probability of default for a client.
+    :param client_id: Client ID (int)
+    :return: Probability of default (float) and decision (str)
+    """
+    #ID = st.number_input('Enter client ID:', value=0, step=1) 
+    try :
+        client_id = data[data['SK_ID_CURR']== client_id]
+        ID_to_predict = client_id[feats]
+        prediction = model.predict(ID_to_predict)
+        proba = model.predict_proba(ID_to_predict)
+        proba_default = round(proba[:, 1].mean(), 3) if proba.ndim > 1 else round(proba[0][1], 3)  
+        best_threshold = 0.54
+        if proba_default >= best_threshold:
+            decision = "Rejected"
+        else:
+            decision = "Accepted"
+        return proba_default, decision
+  
 def jauge_score(proba):
     """Constructs a gauge indicating the client's score.
     :param: proba (float).
