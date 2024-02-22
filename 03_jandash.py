@@ -45,9 +45,9 @@ model = pickle.load(open('model11.pkl', 'rb'))
 #data_test_scaled = data_test.copy()
 #data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
 
-cols_train = data_train.select_dtypes(include=['float64','int32','int64'])
-data_train_scaled = data_train.copy()
-data_train_scaled[cols_train] = StandardScaler().fit_transform(data_train[cols_train])
+#cols_train = data_train.select_dtypes(include=['float64','int32','int64'])
+#data_train_scaled = data_train.copy()
+#data_train_scaled[cols_train] = StandardScaler().fit_transform(data_train[cols_train])
 
 explainer = shap.TreeExplainer(model)
 
@@ -72,13 +72,9 @@ def minmax_scale(df, scaler):
     Returns:
         DataFrame: The scaled DataFrame.
     """
-    cols = df.select_dtypes(['float64','int32','int64']).columns
+    cols = df.select_dtypes(['float64','int32','int64'])
     df_scaled = df.copy()
-    if scaler == 'minmax':
-        scal = MinMaxScaler()
-    else:
-        scal = StandardScaler()
-
+    scal = MinMaxScaler()
     df_scaled[cols] = scal.fit_transform(df[cols])
     return df_scaled
 
@@ -160,12 +156,12 @@ def df_voisins(client_id: int):
     knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
 
     # Training the model on the data
-    knn.fit(data_train_scaled['SK_ID_CURR','TARGET'], axis=1)
+    knn.fit(data_train['SK_ID_CURR','TARGET'], axis=1)
     #knn.fit(data_train_scaled[features])
     
     reference_id = client_id
-    #reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
-    reference_observation = data_test_scaled[data_test_scaled['SK_ID_CURR'] == reference_id][features].values
+    #reference_observation = data_train[data_train['SK_ID_CURR'] == reference_id][features].values
+    reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
 
     # Find nearest neighbors only if reference_observation is not empty
     indices = nn.kneighbors(reference_observation, return_distance=False)
@@ -211,7 +207,7 @@ def shap_values_local(client_id: int):
     :param client_id: Client ID (int)
     :return: SHAP values for the client (dict)
     """
-    client_data = data_scaled_test[data_scaled_test['SK_ID_CURR'] == client_id]
+    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
     client_data = client_data.drop('SK_ID_CURR', axis=1)
     
     # Compute SHAP values
@@ -318,8 +314,11 @@ def boxplot_graph(id_client, feat, df_vois):
     sns.boxplot(data=df_box, x='variables', y='values', hue='TARGET', ax=ax)
 
 
-    df_voisins_scaled = minmax_scale(df_vois, 'minmax')
-    df_voisins_box = df_voisins_scaled.melt(id_vars=['TARGET'], value_vars=feat,
+    df_voisins = minmax_scale(df_vois, 'minmax')
+    #df_voisins_scaled = minmax_scale(df_vois, 'minmax')
+    df_voisins_box = df_voisins.melt(id_vars=['TARGET'], value_vars=feat,
+                                            var_name="var", value_name="val")
+    #df_voisins_box = df_voisins_scaled.melt(id_vars=['TARGET'], value_vars=feat,
                                             var_name="var", value_name="val")
     sns.swarmplot(data=df_voisins_box, x='var', y='val', hue='TARGET', size=8,
                   palette=['green', 'red'], ax=ax)
