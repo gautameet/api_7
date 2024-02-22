@@ -108,14 +108,14 @@ data_test_mm = minmax_scale(data_test, 'minmax')
 #    return proba_default, decision
 
 def prediction(client_id):
-	"""
-    Calculates the probability of default for a client.
-    :param client_id: Client ID (int)
+"""
+Calculates the probability of default for a client.
+	:param client_id: Client ID (int)
     :return: Probability of default (float) and decision (str)
-    """
-    #ID = st.number_input('Enter client ID:', value=0, step=1) 
-    try :
-        client_id = data[data['SK_ID_CURR']== client_id]
+"""
+	#ID = st.number_input('Enter client ID:', value=0, step=1) 
+	try :
+		client_id = data[data['SK_ID_CURR']== client_id]
         ID_to_predict = client_id[feats]
         prediction = model.predict(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)
@@ -126,6 +126,8 @@ def prediction(client_id):
         else:
             decision = "Accepted"
         return proba_default, decision
+	except:
+		return "Client not found !"
   
 def jauge_score(proba):
     """Constructs a gauge indicating the client's score.
