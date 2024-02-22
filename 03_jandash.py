@@ -116,7 +116,11 @@ def prediction(client_id):
 	#ID = st.number_input('Enter client ID:', value=0, step=1) 
 	try :
 		client = data[data['SK_ID_CURR']== client_id]
+		if client.empty:
+			return 'Client not found !', None
+			
 		ID_to_predict = client[feats]
+		ID_to_predict.fillna(0, inplace = True)
 		prediction = model.predict(ID_to_predict)
 		proba = model.predict_proba(ID_to_predict)
 		proba_default = round(proba[:, 1].mean(), 3) if proba.ndim > 1 else round(proba[0][1], 3)
