@@ -148,15 +148,16 @@ def df_voisins(client_id: int):
     :param client_id: Client ID (int)
     :return: Dataframe of similar clients (DataFrame).
     """
-    features = list(data_train_scaled.columns)
-    features.remove('SK_ID_CURR')
-    features.remove('TARGET')
+    #features = list(data_train_scaled.columns)
+    #features.remove('SK_ID_CURR')
+    #features.remove('TARGET')
 
     # Creating an instance of NearestNeighbors
-    nn = NearestNeighbors(n_neighbors=10, metric='euclidean')
+    knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
 
     # Training the model on the data
-    nn.fit(data_train_scaled[features])
+    knn.fit(data_train_scaled['SK_ID_CURR','TARGET'], axis=1)
+    #knn.fit(data_train_scaled[features])
     
     reference_id = client_id
     #reference_observation = data_train_scaled[data_train_scaled['SK_ID_CURR'] == reference_id][features].values
