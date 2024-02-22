@@ -108,11 +108,11 @@ data_test_mm = minmax_scale(data_test, 'minmax')
 #    return proba_default, decision
 
 def prediction(client_id):
-"""
-Calculates the probability of default for a client.
-	:param client_id: Client ID (int)
-    :return: Probability of default (float) and decision (str)
-"""
+	"""
+	Calculates the probability of default for a client.
+		:param client_id: Client ID (int)
+    	:return: Probability of default (float) and decision (str)
+	"""
 	#ID = st.number_input('Enter client ID:', value=0, step=1) 
 	try :
 		client_id = data[data['SK_ID_CURR']== client_id]
