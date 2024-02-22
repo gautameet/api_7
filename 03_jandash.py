@@ -109,7 +109,7 @@ data_test_mm = minmax_scale(data_test, 'minmax')
 
 def prediction(client_id):
 	"""
-	Calculates the probability of default for a client.
+ 	Calculates the probability of default for a client.
 		:param client_id: Client ID (int)
     	:return: Probability of default (float) and decision (str)
 	"""
