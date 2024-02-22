@@ -110,22 +110,22 @@ data_test_mm = minmax_scale(data_test, 'minmax')
 def prediction(client_id):
 	"""
  	Calculates the probability of default for a client.
-		:param client_id: Client ID (int)
-    	:return: Probability of default (float) and decision (str)
+  	:param client_id: Client ID (int)
+    :return: Probability of default (float) and decision (str)
 	"""
 	#ID = st.number_input('Enter client ID:', value=0, step=1) 
 	try :
 		client = data[data['SK_ID_CURR']== client_id]
-        	ID_to_predict = client[feats]
-        	prediction = model.predict(ID_to_predict)
-        	proba = model.predict_proba(ID_to_predict)
-        	proba_default = round(proba[:, 1].mean(), 3) if proba.ndim > 1 else round(proba[0][1], 3)  
-       		best_threshold = 0.54
-        	if proba_default >= best_threshold:
-            		decision = "Rejected"
-        	else:
-            		decision = "Accepted"
-        	return proba_default, decision
+		ID_to_predict = client[feats]
+		prediction = model.predict(ID_to_predict)
+		proba = model.predict_proba(ID_to_predict)
+		proba_default = round(proba[:, 1].mean(), 3) if proba.ndim > 1 else round(proba[0][1], 3)
+		best_threshold = 0.54
+		if proba_default >= best_threshold:
+			decision = "Rejected"
+		else:
+			decision = "Accepted"
+		return proba_default, decision
 	except:
 		return "Client not found !"
   
