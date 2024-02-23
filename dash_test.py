@@ -363,18 +363,20 @@ if page == "Customer":
         if prediction_button:
             with st.spinner('Calculating...'):
                 try:
-                    proba, decision = predict_target()
-                                                     
-                    #if prediction["target"]==0:
-                    if decision=="Approved":                            
-                        st.write(':smiley:')
-                        st.success(f'Client solvable (Target = 0), prediction difficulty level at **{proba * 100:.2f}%**')
-                    elif decision=="Refused":
-                        st.write(':confused:')
-                        st.error(f'Client non solvable (Target = 1), prediction difficult level at **{proba * 100:.2f}%**')  
-                        st.write('**Interpretability**')
-                        fig = plt.figure(figsize=(2,2))
-                        st.pyplot(shap_id(ID))
+                    result = predict_target()
+                    if isinstance(result, tuple) and len(result) >= 2:
+                        proba, decision = result
+                        if decision=="Approved":                            
+                            st.write(':smiley:')
+                            st.success(f'Client solvable (Target = 0), prediction difficulty level at **{proba * 100:.2f}%**')
+                        elif decision=="Refused":
+                            st.write(':confused:')
+                            st.error(f'Client non solvable (Target = 1), prediction difficult level at **{proba * 100:.2f}%**')  
+                            st.write('**Interpretability**')
+                            fig = plt.figure(figsize=(2,2))
+                            st.pyplot(shap_id(ID))
+                    else:
+                        st.warning('Unexpected result from predict_target function')
                 except Exception as e:
                     st.warning('Programme error:'+str(e)) 
                     st.write(':dizzy_face:')                                               
