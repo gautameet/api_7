@@ -198,7 +198,7 @@ def radat_id_plot(ID,client_features,features,fill=False):
     app_id = get_data(raw_app,ID).loc[:,client_features]
     client = app_id.iloc[0]
 
-     modified_client = {
+    modified_client = {
         'AGE': (client['AGE'] - 5, client['AGE'] + 5),
         'YEARS_EMPLOYED': (client['YEARS_EMPLOYED'] - 1, client['YEARS_EMPLOYED'] + 1),
         'AMT_INCOME_TOTAL': (client['AMT_INCOME_TOTAL'] - 500, client['AMT_INCOME_TOTAL'] + 500),
