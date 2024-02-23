@@ -306,7 +306,6 @@ st.markdown("-----")
 st.sidebar.write("By: Amit GAUTAM")
     
 
-
 if page == "Home":
     st.title("💵 Credit Score Dashboard - Customer Page")
     ".\n"
