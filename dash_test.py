@@ -547,7 +547,7 @@ if page == 'Customer portfolio':
             #else:
                 #st.error("Lengths of target_counts and labels do not match.")
             
-                
+              
             
             with col5:
                 df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
