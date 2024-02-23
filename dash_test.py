@@ -262,7 +262,6 @@ def predict_target():
 
         # Make predictions
         prediction = model.predict(ID_to_predict)
-        #prediction = model.prediction(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)
         if (prediction == 0) or (prediction == 1):
             res = {"target":int(prediction), "risk":float(proba[0][1])}
@@ -363,10 +362,12 @@ if page == "Customer":
                     prediction = predict_target()
                     #prediction = predict_target(ID)                                          
                 
-                    if prediction["target"]==0:
+                    #if prediction["target"]==0:
+                    if prediction==0:
                         st.write(':smiley:')
                         st.success('Client solvable _(Target = 0)_, prediction difficulty level at **' + str(prediction["risk"] * 100) + '%**')
-                    elif prediction["target"]==1:
+                    elif prediction==1:
+                    #elif prediction["target"]==1:
                         st.write(':confused:')
                         st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
                         st.write('**Interpretability**')
