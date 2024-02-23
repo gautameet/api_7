@@ -343,7 +343,7 @@ if page == "Customer":
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
-                radat_id_plot(ID,fig,usecols=features,fill=False)
+                radat_id_plot(ID,fig,features=features,fill=False)
                 #radat_id_plot(ID,fig,features=features,raw_app=raw_app)
                 st.pyplot(fig)
                     
