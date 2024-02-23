@@ -5,6 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from matplotlib.ticker import FixedLocator
 import requests
 import plotly
 import matplotlib.pyplot as plt
@@ -174,7 +175,7 @@ class ComplexRadar():
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
         self.ranges = ranges
         self.ax = axes[0]
-        #self.ax.set_xticklabels(variables,fontsize=6)
+        self.ax.set_xticklabels(variables,fontsize=6)
     
     def plot(self,data,*args,**kw):
         sdata=_scale_data(data,self.ranges)      # Ensure _scale_data function works correctly
