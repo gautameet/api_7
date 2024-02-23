@@ -268,7 +268,7 @@ def predict_target():
             res = {"target":int(prediction), "risk":float(proba[0][1])}
             return res    
         else:
-            return: "Programme Error!"
+            return "Programme Error!"
         
     except:
         return "Client not found !"
