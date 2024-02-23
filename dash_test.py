@@ -194,8 +194,8 @@ class ComplexRadar():
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,client_features,features,fill=False):
-    app_id = get_data(raw_app,ID).loc[:,client_features]
+def radat_id_plot(ID,features=features,fill=False):
+    app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
     modified_client = {
