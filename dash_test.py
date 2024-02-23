@@ -254,7 +254,7 @@ feats = [c for c in df_sel.columns if c not in ['TARGET','SK_ID_CURR']]
 
 # defining Prediction
 def predict_target():
-    ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+    ID=st.number_input(" ", min_value=100002, max_value=456255)
     raw_app_id = get_data(raw_app,ID)
     #ID = st.number_input('Enter client ID:', value=0, step=1)    
 #def predict_target(ID,data,feats,model,st,result):
