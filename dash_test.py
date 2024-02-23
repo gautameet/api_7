@@ -260,12 +260,15 @@ def predict_target():
     
     try:
         ID_data = df_sel.loc[df_sel['SK_ID_CURR'] == ID]
-        ID_to_predict = ID_data.loc[feats]        #feature of data_selected1
+        if ID_data.empty:
+            return "Client not found!"
+        ID_to_predict = ID_data.loc[:, feats]        #feature of data_selected1
 
         # Make predictions
-        prediction = model.predict(ID_to_predict)
+        #prediction = model.predict(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)[0][1]
         best_threshold = 0.54
+        
         if proba >= best_threshold:
             decision = "Approved"
         else:
@@ -273,8 +276,8 @@ def predict_target():
         
         return proba, decision
     
-    except:
-        return "Client not found !"
+    except Exception as e:
+        return f"Error occurred: {str(e)}"
 
 
 ###############################################
@@ -359,13 +362,13 @@ if page == "Customer":
         with st.container():
             st.write("#### Customer solvability prediction ")
         prediction_button = st.button('Predict solvability')
-                    #pred = st.button('Calculation')
         if prediction_button:
             with st.spinner('Calculating...'):
                 try:
                     result = predict_target()
-                    st.write('Result:', result)  # Print the result for debugging
-                    if isinstance(result, tuple) and len(result) >= 2:
+                    
+                    #st.write('Result:', result)  # Print the result for debugging
+                    if isinstance(result, tuple) and len(result) == 2:
                         proba, decision = result
                         if decision=="Approved":                            
                             st.write(':smiley:')
@@ -377,9 +380,9 @@ if page == "Customer":
                             fig = plt.figure(figsize=(2,2))
                             st.pyplot(shap_id(ID))
                     else:
-                        st.warning('Unexpected result from predict_target function')
+                        st.warning(result)
                 except Exception as e:
-                    st.warning('Programme error:'+str(e)) 
+                    st.warning(f'Programme error:{str(e)}') 
                     st.write(':dizzy_face:')                                               
     
 # Customer portfolio analysis        
