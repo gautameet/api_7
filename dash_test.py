@@ -360,16 +360,13 @@ if page == "Customer":
             with st.spinner('Calculating...'):
                 try:
                     prediction = predict_target()
-                    #prediction = predict_target(ID)                                          
-                
-                    #if prediction["target"]==0:
-                    if prediction==0:
+                                                     
+                    if prediction["target"]==0:
                         st.write(':smiley:')
-                        st.success('Client solvable _(Target = 0)_, prediction difficulty level at **' + str(prediction["risk"] * 100) + '%**')
-                    elif prediction==1:
-                    #elif prediction["target"]==1:
+                        st.success(f'Client solvable (Target = 0), prediction difficulty level at **{prediction["risk"] * 100):.2f}%**')
+                    elif prediction["target"]==1:
                         st.write(':confused:')
-                        st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
+                        st.error(f'Client non solvable (Target = 1), prediction difficult level at **{prediction["risk"] * 100) +.2f}%**')  
                         st.write('**Interpretability**')
                         fig = plt.figure(figsize=(2,2))
                         st.pyplot(shap_id(ID))
