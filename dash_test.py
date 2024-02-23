@@ -254,11 +254,8 @@ feats = [c for c in df_sel.columns if c not in ['TARGET','SK_ID_CURR']]
 
 # defining Prediction
 def predict_target():
-    ID=st.number_input(" ", min_value=100002, max_value=456255)
-    #raw_app_id = get_data(raw_app,ID)
-    #ID = st.number_input('Enter client ID:', value=0, step=1)    
-    #def predict_target(ID,data,feats,model,st,result):
-    #ID=int(ID)
+    ID=st.number_input("Enter Client ID:", min_value=100002, max_value=456255)
+    
     try:
         ID_data = df_sel.loc[df_sel['SK_ID_CURR'] == ID]
         ID_to_predict = ID_data.loc[feats]        #feature of data_selected1
@@ -268,25 +265,14 @@ def predict_target():
         #prediction = model.prediction(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)
         if (prediction == 0) or (prediction == 1):
-            res = '{ "target":' + str(int(prediction)) + ', "risk":%.2f }' % tuple(proba[0])[1]
+            res = '{ "target":' int(prediction), "risk":float(proba[0][1])}
+            return res    
         else:
-            res = "Programme Error!"
-        return res
+            return: "Programme Error!"
+        
     except:
         return "Client not found !"
 
-
-        #prediction = int(prediction[0])        # Assuming model.predict returns integers
-        #if prediction in [0, 1]:
-            #results = {'target': prediction, 'risk':round(proba[0][1],2)}
-            #st.json(result)
-        #else:
-            #st.warning('Error in the program!')
-    #except:
-        #st.error('Client not found!')
-
-#if __name__ == '__main__':
-    #predict_target(ID)
 
 ###############################################
 ## DASH BOARD
