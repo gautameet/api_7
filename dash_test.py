@@ -224,7 +224,7 @@ def radat_knn_plot(ID,fig,usecols=features,fill=False):
     data_knn.dropna(subset=['TARGET'], inplace=True)    
     
     #data_knn['TARGET'] = data_knn['TARGET'].astype(int)
-    moy_knn = data_knn.groupby('TARGET').mean()
+    #moy_knn = data_knn.groupby('TARGET').mean()
     
     # calculate ranges for radar plot
     ranges = [(min(data_knn['AGE']),max(data_knn['AGE'])),
@@ -236,8 +236,8 @@ def radat_knn_plot(ID,fig,usecols=features,fill=False):
     # Create radar plot
     radar = ComplexRadar(fig,usecols,ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    radar.plot(moy_knn.iloc[1][usecols],linewidth=3,label='Average Similar Client having problems',color='red')
-    radar.plot(moy_knn.iloc[0][usecols],linewidth=3,label='Average similar client without having problems',color='royalblue')
+    #radar.plot(moy_knn.iloc[1][usecols],linewidth=3,label='Average Similar Client having problems',color='red')
+    #radar.plot(moy_knn.iloc[0][usecols],linewidth=3,label='Average similar client without having problems',color='royalblue')
     fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
     
     if fill:
