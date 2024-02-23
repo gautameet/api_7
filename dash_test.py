@@ -265,7 +265,7 @@ def predict_target(ID):
         prediction = model.predict(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)[0][1]
         best_threshold = 0.54
-        if proba >= best_threshold
+        if proba >= best_threshold:
             decision = "Approved"
         else
             decision = "Refused"
