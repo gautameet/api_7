@@ -267,7 +267,7 @@ def predict_target(ID):
         best_threshold = 0.54
         if proba >= best_threshold:
             decision = "Approved"
-        else
+        else:
             decision = "Refused"
         
         return proba, decision
