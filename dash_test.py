@@ -369,7 +369,7 @@ if page == "Customer":
                     if prediction==0:                            
                         st.write(':smiley:')
                         st.success(f'Client solvable (Target = 0), prediction difficulty level at **{prediction["risk"] * 100:.2f}%**')
-                    elif prediction["target"]==1:
+                    elif prediction==1:
                         st.write(':confused:')
                         st.error(f'Client non solvable (Target = 1), prediction difficult level at **{prediction["risk"] * 100:.2f}%**')  
                         st.write('**Interpretability**')
