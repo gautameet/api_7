@@ -250,10 +250,11 @@ def shap_id(ID):
 # Loading data
 zip_file = ZipFile('data_selected1.zip')
 df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
-feats = [c for c in df_sel.columns if c not in ['TARGET','SK_ID_CURR']]
+#feats = [c for c in df_sel.columns if c not in ['TARGET','SK_ID_CURR']]
+feats = [c for c in df_sel.columns if c not in ['SK_ID_CURR']]
 
 # defining Prediction
-def predict_target():
+def predict_target(ID):
     ID=st.number_input("Enter Client ID:", min_value=100002, max_value=456255)
     
     try:
@@ -262,13 +263,15 @@ def predict_target():
 
         # Make predictions
         prediction = model.predict(ID_to_predict)
-        proba = model.predict_proba(ID_to_predict)
-        if (prediction == 0) or (prediction == 1):
-            res = {"target":int(prediction), "risk":float(proba[0][1])}
-            return res    
-        else:
-            return "Programme Error!"
+        proba = model.predict_proba(ID_to_predict)[0][1]
+        best_threshold = 0.54
+        if proba >= best_threshold
+            decision = "Approved"
+        else
+            decision = "Refused"
         
+        return proba, decision
+    
     except:
         return "Client not found !"
 
