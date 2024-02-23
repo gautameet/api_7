@@ -290,7 +290,7 @@ if page == "Customer":
             col1, col2 = st.columns([1.5,2.5])      
             with col1:
                 st.write("#### Customer detail " + str(ID))
-                st.markdown("* **Status : " + str(pp_id['NAME_FAMILY_STATUS'].values[0]) + "**")
+                st.markdown("* **Status : " + str(app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
                 st.markdown("* **Number of children) : " + str(app_id['CNT_CHILDREN'].values[0]) + "**")
                 st.markdown("* **Employment: " + str(app_id['NAME_INCOME_TYPE'].values[0]) + "**")
                 st.markdown("* **Current Loan : " + str(app_id['CREDIT'].values[0]) + "**")
