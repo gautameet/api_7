@@ -372,8 +372,9 @@ if page == "Customer":
         if prediction_button:
             with st.spinner('Calculating...'):
                 try:
-                    prediction = predict_target(ID)
-                                #prediction = requests.get("https://dashtest.streamlit.app//predict?ID=" + str(ID)).json()
+                    prediction = predict_target()
+                    #prediction = predict_target(ID)                                          
+                
                     if prediction["target"]==0:
                         st.write(':smiley:')
                         st.success('Client solvable _(Target = 0)_, prediction difficulty level at **' + str(prediction["risk"] * 100) + '%**')
@@ -382,8 +383,7 @@ if page == "Customer":
                         st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
                         st.write('**Interpretability**')
                         fig = plt.figure(figsize=(2,2))
-                        shap_id(ID)
-                        st.pyplot(fig)
+                        st.pyplot(shap_id(ID))
                 except Exception as e:
                     st.warning('Programme error:'+str(e)) 
                     st.write(':dizzy_face:')                                               
