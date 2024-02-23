@@ -265,7 +265,7 @@ def predict_target():
         #prediction = model.prediction(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)
         if (prediction == 0) or (prediction == 1):
-            res = {"target":' int(prediction), "risk":float(proba[0][1])}
+            res = {"target":int(prediction), "risk":float(proba[0][1])}
             return res    
         else:
             return: "Programme Error!"
