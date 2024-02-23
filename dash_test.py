@@ -361,7 +361,8 @@ if page == "Customer":
                 try:
                     prediction = predict_target()
                                                      
-                    if prediction["target"]==0:
+                    #if prediction["target"]==0:
+                    if prediction==res:                            
                         st.write(':smiley:')
                         st.success(f'Client solvable (Target = 0), prediction difficulty level at **{prediction["risk"] * 100:.2f}%**')
                     elif prediction["target"]==1:
