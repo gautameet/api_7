@@ -1,316 +1,254 @@
- ## Import des librairies
-import math
-import shap
+## Import des librairies
 import streamlit as st
 import altair as alt              # for data visualtization
-import sklearn
-from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import NearestNeighbors
-from sklearn.neighbors import KNeighborsClassifier
-from PIL import Image
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from matplotlib.ticker import FixedLocator
 import requests
 import plotly
+import matplotlib.pyplot as plt
+import shap
+import seaborn as sns
+import pandas as pd
+import numpy as np
 import os
 from zipfile import ZipFile, BadZipFile
+import joblib
 import pickle
+import math
+import json
+#import Pillow
+from PIL import Image
 
 # Features
-feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN','DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
+feat = ['SK_ID_CURR','TARGET','DAYS_BIRTH','NAME_FAMILY_STATUS','CNT_CHILDREN',
+        'DAYS_EMPLOYED','NAME_INCOME_TYPE','AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY']
 
 # Nombre de ligne
 num_rows = 150000
 
-# Original Data
-zip_file_path = 'sample_application_train.zip'
-try:
-    with ZipFile(zip_file_path, 'r') as zip_file:
-       raw_train = pd.read_csv(zip_file.open('sample_application_train.csv'), usecols=feat, nrows=num_rows) 
-except BadZipFile:
-    print(f"Error: {zip_file_path} is not a valid ZIP file.")
-except Exception as e:
-    print(f'An unexpected error occured: {e}')
-    
-#print(zip_file.namelist())
 
-zip_file_test = ZipFile('application_test.zip')
-#print(zip_file_test.namelist())
-try:
-    raw_test = pd.read_csv(zip_file_test.open('application_test.csv'), nrows=num_rows)
-    #raw_test = pd.read_csv(zip_file_test.open('application_test.csv'),usecols=[f for f in feat if f!='TARGET'], nrows=num_rows)
-except Exception as e:
-    print(f'Error reading test data:{e}')        
+# Treated Data
+zip_file_path = ZipFile('data_train.zip')
+train = pd.read_csv(zip_file_path.open('data_train.csv'))
 
-try:
-    raw_app = raw_train.append(raw_test).reset_index(drop=True)    # Append the DataFrames
-    #raw_app = pd.concat([raw_train, raw_test], ignore_index=True)
+zip_file_test = ZipFile('data_test.zip')
+test = pd.read_csv(zip_file_test.open('data_test.csv'))
 
-except Exception as e:
-    # Print the exception message for debugging
-    print(f"Error concatenating DataFrames: {e}")
-
-    # Convert 'DAYS_BIRTH' to numeric and handle non-numeric values
-    #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
-    # Check if 'DAYS_BIRTH' is not zero before performing the division
-    #raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365) if 0 not in raw_app['DAYS_BIRTH'].values else 0
-    #raw_app['DAYS_BIRTH'] = pd.to_numeric(raw_app['DAYS_BIRTH'], errors='coerce')
-    raw_app['AGE'] = raw_app['DAYS_BIRTH'] // (-365)
-    raw_app['YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'] // (-365)
-    raw_app['CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')
+#Concat
+app = pd.concat([train, test], ignore_index=True)
  
-    raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1)
+# Nearest neighbors
+knn = NearestNeighbors(n_neighbors=10)
+knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 
-#Treated Data
-zip_file_path = 'data_train.zip'
-csv_file_name = 'data_train.csv'
-
-#zip_file_path = './data_train.zip'
-#csv_file_name = 'data_train.csv'
-#train = pd.read_csv(zip_file_path.open(csv_file_name))
-
-try:
-    # Open the ZIP file
-    with ZipFile(zip_file_path, 'r') as zip_train:
-        # Read the CSV file from the ZIP archive
-        train = pd.read_csv(zip_train.open(csv_file_name))
-    # Modele voisin
-    knn = NearestNeighbors(n_neighbors=10)
-    knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
-    
-    # Now 'train' contains the DataFrame from the CSV file
-except Exception as e:
-    # Print the exception message for debugging
-    print(f"Error reading CSV from ZIP: {e}")
-
-zip_file_test = './data_test.zip'
-csv_file_name = 'data_test.csv'
-
-try:
-    # Open the ZIP file
-    with ZipFile(zip_file_test, 'r') as zip_test:
-        # Read the CSV file from the ZIP archive
-        test = pd.read_csv(zip_test.open(csv_file_name))
-
-    # Now 'test' contains the DataFrame from the CSV file
-except Exception as e:
-    # Print the exception message for debugging
-    print(f"Error reading CSV from ZIP: {e}")
-        
-try:
-    # Append the DataFrames
-    app = train.append(test).reset_index(drop=True)
-except Exception as e:
-    print (f"An error occured: {e}")
-    
-# Modele voisin
-    #knn = NearestNeighbors(n_neighbors=10)
-    #knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1), train['TARGET'])
-
-# Chargement du modèle de classification
-#pk_mdl_in = open('model.pkl','rb')
-#model = pickle.load(pk_mdl_in)
-#with open('pk_mdl_in') as file:
-
-
-
-# Explainer
-zip_file_path1 = 'X_train_sm_split1.zip'
-csv_file_name1 = 'X_train_sm_split1.csv'
-try:
-    with ZipFile(zip_file_path1, 'r') as zip_file:
-        X_train_sm_1 = pd.read_csv(zip_file.open(csv_file_name1))
-except BadZipFile:
-    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
-
-zip_file_path2 = 'X_train_sm_split2.zip'
-csv_file_name2 = 'X_train_sm_split2.csv'
-try:
-    with ZipFile(zip_file_path2, 'r') as zip_file:
-        X_train_sm_2 = pd.read_csv(zip_file.open(csv_file_name2))
-except BadZipFile:
-    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
-
-zip_file_path3 = 'X_train_sm_split3.zip'
-csv_file_name3 = 'X_train_sm_split3.csv'
-try:
-    with ZipFile(zip_file_path3, 'r') as zip_file:
-        X_train_sm_3 = pd.read_csv(zip_file.open(csv_file_name3))
-except BadZipFile:
-    print(f"Error: '{zip_file_path}' is not a valid ZIP file.")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")
-
-try:
-    X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3]).reset_index(drop=True)
-except Exception as e:
-    print(f"An unexpected error occurred during concatenation: {e}")
-
-with open('model.pkl', 'rb') as file:
+# Loading the model
+with open('model11.pkl', 'rb') as file:
     model = pickle.load(file)
 
-#explainer = shap.TreeExplainer(model, X_train_sm)
+# Explainer
+zip_file = ZipFile('X_train_sm_split1.zip')
+X_train_sm_1 = pd.read_csv(zip_file.open('X_train_sm_split1.csv'))
 
-#zip_file = ZipFile('X_train_sm_split2.zip')
-#X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
-#zip_file = ZipFile('X_train_sm_split3.zip')
-#X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
-#X_train_sm = X_train_sm_split1.append(X_train_sm_split2).reset_index(drop=True).append(X_train_sm_split3).reset_index(drop=True)
+zip_file = ZipFile('X_train_sm_split2.zip')
+X_train_sm_2 = pd.read_csv(zip_file.open('X_train_sm_split2.csv'))
 
-#X_name = list(X_train_sm.columns)
+zip_file = ZipFile('X_train_sm_split3.zip')
+X_train_sm_3 = pd.read_csv(zip_file.open('X_train_sm_split3.csv'))
 
-#explainer = shap.TreeExplainer(model,X_train_sm)
+X_train_sm = pd.concat([X_train_sm_1, X_train_sm_2, X_train_sm_3], ignore_index=True)
+X_train_sm.reset_index(drop=True, inplace=True)       # Reset the index to have a continuous index for the concatenated DataFrame
+X_name = list(X_train_sm.columns)
 
-#del X_train_sm_1
-#del X_train_sm_2
-#del X_train_sm_3
-#del X_train_sm
+np.bool = np.bool_
+np.int = np.int_
+
+# Shap Explainer
+explainer = shap.TreeExplainer(model, X_train_sm)
+
+del X_train_sm_1
+del X_train_sm_2
+del X_train_sm_3
+del X_train_sm
 
 # Features
 features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
-# Recuperation de data
+# Data
 def get_data(data,ID):
     if type(ID) == list:
-        return data[data['SK_ID_CURR'].isin(ID)]
-        #return data[data['SK_ID_CURR'].isin(ID)]
+        return data.loc[data['SK_ID_CURR'].isin(ID)]
     else:
-        return data[data['SK_ID_CURR']==ID].head(1)
+        return data.loc[data['SK_ID_CURR']==ID].head(1)
 
-# Recuperation des voisins
-def get_similar_ID(ID):    
-    app_id = app[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
+
+# Neighbor
+def similar_ID(ID):
+    app_id = app.loc[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
     knn_index = knn.kneighbors(app_id,return_distance=False)
     knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
     return knn_id
 
-def get_stat_ID(ID):   
-    app_knn = get_similar_ID(ID)
-    data_knn = get_data(raw_app,app_knn).dropna()
+def stat_ID(ID):   
+    app_knn = similar_ID(ID)
+    data_knn = get_data(app_knn).dropna()
     return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
-## GRAPHE
-# Initialisation de Graphe Radar
+## GRAPH
+# Graph radar initialisation
+
 def _invert(x, limits):
-    """inverts a value x on a scale from
-    limits[0] to limits[1]"""
     return limits[1] - (x - limits[0])
 
 def _scale_data(data, ranges):
-    """scales data[1:] to ranges[0],
-    inverts if the scale is reversed"""
-    for d, (y1, y2) in zip(data[1:], ranges[1:]):
-        assert (y1 <= d <= y2) or (y2 <= d <= y1)
-    x1, x2 = ranges[0]
-    d = data[0]
-    if x1 > x2:
-        d = _invert(d, (x1, x2))
-        x1, x2 = x2, x1
-    sdata = [d]
-    for d, (y1, y2) in zip(data[1:], ranges[1:]):
-        if y1 > y2:
-            d = _invert(d, (y1, y2))
-            y1, y2 = y2, y1
-        sdata.append((d-y1) / (y2-y1) 
-                         * (x2 - x1) + x1)
-    return sdata
+    scaled_data = []
 
+    # Extract the first range
+    x1, x2 = ranges[0]
+    # Check if the range is inverted
+    if x1 > x2:
+        x1, x2 = x2, x1  # Swap values if inverted
+
+    # Scale each data point to fit within the range
+    for d, (y1, y2) in zip(data, ranges):
+        # Check if the range is inverted
+        if y1 > y2:
+            y1, y2 = y2, y1  # Swap values if inverted
+        # Scale the data point to fit within the range
+        scaled_value = (d - y1) / (y2 - y1) * (x2 - x1) + x1
+        scaled_data.append(scaled_value)
+
+    return scaled_data
 
 class ComplexRadar():
-    def __init__(self, fig, variables, ranges,
-                n_ordinate_levels=6):
-        angles = np.arange(0, 360, 360./len(variables))
+    def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
+        angles = np.arange(0,360,360./len(variables))
     
-        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,
-                label = "axes{}".format(i)) 
+        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,label="axes{}".format(i)) 
                 for i in range(len(variables))]
-        l, text = axes[0].set_thetagrids(angles,
-                                         labels=variables)
-        [txt.set_rotation(angle-90) for txt, angle 
-            in zip(text, angles)]
+        l, text = axes[0].set_thetagrids(angles,labels=variables)
+        [txt.set_rotation(angle-90) for txt,angle in zip(text, angles)]
         for ax in axes[1:]:
             ax.patch.set_visible(False)
             ax.grid("off")
             ax.xaxis.set_visible(False)
         for i, ax in enumerate(axes):
-            grid = np.linspace(*ranges[i], 
-                                num=n_ordinate_levels)
-            gridlabel = ["{}".format(round(x,2)) 
-                        for x in grid]
-            if ranges[i][0] > ranges[i][1]:
+            grid = np.linspace(*ranges[i], num=n_ordinate_levels)
+            gridlabel = ["{}".format(round(x,2)) for x in grid]
+            if ranges[i][0]>ranges[i][1]:
                 grid = grid[::-1] # hack to invert grid
-                        # gridlabels aren't reversed
             gridlabel[0] = "" # clean up origin
-            ax.set_rgrids(grid, labels=gridlabel,
-                        angle=angles[i])
+            ax.set_rgrids(grid,labels=gridlabel,angle=angles[i])
             ax.set_ylim(*ranges[i])
-            ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
+            ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
+            ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
         self.ranges = ranges
         self.ax = axes[0]
-        self.ax.set_xticklabels(variables,fontsize=6) 
-    def plot(self, data, *args, **kw):
-        sdata = _scale_data(data, self.ranges)
-        self.ax.plot(self.angle, np.r_[sdata, sdata[0]], *args, **kw)        
-    def fill(self, data, *args, **kw):
-        sdata = _scale_data(data, self.ranges)
-        self.ax.fill(self.angle, np.r_[sdata, sdata[0]], *args, **kw)
-        
-# Graphe Radar
-def radat_id_plot(ID,fig,features=features,fill=False):
-    app_id = get_data(raw_app,ID)[features]
-    client = app_id.iloc[0]
-    ranges = [(client['AGE']-5, client['AGE']+5),
-              (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
-              (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
-              (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
-              (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
+        self.ax.set_xticklabels(variables,fontsize=6)
     
-    radar = ComplexRadar(fig,features,ranges)
-    radar.plot(client,linewidth=3,color='darkseagreen')
+    def plot(self,data,*args,**kw):
+        sdata=_scale_data(data,self.ranges)      # Ensure _scale_data function works correctly
+        self.ax.plot(self.angle,np.r_[sdata,sdata[0]],*args, **kw)        
+    
+    def fill(self,data,*args,**kw):
+        sdata=_scale_data(data,self.ranges)
+        self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
+        
+# Graph Radar
+def radat_id_plot(ID,features=features,fill=False):
+    app_id = get_data(app,ID).loc[:,features]
+    client = app_id.iloc[0]
+
+    modified_client = {
+        'AGE': (client['AGE'] - 5, client['AGE'] + 5),
+        'YEARS_EMPLOYED': (client['YEARS_EMPLOYED'] - 1, client['YEARS_EMPLOYED'] + 1),
+        'AMT_INCOME_TOTAL': (client['AMT_INCOME_TOTAL'] - 500, client['AMT_INCOME_TOTAL'] + 500),
+        'AMT_ANNUITY': (client['AMT_ANNUITY'] - 100, client['AMT_ANNUITY'] + 100),
+        'AMT_CREDIT': (client['AMT_CREDIT'] - 500, client['AMT_CREDIT'] + 500)
+    }
+
+    radar = ComplexRadar(fig, features, list(modified_client.values()))
+    radar.plot(client, linewidth=3, color='darkseagreen')
+
     if fill:
         radar.fill(client, alpha=0.2)
-        
-def radat_knn_plot(ID,fig,features=features,fill=False):
-    app_id = get_data(raw_app,ID)[features]
+    
+
+def radat_knn_plot(ID,fig,features,fill=False):
+    # Get data for the specified client ID
+    app_id = get_data(app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
-    app_knn = get_similar_ID(ID)
-    data_knn = get_data(raw_app,app_knn).dropna()
-    data_knn['TARGET'] = data_knn['TARGET'].astype(int)
-    moy_knn = data_knn.groupby('TARGET').mean()
-    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-            (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
-            (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
-            (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
-            (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
-        
-    radar = ComplexRadar(fig,features,ranges)
-    radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
-    radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
-    fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
+
+    # Get similar IDs using KNN
+    app_knn = similar_ID(ID)
+    data_knn = get_data(app_knn).dropna().copy()
+
+     # Calculate ranges for radar plot based on data_id
+    ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
+              (data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
+              (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
+              (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
+              (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
+    
+    # Perform radar plot using ranges
+    radar = ComplexRadar(fig, features, ranges)
+    
+    # Optionally fill radar plot
     if fill:
-        radar.fill(client, alpha=0.2)
+        radar.fill(data_id, alpha=0.2)
     
 def shap_id(ID):
-    app_id = get_data(app,ID)[X_name]
+    app_id = get_data(app,ID).loc[:, X_name].copy()
     shap_vals = explainer.shap_values(app_id)
-    shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
+    shap_plot = shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
-## DASH BOARD
-# Page configuration initialisation
-st.set_page_config(
-    page_title="Credit Score Dashboard",
-    page_icon="💵",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+    # Return the plot object
+    return shap_plot
+
+# Loading data
+zip_file = ZipFile('data_selected1.zip')
+df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
+feats = [c for c in df_sel.columns if c not in ['SK_ID_CURR']]
+
+# defining Prediction
+def predict_target():
+    ID=st.number_input("Enter Client ID:", min_value=100002, max_value=456255)
     
-# Sidebar
+    try:
+        ID_data = df_sel.loc[df_sel['SK_ID_CURR'] == ID]
+        if ID_data.empty:
+            return "Client not found!"
+        ID_to_predict = ID_data.loc[:, feats]        #feature of data_selected1
+
+        # Make predictions
+        #prediction = model.predict(ID_to_predict)
+        proba = model.predict_proba(ID_to_predict)[0][1]
+        best_threshold = 0.54
+        
+        if proba >= best_threshold:
+            decision = "Approved"
+        else:
+            decision = "Refused"
+        
+        return proba, decision
+    
+    except Exception as e:
+        return f"Error occurred: {str(e)}"
+
+
+###############################################
+## DASH BOARD
+########################
+
+    ## Page configuration initialisation
+#st.set_page_config(page_title="Credit Score Dashboard", page_icon="💵", layout="wide", initial_sidebar_state="expanded")
+    
+    # Sidebar
 with st.sidebar:
     st.write("Credit Score Dashboard")
     logo_path = "logo.png"
@@ -321,148 +259,164 @@ with st.sidebar:
         st.error(f"Error: Logo file not found at {logo_path}")
     
 # Page selection
-page =  st.selectbox("Menu", ["Home", "Customer", "Customer portfolio"])
+page =  st.sidebar.selectbox("Menu", ["Home", "Customer", "Customer portfolio"])
     
-st.markdown("""---""")
-        
-st.write("By: Amit GAUTAM")
+            
+st.markdown("-----")
     
+st.sidebar.write("By: Amit GAUTAM")
+    
+
 if page == "Home":
     st.title("💵 Credit Score Dashboard - Customer Page")
     ".\n"
+           
     st.markdown("This is an interactive dashboard website which lets the clients to know about their credit demands\n"
                 "approved ou refused. The predictions are calculted automatically with the help of machine learning algorithm.\n"
                                     
                 "\nThis dashboard is composed of following pages :\n"
-                 "- **Customer**: to find out all the information related to the customer.\n")
+                "- **Customer**: to find out all the information related to the customer.\n")
                     
-elif page == "Customer":
-    st.subheader("Please enter your ID to know the results of your demands. \n") 
-       
-    ID=st.number_input(" ", min_value=100002, max_value=456255)
+if page == "Customer":
+    st.title("💵 Welcome to the Customer Page")
+    ".\n"
+    st.sidebar.markdown("Please select your ID:")
+    #st.markdown("Your ID:")
+    ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+    app_id = get_data(app,ID)
+    with st.spinner('Custumer details....'):
+        st.write('## Customer details.....')
+        with st.container():
+            col1, col2 = st.columns([1.5,2.5])      
+            with col1:
+                st.write("#### Customer detail " + str(ID))
+                st.markdown("* **Status : " + str(pp_id['NAME_FAMILY_STATUS'].values[0]) + "**")
+                st.markdown("* **Number of children) : " + str(app_id['CNT_CHILDREN'].values[0]) + "**")
+                st.markdown("* **Employment: " + str(app_id['NAME_INCOME_TYPE'].values[0]) + "**")
+                st.markdown("* **Current Loan : " + str(app_id['CREDIT'].values[0]) + "**")
+            
+            with col2:
+                fig = plt.figure(figsize=(2,2))
+                #radat_id_plot(ID,fig,features=features,fill=False)
+                st.pyplot(fig)
+                    
+        st.markdown("-----")
         
-    raw_app_id = get_customer_data(raw_app, ID)
-    if raw_app_id is not None:
-        display_customer_details(raw_app_id)
-        display_similar_customer(ID)
-        solvability_prediciton(ID)
-    with st.spinner('Custumer....'):
-        st.writer('Customer .....')
-    with st.container():
-        col1, col2 = st.columns([1.5,2.5])      
-        with col1:
-            st.write("#### Customer detail " + str(ID))
-            st.markdown("* **Status : " + str(id_raw_app['NAME_FAMILY_STATUS'].values[0]) + "**")
-            st.markdown("* **Number of children) : " + str(id_raw_app['CNT_CHILDREN'].values[0]) + "**")
-            st.markdown("* **Employment: " + str(id_raw_app['NAME_INCOME_TYPE'].values[0]) + "**")
-            st.markdown("* **Current Loan : " + str(id_raw_app['CREDIT'].values[0]) + "**")
-        with col2:
-            fig = plt.figure(figsize=(2,2))
-            st.pyplot(radat_id_plot(ID,fig))
-    st.markdown("""---""")
-        
-    with st.container():
-        st.write("#### Similar type of Customers ")
-        try:
+        with st.container():
+            st.write("#### Similar type of Customers ")
+            #try:
             col3, col4 = st.columns([3,1])
             with col3:
                 fig = plt.figure(figsize=(3,3))
-                st.pyplot(radat_knn_plot(ID,fig))
+                radat_knn_plot(ID,fig,features=features)
+                st.pyplot(fig)
             with col4:
-                N_knn, N_knn1 = get_stat_ID(ID)
+                N_knn, N_knn1 = stat_ID(ID)
                 st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
                 st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
                 st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
-        except:
-            st.info('**_No similar customer_**')
+                
             
-    st.markdown("""---""")
-
-    def solvatibility_prediction(ID):
-            #try:                
+        st.markdown("-----")
         with st.container():
             st.write("#### Customer solvability prediction ")
-            pred = st.button('Calculation')
-            if pred:
-                with st.spinner('Calculation...'):
-                    try:
-                        prediction = requests.get("https://urd9pbjwdlnjfnaoncmtdw.streamlit.app/predict?ID=" + str(ID)).json()
-                        if prediction["target"]==0:
+        prediction_button = st.button('Predict solvability')
+        if prediction_button:
+            with st.spinner('Calculating...'):
+                try:
+                    result = predict_target()
+                    if isinstance(result, tuple) and len(result) == 2:
+                        proba, decision = result
+                        if decision=="Approved":                            
                             st.write(':smiley:')
-                            st.success('Client solvable _(Target = 0)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')
-                        elif prediction["target"]==1:
+                            st.success(f'Client solvable (Target = 0), prediction difficulty level at **{proba * 100:.2f}%**')
+                        elif decision=="Refused":
                             st.write(':confused:')
-                            st.error('Client non solvable _(Target = 1)_, prediction difficult level at **' + str(prediction["risk"] * 100) + '%**')  
-                        st.write('**Interpretability**')
-                        fig = plt.figure(figsize=(2,2))
-                        st.pyplot(shap_id(ID))
-                    except Exception as e:
-                        st.warning('Error during prediction: '+str(e)) 
-                        st.write(':dizzy_face:')                                               
-                    
-            #except:
-                #st.warning('**_Customer not found_**')
-
+                            st.error(f'Client non solvable (Target = 1), prediction difficult level at **{proba * 100:.2f}%**')  
+                            st.write('**Interpretability**')
+                            fig = plt.figure(figsize=(2,2))
+                            st.pyplot(shap_id(ID))
+                    else:
+                        st.warning(result)
+                except Exception as e:
+                    st.warning(f'Programme error:{str(e)}') 
+                    st.write(':dizzy_face:')                                               
+    
 # Customer portfolio analysis        
-elif page == 'Customer portfolio':
+if page == 'Customer portfolio':
     st.write("### Customer portfolio analysis")
     with st.spinner('Analysing...'):
         with st.container():            
             st.write("#### Customer Profile")
-            plot_customer_profile(raw_app)
             col1, col2,col3 = st.columns(3)
+            plt.ioff()
             with col1:
-                fig = plt.figure(figsize=(4,4))
-                bins = (raw_app['AGE'].max()-raw_app['AGE'].min())//5
-                pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET',bins=bins,palette=['royalblue','red'],alpha=.5)
-                plt.xlabel('AGE',fontsize=12)
-                plt.ylabel('')
-                plt.legend(['having difficulty','without difficulty'],loc='lower center',bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
+                fig = plt.figure(figsize=(8,6))
+                bins = int((app['AGE'].max() - app['AGE'].min()) // 5)
+                
+                sns.histplot(data=app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5, ax=ax)
+                ax.set(xlabel='AGE', ylabel='Frequency')
+                ax.legend(['Having difficulty', 'Without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35), fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
-            with col2:
-                fig = plt.figure(figsize=(3,3))                
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=5)
-                st.pyplot(fig)
-            with col3:
-                fig = plt.figure(figsize=(4.5,4.5))
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=7)
-                st.pyplot(fig)
-        st.markdown("""---""")
             
-        with st.container():
-            st.write("#### Loan Payment")
-            plot_loan_payment(raw_app)
-            tg_n = np.array([len(raw_app[raw_app['TARGET']==1]),len(raw_app[raw_app['TARGET']==0]),len(raw_app[raw_app['TARGET'].isnull()])])            
-            col4, col5 = st.columns(2)
-            with col4:
-                fig = plt.figure(figsize=(5,5))
-                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
-                st.pyplot(fig)
-                plt.close(fig)
-            with col5:
-                df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
-                df['COUNT_TG'] = df['TARGET']
-                tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
-                tg_0 = tg_df.loc[0]
-                tg_1 = tg_df.loc[1]
-                fig = plt.figure(figsize=(2,2))                  
-                pt = sns.scatterplot(tg_1['AMT_ANNUITY'],tg_1['AMT_CREDIT'],s=tg_1['COUNT_TG'].values/100,label='Avec Difficulté',color='red')
-                pt = sns.scatterplot(tg_0['AMT_ANNUITY'],tg_0['AMT_CREDIT'],s=tg_0['COUNT_TG'].values/100,label='Sans Difficulté',color='royalblue',alpha=.3)
-                plt.legend(loc='lower center',bbox_to_anchor=(0.5, -0.3),fancybox=True, shadow=True, ncol=5,fontsize=5)
-                plt.xlabel('AMT_ANNUITY',fontsize=5)
-                plt.ylabel('AMT_CREDIT',fontsize=5)
-                plt.xlim([20000,40000])
-                plt.ylim([400000,800000])
-                plt.setp(pt.get_xticklabels(),fontsize=4)
-                plt.setp(pt.get_yticklabels(),fontsize=4)                
+            with col2:
+                fig, ax = plt.subplots(figsize=(8, 6))
+                sns.barplot(data=app, x='NAME_FAMILY_STATUS', y='CNT_CHILDREN', hue='TARGET', palette=['royalblue', 'red'], alpha=0.5, ci=None, edgecolor='black', ax=ax)
+                ax.set_xlabel('Family Status')
+                ax.set_ylabel('Number of Children')
+                ax.set_title('Number of Children by Family Status and Target')
+                ax.legend(title='Target', fontsize=8)
+                plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
+                plt.setp(ax.get_yticklabels(), fontsize=8)
                 st.pyplot(fig)
 
-                plt.close(fig)
-        st.markdown("""---""")
+            with col3:
+                fig, ax = plt.subplots(figsize=(8, 6))
+                sns.barplot(data=app, x='NAME_INCOME_TYPE', y='AMT_INCOME_TOTAL', hue='TARGET', palette=['royalblue', 'red'], alpha=0.5, ci=None, edgecolor='black', ax=ax)
+                ax.set_xlabel('Income Type')
+                ax.set_ylabel('Income Total')
+                ax.set_title('Income Total by Income Type and Target')
+                ax.legend(title='Target', fontsize=8)
+                plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
+                plt.setp(ax.get_yticklabels(), fontsize=8)
+                st.pyplot(fig)
+
+                
+        st.markdown("-----")
+               
+        with st.container():
+            st.write("#### Loan Payment")
+            tg_n = np.array([len(app.loc[app['TARGET']==1]), len(app.loc[app['TARGET']==0]), len(app.loc[app['TARGET'].isnull()])])            
+            col4, col5 = st.columns(2)
+    
+            with col4:
+                fig = plt.figure(figsize=(4, 4))
+                labels = ['Having difficulty', 'Without difficulty', 'No Loan outstanding']
+                colors = ['red', 'royalblue', 'honeydew']
+                plt.pie(tg_n, labels=labels, colors=colors, autopct='%1.2f%%', startangle=140)
+                plt.axis('equal')
+                st.pyplot(fig)
+
+            with col5:
+                df = app[['TARGET', 'NAME_INCOME_TYPE', 'AMT_ANNUITY', 'AMT_CREDIT']]
+                df.loc[:, 'COUNT_TG'] = df['TARGET']
+
+                tg_df = pd.concat((df.groupby(['TARGET', 'NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY', 'AMT_CREDIT']],
+                                   df.groupby(['TARGET', 'NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis=1)
+                tg_0 = tg_df.loc[0]
+                tg_1 = tg_df.loc[1]
+
+                fig = plt.figure(figsize=(4, 4))
+                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
+                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
+
+                # Customize plot
+                plt.legend(loc='upper left', fontsize=8)
+                plt.xlabel('AMT_ANNUITY', fontsize=8)
+                plt.ylabel('AMT_CREDIT', fontsize=8)
+                plt.xlim([20000, 40000])
+                plt.ylim([400000, 800000])
+                plt.xticks(fontsize=6)
+                plt.yticks(fontsize=6)
         
+                st.pyplot(fig)
