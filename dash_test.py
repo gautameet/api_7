@@ -42,10 +42,7 @@ del raw_test
  
 raw_app.loc[:, 'YEARS_EMPLOYED'] = raw_app['DAYS_EMPLOYED'].apply(lambda x: -x/-365)
 raw_app.loc[:, 'AGE'] = raw_app['DAYS_BIRTH'].apply(lambda x: -x/-365) // (-365)
-#raw_app['CREDIT'] = raw_app['AMT_CREDIT']   
 raw_app.loc[:, 'CREDIT'] = raw_app['AMT_CREDIT'].apply(lambda x: 'No' if math.isnan(x) else 'Yes')       
-
-#st.dataframe(raw_app)
 
 # Drop unnecessary columns
 raw_app = raw_app.drop(['DAYS_BIRTH','DAYS_EMPLOYED'], axis=1).copy()
@@ -67,7 +64,6 @@ knn.fit(train.drop(['SK_ID_CURR','TARGET'], axis=1))
 # Loading the model
 with open('model11.pkl', 'rb') as file:
     model = pickle.load(file)
-#model = pickle.load(open('model11.pkl','rb'))
 
 # Explainer
 zip_file = ZipFile('X_train_sm_split1.zip')
@@ -85,9 +81,9 @@ X_name = list(X_train_sm.columns)
 
 np.bool = np.bool_
 np.int = np.int_
-explainer = shap.TreeExplainer(model, X_train_sm)
 
-#explainer = shap.TreeExplainer(model, X_train_sm)
+# Shap Explainer
+explainer = shap.TreeExplainer(model, X_train_sm)
 
 del X_train_sm_1
 del X_train_sm_2
@@ -100,24 +96,20 @@ features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CRED
 # Data
 def get_data(data,ID):
     if type(ID) == list:
-        return data[data['SK_ID_CURR'].isin(ID)]
+        return data.loc[data['SK_ID_CURR'].isin(ID)]
     else:
-        return data[data['SK_ID_CURR']==ID].head(1)
-#def get_data(data, ID):
-    #if isinstance(ID, list):
-        #return data[data['SK_ID_CURR'].isin(ID)].copy()
-    #else:
-        #return data[data['SK_ID_CURR'] == ID].head(1).copy()
-# Neighbor
+        return data.loc[data['SK_ID_CURR']==ID].head(1)
 
-def get_similar_ID(ID):
+
+# Neighbor
+def similar_ID(ID):
     app_id = app.loc[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
     knn_index = knn.kneighbors(app_id,return_distance=False)
     knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
     return knn_id
 
-def get_stat_ID(ID):   
-    app_knn = get_similar_ID(ID)
+def stat_ID(ID):   
+    app_knn = similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna()
     return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
@@ -126,25 +118,43 @@ def get_stat_ID(ID):
 
 def _invert(x, limits):
     return limits[1] - (x - limits[0])
-       
 
 def _scale_data(data, ranges):
-   
-    for d, (y1, y2) in zip(data[1:], ranges[1:]):
-        assert (y1 <= d <= y2) or (y2 <= d <= y1)
+    scaled_data = []
+
+    # Extract the first range
     x1, x2 = ranges[0]
-    d = data[0]
+    # Check if the range is inverted
     if x1 > x2:
-        d = _invert(d, (x1, x2))
-        x1, x2 = x2, x1
-    sdata = [d]
-    for d, (y1, y2) in zip(data[1:], ranges[1:]):
+        x1, x2 = x2, x1  # Swap values if inverted
+
+    # Scale each data point to fit within the range
+    for d, (y1, y2) in zip(data, ranges):
+        # Check if the range is inverted
         if y1 > y2:
-            d = _invert(d, (y1, y2))
-            y1, y2 = y2, y1
-        sdata.append((d-y1) / (y2-y1) 
-                         * (x2 - x1) + x1)
-    return sdata
+            y1, y2 = y2, y1  # Swap values if inverted
+        # Scale the data point to fit within the range
+        scaled_value = (d - y1) / (y2 - y1) * (x2 - x1) + x1
+        scaled_data.append(scaled_value)
+
+    return scaled_data
+
+#def _scale_data(data, ranges):
+    #for d, (y1, y2) in zip(data[1:], ranges[1:]):
+        #assert (y1 <= d <= y2) or (y2 <= d <= y1)
+    #x1, x2 = ranges[0]
+    #d = data[0]
+    #if x1 > x2:
+        #d = _invert(d, (x1, x2))
+       # x1, x2 = x2, x1
+    #sdata = [d]
+   # for d, (y1, y2) in zip(data[1:], ranges[1:]):
+     #   if y1 > y2:
+      #      d = _invert(d, (y1, y2))
+      #      y1, y2 = y2, y1
+      #  sdata.append((d-y1) / (y2-y1) 
+      #                   * (x2 - x1) + x1)
+  #  return sdata
 
 class ComplexRadar():
     def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
@@ -167,7 +177,7 @@ class ComplexRadar():
             ax.set_rgrids(grid,labels=gridlabel,angle=angles[i])
             ax.set_ylim(*ranges[i])
             ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
-            #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
+            ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
@@ -184,30 +194,26 @@ class ComplexRadar():
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,fig,features=features,fill=False):
-    app_id = get_data(raw_app,ID).loc[:,features]
+def radat_id_plot(ID,client_features,features,fill=False):
+    app_id = get_data(raw_app,ID).loc[:,client_features]
     client = app_id.iloc[0]
 
-    # Modify the copy of raw_app using .loc
-    raw_app.loc[raw_app.index[0], 'AGE'] = client['AGE'] - 5
-    raw_app.loc[raw_app.index[0], 'YEARS_EMPLOYED'] = client['YEARS_EMPLOYED'] - 1
-    raw_app.loc[raw_app.index[0], 'AMT_INCOME_TOTAL'] = client['AMT_INCOME_TOTAL'] - 500
-    raw_app.loc[raw_app.index[0], 'AMT_ANNUITY'] = client['AMT_ANNUITY'] - 100
-    raw_app.loc[raw_app.index[0], 'AMT_CREDIT'] = client['AMT_CREDIT'] - 500
-    
-    ranges = [(client['AGE'] -5, client['AGE'] +5),
-              (client['YEARS_EMPLOYED'] -1, client['YEARS_EMPLOYED'] +1),
-              (client['AMT_INCOME_TOTAL'] -500, client['AMT_INCOME_TOTAL'] +500),
-              (client['AMT_ANNUITY'] -100, client['AMT_ANNUITY'] +100),
-              (client['AMT_CREDIT']-500, client['AMT_CREDIT'] +500)]
-    
-    radar = ComplexRadar(fig,features,ranges)
-    radar.plot(client,linewidth=3,color='darkseagreen')
-    
+     modified_client = {
+        'AGE': (client['AGE'] - 5, client['AGE'] + 5),
+        'YEARS_EMPLOYED': (client['YEARS_EMPLOYED'] - 1, client['YEARS_EMPLOYED'] + 1),
+        'AMT_INCOME_TOTAL': (client['AMT_INCOME_TOTAL'] - 500, client['AMT_INCOME_TOTAL'] + 500),
+        'AMT_ANNUITY': (client['AMT_ANNUITY'] - 100, client['AMT_ANNUITY'] + 100),
+        'AMT_CREDIT': (client['AMT_CREDIT'] - 500, client['AMT_CREDIT'] + 500)
+    }
+
+    radar = ComplexRadar(fig, features, list(modified_client.values()))
+    radar.plot(client, linewidth=3, color='darkseagreen')
+
     if fill:
         radar.fill(client, alpha=0.2)
+    
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID,fig,features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
@@ -215,43 +221,32 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna().copy()
-    
-    # Convert 'TARGET' column to numeric, replacing non-numeric values with NaN
-    #data_knn['TARGET'] = pd.to_numeric(data_knn['TARGET'], errors='coerce')
 
-    # Drop rows with NaN values in the 'TARGET' column
-    #data_knn.dropna(subset=['TARGET'], inplace=True)    
+     # Calculate ranges for radar plot based on data_id
+    ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
+              (data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
+              (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
+              (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
+              (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
     
-    #data_knn['TARGET'] = data_knn['TARGET'].astype(int)
-    #moy_knn = data_knn.groupby('TARGET').mean()
+    # Perform radar plot using ranges
+    radar = ComplexRadar(fig, features, ranges)
     
-    # calculate ranges for radar plot
-    ranges = [(min(data_knn['AGE']),max(data_knn['AGE'])),
-              (min(data_knn['YEARS_EMPLOYED']),max(data_knn['YEARS_EMPLOYED'])),
-              (min(data_knn['AMT_INCOME_TOTAL']),max(data_knn['AMT_INCOME_TOTAL'])),
-              (min(data_knn['AMT_ANNUITY']),max(data_knn['AMT_ANNUITY'])),
-              (min(data_knn['AMT_CREDIT']),max(data_knn['AMT_CREDIT']))]
-    
-    # Create radar plot
-    radar = ComplexRadar(fig,features,ranges)
-    radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    #radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Average Similar Client having problems',color='red')
-    #radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Average similar client without having problems',color='royalblue')
-    fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
-    
+    # Optionally fill radar plot
     if fill:
-        radar.fill(client, alpha=0.2)
+        radar.fill(data_id, alpha=0.2)
     
-#def shap_id(ID,app,X_name,explainer,shap):
 def shap_id(ID):
     app_id = get_data(app,ID).loc[:, X_name].copy()
     shap_vals = explainer.shap_values(app_id)
-    shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
+    shap_plot = shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
+
+    # Return the plot object
+    return shap_plot
 
 # Loading data
 zip_file = ZipFile('data_selected1.zip')
 df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
-#feats = [c for c in df_sel.columns if c not in ['TARGET','SK_ID_CURR']]
 feats = [c for c in df_sel.columns if c not in ['SK_ID_CURR']]
 
 # defining Prediction
@@ -365,8 +360,6 @@ if page == "Customer":
             with st.spinner('Calculating...'):
                 try:
                     result = predict_target()
-                    
-                    #st.write('Result:', result)  # Print the result for debugging
                     if isinstance(result, tuple) and len(result) == 2:
                         proba, decision = result
                         if decision=="Approved":                            
@@ -395,89 +388,70 @@ if page == 'Customer portfolio':
             with col1:
                 fig = plt.figure(figsize=(8,6))
                 bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
-                #bins = max(bins, 1)    #Ensure bins is at least 1                    
-               
-                pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET',bins=bins,palette=['royalblue','red'],alpha=0.5)
-                plt.set(xlabel='AGE', ylabel='Frequency')
-                plt.legend(['Having difficulty','Without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35),fancybox=True, shadow=True, ncol=5)
+                
+                sns.histplot(data=raw_app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5, ax=ax)
+                ax.set(xlabel='AGE', ylabel='Frequency')
+                ax.legend(['Having difficulty', 'Without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35), fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
             
             with col2:
-                fig = plt.figure(figsize=(3,3))                
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-                #pt = sns.barplot(x='NAME_FAMILY_STATUS', y='CNT_CHILDREN', hue='TARGET', data=raw_app,palette=['royalblue','red'],alpha=.7)
-                plt.setp(pt.get_xticklabels(),rotation=45,fontsize=7)
-                plt.setp(pt.get_yticklabels(),fontsize=5)
-                st.pyplot(fig)
-                        
-            with col3:
-                # Create a new figure and axis
                 fig, ax = plt.subplots(figsize=(8, 6))
+                sns.barplot(data=raw_app, x='NAME_FAMILY_STATUS', y='CNT_CHILDREN', hue='TARGET', palette=['royalblue', 'red'], alpha=0.5, ci=None, edgecolor='black', ax=ax)
+                ax.set_xlabel('Family Status')
+                ax.set_ylabel('Number of Children')
+                ax.set_title('Number of Children by Family Status and Target')
+                ax.legend(title='Target', fontsize=8)
+                plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
+                plt.setp(ax.get_yticklabels(), fontsize=8)
+                st.pyplot(fig)
 
-                # Plot data for TARGET == 1
-                sns.barplot(x='NAME_INCOME_TYPE', y='AMT_INCOME_TOTAL', data=raw_app, hue='TARGET',
-                            palette=['royalblue', 'red'], alpha=0.5, edgecolor='black', ax=ax)
-                
-                
-                # Plot data for TARGET == 0
-                sns.barplot(x=raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],
-                            y=raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],
-                            color='royalblue', alpha=0.5, edgecolor='black', ax=ax)
-
-                # Customize plot
+            with col3:
+                fig, ax = plt.subplots(figsize=(8, 6))
+                sns.barplot(data=raw_app, x='NAME_INCOME_TYPE', y='AMT_INCOME_TOTAL', hue='TARGET', palette=['royalblue', 'red'], alpha=0.5, ci=None, edgecolor='black', ax=ax)
                 ax.set_xlabel('Income Type')
                 ax.set_ylabel('Income Total')
                 ax.set_title('Income Total by Income Type and Target')
                 ax.legend(title='Target', fontsize=8)
-
-                # Rotate x-axis labels for better readability
                 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
                 plt.setp(ax.get_yticklabels(), fontsize=8)
-
-                # Display plot in Streamlit
                 st.pyplot(fig)
+
                 
         st.markdown("-----")
                
         with st.container():
             st.write("#### Loan Payment")
-            tg_n = np.array([len(raw_app.loc[raw_app['TARGET']==1]),len(raw_app.loc[raw_app['TARGET']==0]),len(raw_app.loc[raw_app['TARGET'].isnull()])])            
+            tg_n = np.array([len(raw_app.loc[raw_app['TARGET']==1]), len(raw_app.loc[raw_app['TARGET']==0]), len(raw_app.loc[raw_app['TARGET'].isnull()])])            
             col4, col5 = st.columns(2)
+    
             with col4:
-                fig = plt.figure(figsize=(3,3))
-                plt.pie(tg_n,labels=['having difficulty','without difficulty','No Loan outstanding'],colors=['red','royalblue','honeydew'],autopct=lambda x:str(round(x,2))+'%')
+                fig = plt.figure(figsize=(4, 4))
+                labels = ['Having difficulty', 'Without difficulty', 'No Loan outstanding']
+                colors = ['red', 'royalblue', 'honeydew']
+                plt.pie(tg_n, labels=labels, colors=colors, autopct='%1.2f%%', startangle=140)
+                plt.axis('equal')
                 st.pyplot(fig)
-                    
-           
+
             with col5:
-                df = raw_app[['TARGET','NAME_INCOME_TYPE','AMT_ANNUITY','AMT_CREDIT']]
+                df = raw_app[['TARGET', 'NAME_INCOME_TYPE', 'AMT_ANNUITY', 'AMT_CREDIT']]
                 df.loc[:, 'COUNT_TG'] = df['TARGET']
-                        #df.loc[:,'COUNT_TG'] = df['TARGET']
-                
-                # Group by target and income type and calculate mean annuity and credit amounts, and count of observations
-                tg_df = pd.concat((df.groupby(['TARGET','NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY','AMT_CREDIT']],
-                                    df.groupby(['TARGET','NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis = 1)
+
+                tg_df = pd.concat((df.groupby(['TARGET', 'NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY', 'AMT_CREDIT']],
+                                   df.groupby(['TARGET', 'NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis=1)
                 tg_0 = tg_df.loc[0]
                 tg_1 = tg_df.loc[1]
 
-                # Create scatter plot
-                fig = plt.figure(figsize=(3,3))
-                #sns.scatterplot(x=tg_1['AMT_ANNUITY'], y=tg_1['AMT_CREDIT'], hue=tg_1['COUNT_TG'], palette='coolwarm')
-                #sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG']/100, label='With difficulty', color='royalblue', alpha=.3)
-                pt = sns.scatterplot(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100,label='With difficulty',color='red')
-                pt = sns.scatterplot(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100,label='Without difficulty', color='royalblue', alpha=.3)
+                fig = plt.figure(figsize=(4, 4))
+                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
+                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
 
-                #Customize plot
-                plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.3), fancybox=True, shadow=True, ncol=5, fontsize=4)
-                plt.xlabel('AMT_ANNUITY', fontsize=4)
-                plt.ylabel('AMT_CREDIT', fontsize=4)
-                plt.xlim([20000, 40000])    ##
-                plt.ylim([400000, 800000])  ##
-                plt.setp(pt.get_xticklabels(),fontsize=5)
-                plt.setp(pt.get_yticklabels(),fontsize=5) 
-                
-                #Display plot
+                # Customize plot
+                plt.legend(loc='upper left', fontsize=8)
+                plt.xlabel('AMT_ANNUITY', fontsize=8)
+                plt.ylabel('AMT_CREDIT', fontsize=8)
+                plt.xlim([20000, 40000])
+                plt.ylim([400000, 800000])
+                plt.xticks(fontsize=6)
+                plt.yticks(fontsize=6)
+        
                 st.pyplot(fig)
-                
-                    
