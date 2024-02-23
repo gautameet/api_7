@@ -317,6 +317,7 @@ if page == "Customer":
     st.sidebar.markdown("Please select your ID:")
     #st.markdown("Your ID:")
     ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+    print("debug", ID)
     raw_app_id = get_data(raw_app,ID)
     with st.spinner('Custumer details....'):
         st.write('## Customer details.....')
