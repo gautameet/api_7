@@ -364,6 +364,7 @@ if page == "Customer":
             with st.spinner('Calculating...'):
                 try:
                     result = predict_target()
+                    st.write('Result:', result)  # Print the result for debugging
                     if isinstance(result, tuple) and len(result) >= 2:
                         proba, decision = result
                         if decision=="Approved":                            
