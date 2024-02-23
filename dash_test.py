@@ -125,13 +125,10 @@ def get_stat_ID(ID):
 
 def _invert(x, limits):
     return limits[1] - (x - limits[0])
-    #inverts a value x on a scale from
-    #limits[0] to limits[1]
-    
+       
 
 def _scale_data(data, ranges):
-    #scales data[1:] to ranges[0],
-    #inverts if the scale is reversed
+   
     for d, (y1, y2) in zip(data[1:], ranges[1:]):
         assert (y1 <= d <= y2) or (y2 <= d <= y1)
     x1, x2 = ranges[0]
@@ -168,8 +165,8 @@ class ComplexRadar():
             gridlabel[0] = "" # clean up origin
             ax.set_rgrids(grid,labels=gridlabel,angle=angles[i])
             ax.set_ylim(*ranges[i])
-            ax.set_yticklabels(ax.get_yticklabels(),fontsize=8)   # Increased fontsize for y tick labels
-            ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
+            ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
+            #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
@@ -186,8 +183,8 @@ class ComplexRadar():
         self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,fig,usecols=features,fill=False):
-    app_id = get_data(raw_app,ID).loc[:,usecols]
+def radat_id_plot(ID,fig,features=features,fill=False):
+    app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
     # Modify the copy of raw_app using .loc
@@ -203,15 +200,15 @@ def radat_id_plot(ID,fig,usecols=features,fill=False):
               (client['AMT_ANNUITY'] -100, client['AMT_ANNUITY'] +100),
               (client['AMT_CREDIT']-500, client['AMT_CREDIT'] +500)]
     
-    radar = ComplexRadar(fig,usecols,ranges)
+    radar = ComplexRadar(fig,features,ranges)
     radar.plot(client,linewidth=3,color='darkseagreen')
     
     if fill:
         radar.fill(client, alpha=0.2)
 
-def radat_knn_plot(ID,fig,usecols=features,fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
-    app_id = get_data(raw_app,ID).loc[:,usecols]
+    app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
@@ -219,10 +216,10 @@ def radat_knn_plot(ID,fig,usecols=features,fill=False):
     data_knn = get_data(raw_app,app_knn).dropna().copy()
     
     # Convert 'TARGET' column to numeric, replacing non-numeric values with NaN
-    data_knn['TARGET'] = pd.to_numeric(data_knn['TARGET'], errors='coerce')
+    #data_knn['TARGET'] = pd.to_numeric(data_knn['TARGET'], errors='coerce')
 
     # Drop rows with NaN values in the 'TARGET' column
-    data_knn.dropna(subset=['TARGET'], inplace=True)    
+    #data_knn.dropna(subset=['TARGET'], inplace=True)    
     
     #data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     #moy_knn = data_knn.groupby('TARGET').mean()
@@ -235,16 +232,17 @@ def radat_knn_plot(ID,fig,usecols=features,fill=False):
               (min(data_knn['AMT_CREDIT']),max(data_knn['AMT_CREDIT']))]
     
     # Create radar plot
-    radar = ComplexRadar(fig,usecols,ranges)
+    radar = ComplexRadar(fig,features,ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    #radar.plot(moy_knn.iloc[1][usecols],linewidth=3,label='Average Similar Client having problems',color='red')
-    #radar.plot(moy_knn.iloc[0][usecols],linewidth=3,label='Average similar client without having problems',color='royalblue')
+    #radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Average Similar Client having problems',color='red')
+    #radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Average similar client without having problems',color='royalblue')
     fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
     
     if fill:
         radar.fill(client, alpha=0.2)
     
-def shap_id(ID,app,X_name,explainer,shap):
+#def shap_id(ID,app,X_name,explainer,shap):
+def shap_id(ID):
     app_id = get_data(app,ID).loc[:, X_name].copy()
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
