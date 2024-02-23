@@ -366,7 +366,7 @@ if page == "Customer":
                         st.success(f'Client solvable (Target = 0), prediction difficulty level at **{prediction["risk"] * 100:.2f}%**')
                     elif prediction["target"]==1:
                         st.write(':confused:')
-                        st.error(f'Client non solvable (Target = 1), prediction difficult level at **{prediction["risk"] * 100 +.2f}%**')  
+                        st.error(f'Client non solvable (Target = 1), prediction difficult level at **{prediction["risk"] * 100:.2f}%**')  
                         st.write('**Interpretability**')
                         fig = plt.figure(figsize=(2,2))
                         st.pyplot(shap_id(ID))
