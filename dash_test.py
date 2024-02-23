@@ -254,7 +254,7 @@ df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
 feats = [c for c in df_sel.columns if c not in ['SK_ID_CURR']]
 
 # defining Prediction
-def predict_target(ID):
+def predict_target():
     ID=st.number_input("Enter Client ID:", min_value=100002, max_value=456255)
     
     try:
