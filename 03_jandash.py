@@ -176,7 +176,7 @@ def df_voisins(client_id: int, data_train, data_test):
 		data_voisins = data_train.iloc[indices[0], :]
 		
 		return data_voisins
-	 except Exception as e:
+	except Exception as e:
         	print("An error occurred during nearest neighbors computation:", e)
         	return None
 
