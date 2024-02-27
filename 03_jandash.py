@@ -482,25 +482,25 @@ if distrib:
 bivar = st.checkbox("Analyse bivariée")
 if bivar:
 	st.info("Analyse bivariée")
-        # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
-        bivar_compa = st.radio("Choisissez un type de comparaison :", ('Tous', 'Clients similaires'), key='bivar')
+	# Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
+		bivar_compa = st.radio("Choisissez un type de comparaison :", ('Tous', 'Clients similaires'), key='bivar')
 
-        list_features = list(data_train.columns)
-        list_features.remove('SK_ID_CURR')
-        list_features.insert(0, '<Select>')
+	        list_features = list(data_train.columns)
+        	list_features.remove('SK_ID_CURR')
+        	list_features.insert(0, '<Select>')
 
-        # Selection des features à afficher
-        c1, c2 = st.columns(2)
-        with c1:
-            feat1 = st.selectbox("Sélectionner une caractéristique X ", list_features)
-        with c2:
-            feat2 = st.selectbox("Sélectionner une caractéristique Y", list_features)
-        # Affichage des nuages de points de la feature 2 en fonction de la feature 1
-        if (feat1 != '<Select>') & (feat2 != '<Select>'):
-            if bivar_compa == 'Tous':
-                scatter(id_client_dash, feat1, feat2, data_train)
-            else:
-                scatter(id_client_dash, feat1, feat2, data_voisins)
+	        # Selection des features à afficher
+        	c1, c2 = st.columns(2)
+        	with c1:
+            	feat1 = st.selectbox("Sélectionner une caractéristique X ", list_features)
+        	with c2:
+            	feat2 = st.selectbox("Sélectionner une caractéristique Y", list_features)
+        	# Affichage des nuages de points de la feature 2 en fonction de la feature 1
+        		if (feat1 != '<Select>') & (feat2 != '<Select>'):
+				if bivar_compa == 'Tous':
+					scatter(id_client_dash, feat1, feat2, data_train)
+				else:
+					scatter(id_client_dash, feat1, feat2, data_voisins)
             with st.expander("Explication des scatter plot", expanded=False):
                 st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
                            "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
