@@ -435,8 +435,8 @@ if page == "Interprétation globale":
 		shap_values_dict = shap_values_local(id_client_dash, explainer)
 		shap_values = shap.Explanation(
 			values=shap_valus_dict['shap_values'],
-			base_values=shap_values_dict['base_value']
-			data=shap_values_dict['data'],
+				base_values=shap_values_dict['base_value']
+				data=shap_values_dict['data'],
 		feature_names=shap_values_dict['feature_names']
 	   	)    
       			data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
