@@ -391,7 +391,7 @@ if page == 'Customer portfolio':
             plt.ioff()
             with col1:
                 fig = plt.figure(figsize=(8,6))
-                bins = (raw_app['AGE'].max() - raw_app['AGE'].min()) // 5
+                bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
                 
                 pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5)
                 plt.xlabel('AGE', fontsize=10) 
