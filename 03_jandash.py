@@ -433,11 +433,11 @@ if page == "Interprétation globale":
 	if globale:
 		st.info("Importance globale")
 		shap_values_dict = shap_values_local(id_client_dash, explainer)
-   		shap_values = shap.Explanation(
+		shap_values = shap.Explanation(
 			values=shap_valus_dict['shap_values'],
-	  		base_values=shap_values_dict['base_value']
-      			data=shap_values_dict['data'],
-        		feature_names=shap_values_dict['feature_names']
+			base_values=shap_values_dict['base_value']
+			data=shap_values_dict['data'],
+		feature_names=shap_values_dict['feature_names']
 	   	)    
       			data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
 	 		nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
