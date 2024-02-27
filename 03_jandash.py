@@ -427,7 +427,7 @@ if page == "Interprétation globale":
             col1, col2 = st.columns(2)
             with col1:
                 feature1 = st.selectbox("Choisissez une caractéristique", list_features,
-                                        index=list_features.index('AMT_CREDIT'))
+					index=list_features.index('AMT_CREDIT'))
                 if distrib_compa == 'Tous':
                     distribution(feature1, id_client_dash, data_train)
                	else:
