@@ -447,7 +447,7 @@ if page == "Interprétation globale":
 	   		)
 		data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
 		nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
-		fig, ax = plt.subplos()
+		fig, ax = plt.subplots()
 		
 		# Affichage du summary plot : shap global
 		shap.summary_plot(shap_values, data_test_std, plot_type='bar', max_display=nb_features)
