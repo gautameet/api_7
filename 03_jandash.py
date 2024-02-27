@@ -177,6 +177,16 @@ def df_voisins(client_id: int, data_train, data_test):
 		
 		return data_voisins
 
+def shap_globales(shap_val_glob_0, shap_val_glob_1):
+	"""Combine and return the global SHAP values.
+ 	:param shap_val_glob_0: SHAP values for class 0 (list)
+  	:param shap_val_glob_1: SHAP values for class 1 (list)
+   	:return: Combined SHAP values as a NumPy array
+	"""
+
+	shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
+	return shap_globales
+	
 def shap_values_local(client_id: int, explainer):
 	"""Calculate the SHAP values for a client.
     	:param client_id: Client ID (int)
@@ -212,15 +222,6 @@ def shap_values_local(client_id: int, explainer):
 		print("An error occurred during SHAP computation:", e)
         	return None
 
-def shap_globales(shap_val_glob_0, shap_val_glob_1):
-	"""Combine and return the global SHAP values.
- 	:param shap_val_glob_0: SHAP values for class 0 (list)
-  	:param shap_val_glob_1: SHAP values for class 1 (list)
-   	:return: Combined SHAP values as a NumPy array
-	"""
-
-	shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
-	return shap_globales
 	
 def distribution(feature, id_client, df):
 	"""Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
