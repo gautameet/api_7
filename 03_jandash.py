@@ -403,7 +403,7 @@ if page == "Interprétation globale":
     globale = st.checkbox("Importance globale")
     if globale:
         st.info("Importance globale")
-        shap_values = shap_values_local()
+        shap_values = shap_values_local(id_client_dash, explainer)
         data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
         fig, ax = plt.subplots()
