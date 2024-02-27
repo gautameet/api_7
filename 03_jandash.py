@@ -178,31 +178,33 @@ def df_voisins(client_id: int, data_train, data_test):
 		return data_voisins
 
 def shap_values_local(client_id:int, explainer):
-	"""Calculate the SHAP values for a client.
- 	:param client_id: Client ID (int)
-  	:return: SHAP values for the client (dict)
-   	"""
-	client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-	client_data = client_data.drop('SK_ID_CURR', axis=1)
+	"""
+ 	Calculate the SHAP values for a client.
+  	:param client_id: Client ID (int)
+   	:return: SHAP values for the client (dict)
+	"""
+	try:
+		client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+		client_data = client_data.drop('SK_ID_CURR', axis=1)
 	
-	# Compute SHAP value
-	shap_val = explainer.shap_values(client_data)[0]
+		# Compute SHAP value
+		shap_val = explainer.shap_values(client_data)[0]
 	
-	# Construct the output dictionary
-	shap_values_dict = {
-		'shap_values': shap_val.tolist(),
-		'base_value': explainer.expected_value,
-		'data': client_data.values.tolist(),
-		'feature_names': client_data.columns.tolist()
-	}
-	explanation = shap.Explanation(
-		values=shap_val,
-		base_values=explainer.expected_value,
-		data=client_data.values,
-		feature_names=client_data.columns
-	)
+		# Construct the output dictionary
+		shap_values_dict = {
+			'shap_values': shap_val.tolist(),
+			'base_value': explainer.expected_value,
+			'data': client_data.values.tolist(),
+			'feature_names': client_data.columns.tolist()
+		}
+		explanation = shap.Explanation(
+			values=shap_val,
+			base_values=explainer.expected_value,
+			data=client_data.values,
+			feature_names=client_data.columns
+		)
 	
-	return shap_values_dict	
+		return shap_values_dict	
 
 def shap_globales(shap_val_glob_0, shap_val_glob_1):
 	"""Combine and return the global SHAP values.
