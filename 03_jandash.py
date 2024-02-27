@@ -166,8 +166,8 @@ def shap_values_local(client_id: int, explainer):
  	:param client_id: Client ID (int)
     :return: SHAP values for the client (dict)
     """
-    client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-    client_data = client_data.drop('SK_ID_CURR', axis=1)
+	client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+	client_data = client_data.drop('SK_ID_CURR', axis=1)
     
     # Compute SHAP values
     shap_val = explainer.shap_values(client_data)[0]
