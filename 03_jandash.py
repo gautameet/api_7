@@ -422,59 +422,61 @@ if page == "Interprétation locale":
 				   "C'est-à-dire que ce sont les caractéristiques qui ont influençé la décision pour ce client "
 				   "en particulier.")
 
-
 if page == "Interprétation globale":
-    st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
-    # Création du dataframe de voisins similaires
-    data_voisin = df_voisins(id_client_dash)
-    #data_voisin = df_voisins(id_client_dash)
+	st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
+	# Création du dataframe de voisins similaires
+	data_voisin = df_voisins(id_client_dash)
+	#data_voisin = df_voisins(id_client_dash)
 
-    globale = st.checkbox("Importance globale")
-    if globale:
-        st.info("Importance globale")
-        shap_values = shap_values_local(id_client_dash, explainer)
-        data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
-        nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
-        fig, ax = plt.subplots()
-        # Affichage du summary plot : shap global
-        ax = shap.summary_plot(shap_values[1].reshape(1, -1), data_test_std, plot_type='bar', max_display=nb_features)
-        st.pyplot(fig)
+	globale = st.checkbox("Importance globale")
+	if globale:
+		st.info("Importance globale")
+		shap_values = shap_values_local(id_client_dash, explainer)
+		data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
+		nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
+		fig, ax = plt.subplots()
+		
+	# Affichage du summary plot : shap global
+	ax = shap.summary_plot(shap_values[1].reshape(1, -1), data_test_std, plot_type='bar', max_display=nb_features)
+	st.pyplot(fig)
 
-        with st.expander("Explication du graphique", expanded=False):
-            st.caption("Ici sont affichées les caractéristiques influençant de manière globale la décision.")
+with st.expander("Explication du graphique", expanded=False):
+    st.caption("Ici sont affichées les caractéristiques influençant de manière globale la décision.")
 
-    distrib = st.checkbox("Comparaison des distributions")
-    if distrib:
-        st.info("Comparaison des distributions de plusieurs variables de l'ensemble de données")
-        # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
-        distrib_compa = st.radio("Choisissez un type de comparaison :", ('Tous', 'Clients similaires'), key='distrib')
+distrib = st.checkbox("Comparaison des distributions")
 
-        list_features = list(data_train.columns)
-        list_features.remove('SK_ID_CURR')
-        # Affichage des distributions des variables renseignées
-        with st.spinner(text="Chargement des graphiques..."):
-            col1, col2 = st.columns(2)
-            with col1:
-                feature1 = st.selectbox("Choisissez une caractéristique", list_features,
-					index=list_features.index('AMT_CREDIT'))
-                if distrib_compa == 'Tous':
-                    distribution(feature1, id_client_dash, data_train)
-               	else:
-                    distribution(feature1, id_client_dash, data_voisins)
-            with col2:
-                feature2 = st.selectbox("Choisissez une caractéristique", list_features,
-                                        index=list_features.index('EXT_SOURCE_2'))
-                if distrib_compa == 'Tous':
-                    distribution(feature2, id_client_dash, data_train)
-                else:
-                    distribution(feature2, id_client_dash, data_voisins)
-                    
-            with st.expander("Explication des distributions", expanded=False):
-                st.caption("Vous pouvez sélectionner la caractéristique dont vous souhaitez observer la distribution. "
-                           "En bleu est affichée la distribution des clients qui ne sont pas considérés en défaut et "
-                           "dont le prêt est donc jugé comme accordé. En orange, à l'inverse, est affichée la "
-                           "distribution des clients considérés comme faisant défaut et dont le prêt leur est refusé. "
-                           "La ligne pointillée verte indique où se situe le client par rapport aux autres clients.")
+if distrib:
+    st.info("Comparaison des distributions de plusieurs variables de l'ensemble de données")
+    # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
+    distrib_compa = st.radio("Choisissez un type de comparaison :", ('Tous', 'Clients similaires'), key='distrib')
+
+    list_features = list(data_train.columns)
+    list_features.remove('SK_ID_CURR')
+
+    # Function to display distribution for a selected feature
+    def display_distribution(feature, data):
+        if distrib_compa == 'Tous':
+            distribution(feature, id_client_dash, data_train)
+        else:
+            distribution(feature, id_client_dash, data_voisins)
+
+    # Display distributions for selected features
+    with st.spinner(text="Chargement des graphiques..."):
+        col1, col2 = st.columns(2)
+        with col1:
+            feature1 = st.selectbox("Choisissez une caractéristique", list_features, index=list_features.index('AMT_CREDIT'))
+            display_distribution(feature1, data_train)
+        with col2:
+            feature2 = st.selectbox("Choisissez une caractéristique", list_features, index=list_features.index('EXT_SOURCE_2'))
+            display_distribution(feature2, data_train)
+
+        with st.expander("Explication des distributions", expanded=False):
+            st.caption("Vous pouvez sélectionner la caractéristique dont vous souhaitez observer la distribution. "
+                       "En bleu est affichée la distribution des clients qui ne sont pas considérés en défaut et "
+                       "dont le prêt est donc jugé comme accordé. En orange, à l'inverse, est affichée la "
+                       "distribution des clients considérés comme faisant défaut et dont le prêt leur est refusé. "
+                       "La ligne pointillée verte indique où se situe le client par rapport aux autres clients.")
+		
 
     bivar = st.checkbox("Analyse bivariée")
     if bivar:
