@@ -119,70 +119,68 @@ def get_stat_ID(ID):
 def _invert(x, limits):
     return limits[1] - (x - limits[0])
 
-def _scale_data(data, ranges):
+#def _scale_data(data, ranges):
+def _scale_data(self, ranges):
     scaled_data = []
 
     # Extract the first range
-    x1, x2 = ranges[0]
+   # x1, x2 = ranges[0]
     # Check if the range is inverted
-    if x1 > x2:
-        x1, x2 = x2, x1  # Swap values if inverted
+    #if x1 > x2:
+       # x1, x2 = x2, x1  # Swap values if inverted
 
     # Scale each data point to fit within the range
-    for d, (y1, y2) in zip(data, ranges):
+    for d, (y1, y2) in zip(data, self.ranges):
         # Check if the range is inverted
         if y1 > y2:
             y1, y2 = y2, y1  # Swap values if inverted
         # Scale the data point to fit within the range
-        scaled_value = (d - y1) / (y2 - y1) * (x2 - x1) + x1
+        scaled_value = (d - y1) / (y2 - y1)             ##* (x2 - x1) + x1
         scaled_data.append(scaled_value)
 
     return scaled_data
 
 
 class ComplexRadar():
-    def __init__(self,fig,variables,ranges,
-                 n_ordinate_levels=6):
-        angles = np.arange(0,360,360./len(variables))
+    def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
+        angles = np.linspace(0, 2 * np.pi, len(variables), endpoint=False)
+        #angles = np.arange(0,360,360./len(variables))
     
-        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,
-                label="axes{}".format(i)) 
+        axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,label="axes{}".format(i)) 
                 for i in range(len(variables))]
-        l, text = axes[0].set_thetagrids(angles,
-                                         labels=variables)
-        [txt.set_rotation(angle-90) for txt,angle
-                 in zip(text, angles)]
+        l, text = axes[0].set_thetagrids(np.degrees(angles),labels=variables)
+        [txt.set_rotation(angle-90) for txt,angle in zip(text, np.degrees(angles))]
+        
         for ax in axes[1:]:
             ax.patch.set_visible(False)
-            ax.grid("off")
+            ax.grid(False)
             ax.xaxis.set_visible(False)
+        
         for i, ax in enumerate(axes):
-            grid = np.linspace(*ranges[i],
-                               num=n_ordinate_levels)
-            gridlabel = ["{}".format(round(x,2)) 
-                         for x in grid]
-            if ranges[i][0]>ranges[i][1]:
+            grid = np.linspace(*ranges[variables[i]], num=n_ordinate_levels)
+            gridlabel = ["{}".format(round(x,2)) for x in grid]
+            if ranges[variables[i]][0]>ranges[variables[i]][1]:
                 grid = grid[::-1] # hack to invert grid
             gridlabel[0] = "" # clean up origin
-            ax.set_rgrids(grid,labels=gridlabel,
-                          angle=angles[i])
-            ax.set_ylim(*ranges[i])
+            ax.set_rgrids(grid,labels=gridlabel, angle=np.degrees(angles[i]))
+            ax.set_ylim(*ranges[variables[i]])
             ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
             #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
-        self.angle = np.deg2rad(np.r_[angles, angles[0]])
+        #self.angle = np.deg2rad(np.r_[angles, angles[0]])
+        self.angle = angles
         self.ranges = ranges
         self.ax = axes[0]
         self.ax.set_xticklabels(variables,fontsize=6)
     
     def plot(self,data,*args,**kw):
-        scaled_data=_scale_data(data,self.ranges)      # Ensure _scale_data function works correctly
+        scaled_data=self._scale_data(data)      
         self.ax.plot(self.angle,np.r_[scaled_data,scaled_data[0]],*args, **kw)        
     
     def fill(self,data,*args,**kw):
-        scaled_data=_scale_data(data,self.ranges)
-        self.ax.fill(self.angle,np.r_[scaled_data, scaled_data[0]],*args,**kw)
+        scaled_data=self._scale_data(data)
+        self.ax.fill(self.angle, np.r_[scaled_data, scaled_data[0]],*args,**kw)
         
 # Graph Radar
 def radat_id_plot(ID,fig, features=features,fill=False):
@@ -197,7 +195,8 @@ def radat_id_plot(ID,fig, features=features,fill=False):
         'AMT_CREDIT': (client['AMT_CREDIT'] - 500, client['AMT_CREDIT'] + 500)
     }
 
-    radar = ComplexRadar(fig, features, ranges)
+    #radar = ComplexRadar(fig, features, ranges)
+    radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
     radar.plot(client, linewidth=3, color='darkseagreen')
 
     if fill:
