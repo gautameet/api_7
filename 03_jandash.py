@@ -301,8 +301,8 @@ def boxplot_graph(id_client, feat, df_vois):
 	for cat in categories:
 		plt.scatter(cat, data_client.iloc[:, cat], marker='*', s=250, color='blueviolet', label='Client')
 		ax.set_title(f'Boxplot des caractéristiques sélectionnées')
-    		handles, _ = ax.get_legend_handles_labels()
-    		if len(handles) < 8:
+		handles, _ = ax.get_legend_handles_labels()
+		if len(handles) < 8:
 			ax.legend(handles[:4], ['Accordé', 'Refusé', 'Voisins', 'Client'])
     		else:
 			ax.legend(handles[:5], ['Accordé', 'Refusé', 'Voisins (accordés)', 'Voisins (refusés)', 'Client'])
