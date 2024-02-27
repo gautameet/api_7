@@ -31,23 +31,13 @@ zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
 featss = [c for c in data_test.columns if c not in ['TARGET','SK_ID_CURR']]
 
-zip_file = ZipFile('data_selected1.zip')
-data = pd.read_csv(zip_file.open('data_selected1.csv'))
-feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
+#zip_file = ZipFile('data_selected1.zip')
+#data = pd.read_csv(zip_file.open('data_selected1.csv'))
+#feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
 
 
 # Loading the model
 model = pickle.load(open('model11.pkl', 'rb'))
-#with open('model11.pkl', 'rb') as file:
-    #model = pickle.load(file)
-
-#cols = data_test.select_dtypes(include=['float64','int32','int64']).columns
-#data_test_scaled = data_test.copy()
-#data_test_scaled[cols] = StandardScaler().fit_transform(data_test[cols])
-
-#cols_train = data_train.select_dtypes(include=['float64','int32','int64'])
-#data_train_scaled = data_train.copy()
-#data_train_scaled[cols_train] = StandardScaler().fit_transform(data_train[cols_train])
 
 explainer = shap.TreeExplainer(model)
 
