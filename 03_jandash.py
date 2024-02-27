@@ -442,7 +442,7 @@ if page == "Interprétation globale":
 			values=shap_valus_dict['shap_values'],
 			base_values=shap_values_dict['base_value'],
 			data=shap_values_dict['data'],
-		feature_names=shap_values_dict['feature_names']
+			feature_names=shap_values_dict['feature_names']
 	   	)
 		data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
 		nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
@@ -450,7 +450,7 @@ if page == "Interprétation globale":
 		
 		# Affichage du summary plot : shap global
 		ax = shap.summary_plot(shap_values, data_test_std, plot_type='bar', max_display=nb_features)
-	st.pyplot(fig)
+		st.pyplot(fig)
 
 with st.expander("Explication du graphique", expanded=False):
     st.caption("Ici sont affichées les caractéristiques influençant de manière globale la décision.")
