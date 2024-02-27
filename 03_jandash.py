@@ -189,7 +189,7 @@ def shap_values_local(client_id:int, explainer):
 	
 		# Compute SHAP value
 		shap_val = explainer.shap_values(client_data)[0]
-	
+		
 		# Construct the output dictionary
 		shap_values_dict = {
 			'shap_values': shap_val.tolist(),
@@ -203,7 +203,7 @@ def shap_values_local(client_id:int, explainer):
 			data=client_data.values,
 			feature_names=client_data.columns
 		)
-	
+		
 		return shap_values_dict
 	
 	except Exception as e:
