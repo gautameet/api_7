@@ -210,8 +210,14 @@ def shap_values_local(client_id: int, explainer):
 			data=client_data.values,
 			feature_names=client_data.columns
 		)
+		if explanation is not None:
+			fig = shap.waterfall_plot(explanation, max_display=nb_features, show=False)
+			st.pyplot(fig)
+		else:
+			st.error("Error occurred during SHAP computation.")
 		
 		return shap_values_dict
+	
 	except Exception as e:
 		print("An error occurred during SHAP computation:", e)
 		return None
