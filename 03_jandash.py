@@ -193,15 +193,15 @@ def shap_values_local(client_id: int, explainer):
 		client_data = client_data.drop('SK_ID_CURR', axis=1)
         
  	       # Compute SHAP values
-        	shap_val = explainer.shap_values(client_data)[0]
+        shap_val = explainer.shap_values(client_data)[0]
         
-        	# Construct the output dictionary
-       		shap_values_dict = {
-			'shap_values': shap_val.tolist(),
-            		'base_value': explainer.expected_value,
-            		'data': client_data.values.tolist(),
-            		'feature_names': client_data.columns.tolist()
-	        }
+        # Construct the output dictionary
+       	shap_values_dict = {
+		'shap_values': shap_val.tolist(),
+            	'base_value': explainer.expected_value,
+            	'data': client_data.values.tolist(),
+            	'feature_names': client_data.columns.tolist()
+	}
         
         	# Create an Explanation object for further analysis or visualization if needed
         	explanation = shap.Explanation(
