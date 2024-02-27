@@ -337,8 +337,8 @@ if page == "Information du client":
             
     # Affichage des informations client
 with st.expander("Afficher les informations du client", expanded=False):
-st.info("Voici les informations du client:", icon='ℹ️')
-st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
+	st.info("Voici les informations du client:", icon='ℹ️')
+	st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
 if page == "Interprétation locale":
     st.title("Dashboard Prêt à dépenser - Page Interprétation locale")
