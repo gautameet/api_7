@@ -75,7 +75,7 @@ data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
 
-def prediction(client_id, data_test, model):
+def prediction(client_id, data_test, model, train_features):
 	"""
  	Calculates the probability of default for a client.
   	:param client_id: Client ID (int)
@@ -86,9 +86,11 @@ def prediction(client_id, data_test, model):
 		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
 			return None,'Client not found !'
-		features = list(data_train.columns)
-		features.remove('SK_ID_CURR')
-		features.remove('TARGET')
+		features = [col for col in client.columns if col in train_features]
+		
+		#features = list(data_train.columns)
+		#features.remove('SK_ID_CURR')
+		#features.remove('TARGET')
 		
 		info_client = client[features]
 		probab = model.predict_proba(info_client)
