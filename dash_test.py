@@ -143,8 +143,8 @@ def _invert(x, limits):
 
 class ComplexRadar():
     def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
-        self.variables = variables
-        self.ranges = ranges
+        #self.variables = variables
+        #self.ranges = ranges
         
         angles = np.linspace(0, 2 * np.pi, len(variables), endpoint=False)
         #angles = np.arange(0,360,360./len(variables))
@@ -160,13 +160,16 @@ class ComplexRadar():
             ax.xaxis.set_visible(False)
         
         for i, ax in enumerate(axes):
-            grid = np.linspace(*ranges[variables[i]], num=n_ordinate_levels)
+            lower_bound, upper_bound = ranges[i]
+            grid = np.linspace(lower_bound, upper_bound, num=n_ordinate_levels)
             gridlabel = ["{}".format(round(x,2)) for x in grid]
-            if ranges[variables[i]][0]>ranges[variables[i]][1]:
-                grid = grid[::-1] # hack to invert grid
+            if lower_bound > upper_bound:
+                grid = grid[::-1]
+            #if ranges[variables[i]][0]>ranges[variables[i]][1]:
+                #grid = grid[::-1] # hack to invert grid
             gridlabel[0] = "" # clean up origin
             ax.set_rgrids(grid,labels=gridlabel, angle=np.degrees(angles[i]))
-            ax.set_ylim(*ranges[variables[i]])
+            ax.set_ylim(lower_bound, upper_bound)
             ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
             #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
