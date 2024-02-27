@@ -162,8 +162,8 @@ def df_voisins(client_id: int):
     return data_voisins
     
 def shap_values_local(client_id: int, explainer):
-    """Calculate the SHAP values for a client.
-    :param client_id: Client ID (int)
+	"""Calculate the SHAP values for a client.
+ 	:param client_id: Client ID (int)
     :return: SHAP values for the client (dict)
     """
     client_data = data_test[data_test['SK_ID_CURR'] == client_id]
@@ -175,17 +175,17 @@ def shap_values_local(client_id: int, explainer):
     
     # Construct the output dictionary
     shap_values_dict = {
-        'shap_values': shap_val.tolist(),
+		'shap_values': shap_val.tolist(),
         'base_value': explainer.expected_value,
         'data': client_data.values.tolist(),
         'feature_names': client_data.columns.tolist()
-    }
+	}
 	explanation = shap.Explanation(
 		values=shap_val,
 		base_values=explainer.expected_value,
 		data=client_data.values,
 		feature_names=client_data.columns
-    )
+	)
 	return explanation	
 
 	#explanation = shap.Explanation(np.reshape(np.array(shap_values_local, dtype='float'), (1, -1)),
