@@ -90,8 +90,7 @@ def prediction(client_id):
 		#ID_to_predict = client[featss]
 		#ID_to_predict.fillna(0, inplace = True)
 		info_client = client.drop("'SK_ID_CURR", axis = 1)
-		prediction = model.predict(info_client)
-		probab = model.predict_proba(ID_to_predict)
+		probab = model.predict_proba(info_client)
 		proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
 		if proba_default >= best_threshold:
