@@ -180,39 +180,39 @@ def df_voisins(client_id: int, data_train, data_test):
 def shap_values_local(client_id: int, explainer):
 	"""
  	Calculate the SHAP values for a client.
-    :param client_id: Client ID (int)
-    :param explainer: SHAP explainer object
-    :return: SHAP values for the client (dict)
-    """
+    	:param client_id: Client ID (int)
+    	:param explainer: SHAP explainer object
+    	:return: SHAP values for the client (dict)
+    	"""
 	try:
-        # Assuming data_test is accessible inside the function
-        client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-        client_data = client_data.drop('SK_ID_CURR', axis=1)
+		# Assuming data_test is accessible inside the function
+		client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+		client_data = client_data.drop('SK_ID_CURR', axis=1)
         
-        # Compute SHAP values
-        shap_val = explainer.shap_values(client_data)[0]
+        	# Compute SHAP values
+        	shap_val = explainer.shap_values(client_data)[0]
         
-        # Construct the output dictionary
-        shap_values_dict = {
-            'shap_values': shap_val.tolist(),
-            'base_value': explainer.expected_value,
-            'data': client_data.values.tolist(),
-            'feature_names': client_data.columns.tolist()
-        }
+        	# Construct the output dictionary
+       	 	shap_values_dict = {
+			'shap_values': shap_val.tolist(),
+            		'base_value': explainer.expected_value,
+            		'data': client_data.values.tolist(),
+            		'feature_names': client_data.columns.tolist()
+        	}
         
-        # Create an Explanation object for further analysis or visualization if needed
-        explanation = shap.Explanation(
-            values=shap_val,
-            base_values=explainer.expected_value,
-            data=client_data.values,
-            feature_names=client_data.columns
-        )
+        	# Create an Explanation object for further analysis or visualization if needed
+        	explanation = shap.Explanation(
+			values=shap_val,
+            		base_values=explainer.expected_value,
+            		data=client_data.values,
+            		feature_names=client_data.columns
+        	)
         
-        return shap_values_dict
+ 		return shap_values_dict
     
-    except Exception as e:
-        print("An error occurred during SHAP computation:", e)
-        return None
+    	except Exception as e:
+        	print("An error occurred during SHAP computation:", e)
+        	return None
 
 def shap_globales(shap_val_glob_0, shap_val_glob_1):
 	"""Combine and return the global SHAP values.
