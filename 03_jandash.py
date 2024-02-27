@@ -294,10 +294,11 @@ def boxplot_graph(id_client, feat, df_vois):
                                          #var_name="var", value_name="val")
 	sns.swarmplot(data=df_voisins_box, x='var', y='val', hue='TARGET', size=8,
 		      			palette=['green', 'red'], ax=ax)
-
+	
 	data_client = data_test_mm.loc[data_test['SK_ID_CURR'] == id_client][feat]
-    	categories = ax.get_xticklabels()
-    	for cat in categories:
+	
+	categories = ax.get_xticklabels()
+	for cat in categories:
 		plt.scatter(cat, data_client.iloc[:, cat], marker='*', s=250, color='blueviolet', label='Client')
 		ax.set_title(f'Boxplot des caractéristiques sélectionnées')
     		handles, _ = ax.get_legend_handles_labels()
