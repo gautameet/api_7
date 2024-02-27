@@ -445,7 +445,7 @@ if page == "Interprétation globale":
 		
 		# Affichage du summary plot : shap global
 		ax = shap.summary_plot(shap_values, data_test_std, plot_type='bar', max_display=nb_features)
-    		st.pyplot(fig)
+	st.pyplot(fig)
 
 with st.expander("Explication du graphique", expanded=False):
     st.caption("Ici sont affichées les caractéristiques influençant de manière globale la décision.")
