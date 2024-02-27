@@ -23,15 +23,13 @@ from PIL import Image
 
 np.seterr(divide='ignore', invalid='ignore')
 
-#API_URL = 'https://dashtest.streamlit.app/'
-
-
 # Loading the Treated Data
 zip_file_path = ZipFile('data_train1.zip')
 data_train = pd.read_csv(zip_file_path.open('data_train1.csv'))
 
 zip_file_test = ZipFile('data_test.zip')
 data_test = pd.read_csv(zip_file_test.open('data_test.csv'))
+featss = [c for c in data_test.columns if c not in ['TARGET','SK_ID_CURR']]
 
 zip_file = ZipFile('data_selected1.zip')
 data = pd.read_csv(zip_file.open('data_selected1.csv'))
@@ -86,44 +84,25 @@ def minmax_scale(df, scaler):
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
-#def prediction(client_id: int):
-#"""
-#    Calculates the probability of default for a client.
- #   :param client_id: Client ID (int)
-  #  :return: Probability of default (float) and decision (str)
-   # """
-    #client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-    #info_client = client_data.drop('SK_ID_CURR', axis=1)
-    #info_client = info_client[model.feature_names_]
-    #prediction_proba = model.predict_proba(info_client)
-    #prediction = model.predict_proba(info_client)[0][1]
-    
-    #proba_default = round(prediction_proba[:, 1].mean(), 3) if prediction_proba.ndim > 1 else round(prediction_proba[0][1], 3)  
-    #best_threshold = 0.54
-    #if proba_default >= best_threshold:
-     #   decision = "Rejected"
-    #else:
-     #   decision = "Accepted"
-
-#    return proba_default, decision
 
 def prediction(client_id):
 	"""
  	Calculates the probability of default for a client.
   	:param client_id: Client ID (int)
-    :return: Probability of default (float) and decision (str)
+    	:return: Probability of default (float) and decision (str)
 	"""
 	#ID = st.number_input('Enter client ID:', value=0, step=1) 
 	try :
-		client = data[data['SK_ID_CURR']== client_id]
+		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
 			return 'Client not found !'
 			
-		ID_to_predict = client[feats]
-		ID_to_predict.fillna(0, inplace = True)
-		prediction = model.predict(ID_to_predict)
-		proba = model.predict_proba(ID_to_predict)
-		proba_default = round(proba[:, 1].mean(), 3) if proba.ndim > 1 else round(proba[0][1], 3)
+		#ID_to_predict = client[featss]
+		#ID_to_predict.fillna(0, inplace = True)
+		info_client = client.drop("'SK_ID_CURR", axis = 1)
+		prediction = model.predict(info_client)
+		probab = model.predict_proba(ID_to_predict)
+		proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
 		if proba_default >= best_threshold:
 			decision = "Rejected"
@@ -139,8 +118,8 @@ def jauge_score(proba):
     """
     fig = go.Figure(go.Indicator(
         domain={'x': [0, 1], 'y': [0, 1]},
-        value=0.54*100,
-        #value=proba*100,
+        #value=0.54*100,
+        value=proba*100,
         mode="gauge+number+delta",
         title={'text': "Score Gauge"},
         delta={'reference': 54},
@@ -161,15 +140,15 @@ def df_voisins(client_id: int):
     :param client_id: Client ID (int)
     :return: Dataframe of similar clients (DataFrame).
     """
-    #features = list(data_train_scaled.columns)
-    #features.remove('SK_ID_CURR')
-    #features.remove('TARGET')
+    features = list(data_train_scaled.columns)
+    features.remove('SK_ID_CURR')
+    features.remove('TARGET')
 
     # Creating an instance of NearestNeighbors
     knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
 
     # Training the model on the data
-    knn.fit(data_train['SK_ID_CURR','TARGET'], axis=1)
+    knn.fit(data_train[features])
     #knn.fit(data_train_scaled[features])
     
     reference_id = client_id
@@ -177,45 +156,12 @@ def df_voisins(client_id: int):
     reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
 
     # Find nearest neighbors only if reference_observation is not empty
-    indices = nn.kneighbors(reference_observation, return_distance=False)
-    df_voisins = data_train.iloc[indices[0], :]
+    indices = knn.kneighbors(reference_observation, return_distance=False)
+    data_voisins = data_train.iloc[indices[0], :]
 
-    return df_voisins
+    return data_voisins
     
-    #if isinstance(reference_observation, np.ndarray):
-        #reference_df = pd.DataFrame(reference_observation)
-      #  if reference_df.empty or reference_df.isna().any().any():
-     #       return pd.DataFrame()  # Return an empty DataFrame
-    #else:
-        # Handle other types or raise an error if necessary
-     #   pass
-    
-    #Check if reference_observation is empty or contains NaN values
-    #if reference_observation.empty or reference_observation.isna().any().any():
-    #if len(reference_observation) == 0 or any([np.isnan(x) for x in reference_observation]):
-        #return pd.DataFrame()  # Return an empty DataFrame
-    
-    # Find nearest neighbors only if reference_observation is not empty
-    #indices = nn.kneighbors(reference_observation, return_distance=False)
-    #df_voisins = data_train.iloc[indices[0], :]
-    
-    #return df_voisins
-
-#def shap_values_local(id_client: int):
-    """ Calcul les shap values pour un client.
-        :param: client_id (int)
-        :return: shap values du client (json).
-        """
-    #client_data = data_test_scaled[data_test_scaled['SK_ID_CURR'] == id_client]
-    #client_data = client_data.drop('SK_ID_CURR', axis=1)
-    #shap_val = explainer(client_data)[0][:, 1]
-    ##shap_val = compute_shap_values(id_client_dash)
-    #return {'shap_values': shap_val.values.tolist(),
-     #       'base_value': shap_val.base_values,
-      #      'data': client_data.values.tolist(),
-       #     'feature_names': client_data.columns.tolist()}
-
-def shap_values_local(client_id: int):
+def shap_values_local(client_id: int, explainer):
     """Calculate the SHAP values for a client.
     :param client_id: Client ID (int)
     :return: SHAP values for the client (dict)
@@ -224,30 +170,43 @@ def shap_values_local(client_id: int):
     client_data = client_data.drop('SK_ID_CURR', axis=1)
     
     # Compute SHAP values
-    shap_val = explainer(client_data)[0][:, 1]
+    shap_val = explainer.shap_values(client_data)[0]
     #shap_values = explainer.shap_values(client_data)
     
     # Construct the output dictionary
     shap_values_dict = {
-        'shap_values': shap_val.values.tolist(),
-        'base_value': shap_val.base_values,
+        'shap_values': shap_val.tolist(),
+        'base_value': explainer.expected_value,
         'data': client_data.values.tolist(),
         'feature_names': client_data.columns.tolist()
     }
+	explanation = shap.Explanation(
+        values=shap_val,
+        base_values=explainer.expected_value,
+        data=client_data.values,
+        feature_names=client_data.columns
+    )
+	return explanation	
 
-    return shap_values_dict
+	#explanation = shap.Explanation(np.reshape(np.array(shap_values_local, dtype='float'), (1, -1)),
+     #                              base_value,
+      #                             data=np.reshape(np.array(feat_values, dtype='float'), (1, -1)),
+       #                            feature_names=feat_names)
 
-def shap_values(explainer, data_scaled):
+    
+    #return shap_values_dict
+
+#def shap_values(explainer, data_scaled):
     """Calculate the SHAP values for the entire dataset.
     :param explainer: SHAP explainer object
     :param data_scaled: Scaled dataset (DataFrame)
     :return: SHAP values as a dictionary
     """
-    shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
-    return {
-        'shap_values_0': shap_val[0].tolist(),
-        'shap_values_1': shap_val[1].tolist()
-    }
+ #   shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
+  #  return {
+  #      'shap_values_0': shap_val[0].tolist(),
+  #      'shap_values_1': shap_val[1].tolist()
+  #  }
 
 def shap_globales(shap_val_glob_0, shap_val_glob_1):
     """Combine and return the global SHAP values.
@@ -280,9 +239,9 @@ def distribution(feature, id_client, df):
     observation_value = data_test.loc[data_test['SK_ID_CURR'] == id_client][feature].values
     ax.axvline(observation_value, color='green', linestyle='dashed', linewidth=2, label='Client')
 
-    ax.set_xlabel('Valeur de la feature', fontsize=20)
-    ax.set_ylabel('Nombre d\'occurrences', fontsize=20)
-    ax.set_title(f'Histogramme de la feature "{feature}" pour les cibles accordé et refusé', fontsize=22)
+    ax.set_xlabel('Feature value', fontsize=20)
+    ax.set_ylabel('Number of occured', fontsize=20)
+    ax.set_title(f'Feature Histogram "{feature}" for approved and refused', fontsize=22)
     ax.legend(fontsize=15)
     ax.tick_params(axis='both', which='major', labelsize=15)
 
@@ -310,7 +269,7 @@ def scatter(id_client, feature_x, feature_y, df):
 
     ax.set_xlabel(feature_x)
     ax.set_ylabel(feature_y)
-    ax.set_title(f'Analyse bivariée des caractéristiques sélectionnées')
+    ax.set_title(f'Bivaraiate analysis of selected characteristics')
     ax.legend()
 
     st.pyplot(fig)
@@ -337,7 +296,7 @@ def boxplot_graph(id_client, feat, df_vois):
                   palette=['green', 'red'], ax=ax)
 
     data_client = data_test_mm.loc[data_test['SK_ID_CURR'] == id_client][feat]
-    categories = ax.get_xticks()
+    categories = ax.get_xticklabels()
     for cat in categories:
         plt.scatter(cat, data_client.iloc[:, cat], marker='*', s=250, color='blueviolet', label='Client')
 
@@ -368,10 +327,10 @@ with st.sidebar:
 
     list_id_client = list(data_test['SK_ID_CURR'])
     list_id_client.insert(0, '<Select>')
-    id_client = st.selectbox("ID Client", list_id_client)
-    #id_client_dash = st.selectbox("ID Client", list_id_client)
-    st.write('Vous avez choisi le client ID : '+str(id_client))
-    #st.write('Vous avez choisi le client ID : '+str(id_client_dash))
+    #id_client = st.selectbox("ID Client", list_id_client)
+    id_client_dash = st.selectbox("ID Client", list_id_client)
+    #st.write('Vous avez choisi le client ID : '+str(id_client))
+    st.write('Vous avez choisi le client ID : '+str(id_client_dash))
 
     st.markdown("""---""")
     st.write("Created by ...............")
@@ -402,48 +361,24 @@ if page == "Information du client":
     st.write("Cliquez sur le bouton ci-dessous pour commencer l'analyse de la demande :")
     button_start = st.button("Statut de la demande")
     if button_start:
-        if id_client != '<Select>':
+        if id_client_dash != '<Select>':
             # Calcul des prédictions et affichage des résultats
             st.markdown("RÉSULTAT DE LA DEMANDE")
 
             # Call the function and assign the return value to a single variable
-            probability, decision = prediction(id_client)
+            proba_default, decision = prediction(id_client_dash)
 
-            if probability is not None and decision is not None:
-                st.write(f"Probability of Default: {probability}")
+            if proba_default is not None and decision is not None:
+                st.write(f"Probability of Default: {proba_default}")
                 st.write(f"Decision: {decision}")
 
              # Affichage de la jauge
-            jauge_score(proba)
+            jauge_score(proba_default)
             
-            
-            #result = get_prediction(client_id)
-
-            # Check if the result is a tuple with two values (probability and decision)
-            #if isinstance(result, tuple) and len(result) == 2:
-                #probability, decision = result
-            #else:
-                # Handle the case where only one value is returned
-                #probability = result
-                #decision = None  # Or handle this case as appropriate for your application
-            
-            #probability, decision = get_prediction(id_client)
-            #probability, decision = get_prediction(id_client_dash)       
-
-            #if decision == 'Accordé':
-                #"st.success("Crédit accordé")
-            #else:
-                #st.error("Crédit refusé")
-
-            # Affichage de la jauge
-            #jauge_score(probability)
-
     # Affichage des informations client
     with st.expander("Afficher les informations du client", expanded=False):
         st.info("Voici les informations du client:", icon='ℹ️')
-        #st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
-        st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client]))
-
+        st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
 
 if page == "Interprétation locale":
     st.title("Dashboard Prêt à dépenser - Page Interprétation locale")
@@ -451,7 +386,7 @@ if page == "Interprétation locale":
     locale = st.checkbox("Interprétation locale")
     if locale:
         st.info("Interprétation locale de la prédiction")
-        shap_val = shap_val_local(id_client)
+        shap_val = shap_values_local(id_client_dash)
         #shap_val = shap_val_local(id_client_dash)
         #shap_val = shap_val()     
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
@@ -476,13 +411,13 @@ if page == "Interprétation locale":
 if page == "Interprétation globale":
     st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
     # Création du dataframe de voisins similaires
-    data_voisin = df_voisins(id_client)
+    data_voisin = df_voisins(id_client_dash)
     #data_voisin = df_voisins(id_client_dash)
 
     globale = st.checkbox("Importance globale")
     if globale:
         st.info("Importance globale")
-        shap_values = shap_val()
+        shap_values = shap_values_local()
         data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
         fig, ax = plt.subplots()
@@ -508,21 +443,17 @@ if page == "Interprétation globale":
                 feature1 = st.selectbox("Choisissez une caractéristique", list_features,
                                         index=list_features.index('AMT_CREDIT'))
                 if distrib_compa == 'Tous':
-                    #distribution(feature1, id_client_dash, data_train)
-                    distribution(feature1, client_id, data_train)
-                else:
-                    distribution(feature1, client_id, data_voisins)
-                    #distribution(feature1, id_client_dash, data_voisins)
+                    distribution(feature1, id_client_dash, data_train)
+               	else:
+                    distribution(feature1, id_client_dash, data_voisins)
             with col2:
                 feature2 = st.selectbox("Choisissez une caractéristique", list_features,
                                         index=list_features.index('EXT_SOURCE_2'))
                 if distrib_compa == 'Tous':
-                    #distribution(feature2, client_id, data_train)
                     distribution(feature2, id_client_dash, data_train)
                 else:
-                    distribution(feature2, client_id, data_voisins)
-                    #distribution(feature2, id_client_dash, data_voisins)
-
+                    distribution(feature2, id_client_dash, data_voisins)
+                    
             with st.expander("Explication des distributions", expanded=False):
                 st.caption("Vous pouvez sélectionner la caractéristique dont vous souhaitez observer la distribution. "
                            "En bleu est affichée la distribution des clients qui ne sont pas considérés en défaut et "
@@ -549,11 +480,9 @@ if page == "Interprétation globale":
         # Affichage des nuages de points de la feature 2 en fonction de la feature 1
         if (feat1 != '<Select>') & (feat2 != '<Select>'):
             if bivar_compa == 'Tous':
-                scatter(client_id, feat1, feat2, data_train)
-                #scatter(id_client_dash, feat1, feat2, data_train)
+                scatter(id_client_dash, feat1, feat2, data_train)
             else:
-                scatter(client_id, feat1, feat2, data_voisins)
-                #scatter(id_client_dash, feat1, feat2, data_voisins)
+                scatter(id_client_dash, feat1, feat2, data_voisins)
             with st.expander("Explication des scatter plot", expanded=False):
                 st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
                            "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
@@ -565,14 +494,13 @@ if page == "Interprétation globale":
     if boxplot:
         st.info("Comparaison des distributions de plusieurs variables de l'ensemble de données à l'aide de boxplot.")
 
-        feat_quanti = data_train.select_dtypes(['float64']).columns
+        feat_quanti = data_train.select_dtypes(['float64','int32','int64']).columns
         # Selection des features à afficher
         features = st.multiselect("Sélectionnez les caractéristiques à visualiser: ",
                                   sorted(feat_quanti),
                                   default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
 
         # Affichage des boxplot
-        #boxplot_graph(id_client_dash, features, data_voisins)
         boxplot_graph(id_client_dash, features, data_voisins)
         with st.expander("Explication des boxplot", expanded=False):
             st.caption("Les boxplot permettent d'observer les distributions des variables renseignées. "
