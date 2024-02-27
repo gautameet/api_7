@@ -110,7 +110,7 @@ def jauge_score(prob):
 	if prob is not None:
 		# Define colors for different score ranges
 		color_ranges = [(0, 20, "Green"), (20, 45, "LimeGreen"), (45, 54, "Orange"), (54, 100, "Red")]
-
+	
         # Create steps for the gauge based on color_ranges
 		steps = []
 		for range_start, range_end, color in color_ranges:
@@ -177,7 +177,7 @@ def df_voisins(client_id: int, data_train, data_test):
 		
 		return data_voisins
 
-def shap_values_local(client_id: int, explainer):
+def shap_values_local(client_id:int, explainer):
 	"""Calculate the SHAP values for a client.
  	:param client_id: Client ID (int)
   	:return: SHAP values for the client (dict)
