@@ -476,7 +476,8 @@ if distrib:
                        "dont le prêt est donc jugé comme accordé. En orange, à l'inverse, est affichée la "
                        "distribution des clients considérés comme faisant défaut et dont le prêt leur est refusé. "
                        "La ligne pointillée verte indique où se situe le client par rapport aux autres clients.")
-		
+
+
 
     bivar = st.checkbox("Analyse bivariée")
     if bivar:
@@ -513,9 +514,10 @@ if distrib:
 
         feat_quanti = data_train.select_dtypes(['float64','int32','int64']).columns
         # Selection des features à afficher
-        features = st.multiselect("Sélectionnez les caractéristiques à visualiser: ",
-                                  sorted(feat_quanti),
-                                  default=['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3'])
+        default_features = ['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3']
+	features = st.multiselect("Sélectionnez les caractéristiques à visualiser:", 
+				  sorted(feat_quanti), 
+				  default=default_features)
 
         # Affichage des boxplot
         boxplot_graph(id_client_dash, features, data_voisins)
