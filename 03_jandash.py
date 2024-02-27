@@ -106,11 +106,11 @@ def prediction(client_id, data_test, model):
 	except Exception as e:
 		return None, str(e)
 		
-def jauge_score(proba):
+def jauge_score(proba_default):
     """Constructs a gauge indicating the client's score.
     :param proba: Probability of default (float).
     """
-    if proba is not None:
+    if proba_default is not None:
         # Define colors for different score ranges
         color_ranges = [(0, 20, "Green"), (20, 45, "LimeGreen"), (45, 54, "Orange"), (54, 100, "Red")]
 
