@@ -408,7 +408,7 @@ if page == "Interprétation globale":
         nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
         fig, ax = plt.subplots()
         # Affichage du summary plot : shap global
-        ax = shap.summary_plot(shap_values[1], data_test_std, plot_type='bar', max_display=nb_features)
+        ax = shap.summary_plot(shap_values, data_test_std, plot_type='bar', max_display=nb_features)
         st.pyplot(fig)
 
         with st.expander("Explication du graphique", expanded=False):
