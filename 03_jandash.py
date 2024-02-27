@@ -490,7 +490,7 @@ if bivar:
 	
 	# Selection des features à afficher
 	c1, c2 = st.columns(2)
-        with c1:
+	with c1:
 		feat1 = st.selectbox("Sélectionner une caractéristique X ", list_features)
 	with c2:
 		feat2 = st.selectbox("Sélectionner une caractéristique Y", list_features)
