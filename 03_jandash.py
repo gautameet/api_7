@@ -524,4 +524,4 @@ with st.expander("Explication des boxplot", expanded=False):
 	st.caption("Les boxplot permettent d'observer les distributions des variables renseignées. "
 		   "Une étoile violette représente le client. Ses plus proches voisins sont également "
 		   "renseignés sous forme de points de couleurs (rouge pour ceux étant qualifiés comme "
-		   étant en défaut et vert pour les autres).")
+		   "étant en défaut et vert pour les autres).")
