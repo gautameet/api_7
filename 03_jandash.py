@@ -326,11 +326,11 @@ if page == "Information du client":
 			# Call the function and assign the return value to a single variable
 		
 		proba_default, decision = prediction(id_client_dash)
-			if decision is None:  # Check if only one value is returned (error message)
-				st.write(proba_default)  # Display the error message
-			else:  # Two values returned (probability and decision)
-				st.write(f"Probability of Default: {proba_default}")
-				st.write(f"Decision: {decision}")
+		if decision is None:  # Check if only one value is returned (error message)
+			st.write(proba_default)  # Display the error message
+		else:  # Two values returned (probability and decision)
+			st.write(f"Probability of Default: {proba_default}")
+			st.write(f"Decision: {decision}")
 			
 	# Affichage de la jauge
 	jauge_score(proba_default)
