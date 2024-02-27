@@ -181,10 +181,10 @@ def shap_values_local(client_id: int, explainer):
         'feature_names': client_data.columns.tolist()
     }
 	explanation = shap.Explanation(
-        values=shap_val,
-        base_values=explainer.expected_value,
-        data=client_data.values,
-        feature_names=client_data.columns
+    values=shap_val,
+    base_values=explainer.expected_value,
+    data=client_data.values,
+    feature_names=client_data.columns
     )
 	return explanation	
 
