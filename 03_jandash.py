@@ -275,40 +275,50 @@ def scatter(id_client, feature_x, feature_y, df):
 	st.pyplot(fig)
 
 def boxplot_graph(id_client, feat, df_vois):
-	"""Affiche les boxplot des variables renseignéees en paramètre pour chaque target.
- 	Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
-  	Affiche les 10 plus proches voisins du client sur les boxplot.
-   	:param: id_client (int), feat (str), df_vois.
-    	"""
-	
-	df_box = data_train_mm.melt(id_vars=['TARGET'], value_vars=feat,
-				    var_name="variables", value_name="values")
-	fig, ax = plt.subplots(figsize=(15, 10))
-	sns.boxplot(data=df_box, x='variables', y='values', hue='TARGET', ax=ax)
-	
-	df_voisins = minmax_scale(df_vois, 'minmax')
-	#df_voisins_scaled = minmax_scale(df_vois, 'minmax')
-	df_voisins_box = df_voisins.melt(id_vars=['TARGET'], value_vars=feat,
-					 var_name="var", value_name="val")
-	#df_voisins_box = df_voisins_scaled.melt(id_vars=['TARGET'], value_vars=feat,
-                                         #var_name="var", value_name="val")
-	sns.swarmplot(data=df_voisins_box, x='var', y='val', hue='TARGET', size=8,
-		      			palette=['green', 'red'], ax=ax)
-	
-	data_client = data_test_mm.loc[data_test['SK_ID_CURR'] == id_client][feat]
-	
-	categories = ax.get_xticklabels()
-	for cat in categories:
-		plt.scatter(cat, data_client.iloc[:, cat], marker='*', s=250, color='blueviolet', label='Client')
-		ax.set_title(f'Boxplot des caractéristiques sélectionnées')
-		handles, _ = ax.get_legend_handles_labels()
-		if len(handles) < 8:
-			ax.legend(handles[:4], ['Accordé', 'Refusé', 'Voisins', 'Client'])
-		else:
-			ax.legend(handles[:5], ['Accordé', 'Refusé', 'Voisins (accordés)', 'Voisins (refusés)', 'Client'])
+    """
+    Displays boxplots of the specified variables for each target class.
+    Also displays the position of the client specified by id_client in this graph.
+    Displays the 10 nearest neighbors of the client on the boxplots.
+    :param id_client: Client ID (int)
+    :param feat: List of features to be plotted (list of str)
+    :param df_vois: DataFrame containing the nearest neighbors data
+    """
+    try:
+        # Melt the DataFrame for boxplot visualization
+        df_box = df_vois.melt(id_vars=['TARGET'], value_vars=feat,
+                              var_name="variables", value_name="values")
 
-    			st.pyplot(fig)
+        # Create boxplot
+        fig, ax = plt.subplots(figsize=(15, 10))
+        sns.boxplot(data=df_box, x='variables', y='values', hue='TARGET', ax=ax)
 
+        # Scale the nearest neighbors data
+        df_voisins_scaled = minmax_scale(df_vois[feat])
+
+        # Melt the scaled DataFrame for swarmplot visualization
+        df_voisins_box = df_voisins_scaled.melt(id_vars=['TARGET'], value_vars=feat,
+                                                var_name="var", value_name="val")
+
+        # Create swarmplot for nearest neighbors
+        sns.swarmplot(data=df_voisins_box, x='var', y='val', hue='TARGET', size=8,
+                      palette=['green', 'red'], ax=ax)
+
+        # Get the data for the specified client
+        data_client = df_vois[df_vois['SK_ID_CURR'] == id_client][feat]
+
+        # Highlight the client on the plot
+        for feat in feat:
+            ax.scatter(feat, data_client[feat], marker='*', s=250, color='blueviolet', label='Client')
+
+        # Set plot title and legend
+        ax.set_title('Boxplot des caractéristiques sélectionnées', fontsize=22)
+        ax.legend(fontsize=12, loc='best')
+
+        st.pyplot(fig)
+
+    except Exception as e:
+        print("An error occurred:", e)
+	    
 
 
 # Titre de la page
