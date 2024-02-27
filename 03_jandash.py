@@ -91,10 +91,10 @@ def prediction(client_id, data_test, model):
 		#features = [col for col in client.columns if col in train_features]
 		
 		#features = list(data_train.columns)
-		#features.remove('SK_ID_CURR')
-		#features.remove('TARGET')
+		features.remove('SK_ID_CURR')
+		features.remove('TARGET')
 		
-		info_client = client[train_features]
+		info_client = client[features]
 		probab = model.predict_proba(info_client)
 		proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
@@ -360,7 +360,7 @@ if page == "Information du client":
 				st.write(f"Decision: {decision}")
 			
 			# Affichage de la jauge
-			jauge_score(proba)
+			jauge_score(proba_default)
             
     # Affichage des informations client
 with st.expander("Afficher les informations du client", expanded=False):
