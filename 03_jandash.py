@@ -307,7 +307,7 @@ def boxplot_graph(id_client, feat, df_vois):
 		else:
 			ax.legend(handles[:5], ['Accordé', 'Refusé', 'Voisins (accordés)', 'Voisins (refusés)', 'Client'])
 
-    		st.pyplot(fig)
+    	st.pyplot(fig)
 
 
 
