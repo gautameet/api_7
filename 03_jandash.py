@@ -86,10 +86,9 @@ def prediction(client_id, data_test, model):
 		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
 			return None,'Client not found !'
-			
 		features = list(data_train.columns)
-    		features.remove('SK_ID_CURR')
-    		features.remove('TARGET')
+		features.remove('SK_ID_CURR')
+		features.remove('TARGET')
 		
 		info_client = client[features]
 		probab = model.predict_proba(info_client)
