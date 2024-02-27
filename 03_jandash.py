@@ -93,7 +93,7 @@ def prediction(client_id, data_test, model, train_features):
 		#features.remove('SK_ID_CURR')
 		#features.remove('TARGET')
 		
-		info_client = client[features]
+		info_client = client[train_features]
 		probab = model.predict_proba(info_client)
 		proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
