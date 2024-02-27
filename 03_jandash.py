@@ -313,26 +313,27 @@ if page == "Home":
 
 
 if page == "Information du client":
-    st.title("Dashboard Prêt à dépenser - Page Information du client")
-
-    st.write("Cliquez sur le bouton ci-dessous pour commencer l'analyse de la demande :")
-    button_start = st.button("Statut de la demande")
-    if button_start:
-        if id_client_dash != '<Select>':
-            # Calcul des prédictions et affichage des résultats
-            st.markdown("RÉSULTAT DE LA DEMANDE")
-
-            # Call the function and assign the return value to a single variable
-            proba_default, decision = prediction(id_client_dash)
+	st.title("Dashboard Prêt à dépenser - Page Information du client")
+	
+	st.write("Cliquez sur le bouton ci-dessous pour commencer l'analyse de la demande :")
+	
+	button_start = st.button("Statut de la demande")
+	if button_start:
+		if id_client_dash != '<Select>':
+			# Calcul des prédictions et affichage des résultats
+			st.markdown("RÉSULTAT DE LA DEMANDE")
 			
+			# Call the function and assign the return value to a single variable
+		
+		proba_default, decision = prediction(id_client_dash)
 			if decision is None:  # Check if only one value is returned (error message)
 				st.write(proba_default)  # Display the error message
 			else:  # Two values returned (probability and decision)
 				st.write(f"Probability of Default: {proba_default}")
 				st.write(f"Decision: {decision}")
 			
-			# Affichage de la jauge
-            jauge_score(proba_default)
+	# Affichage de la jauge
+	jauge_score(proba_default)
             
     # Affichage des informations client
     with st.expander("Afficher les informations du client", expanded=False):
