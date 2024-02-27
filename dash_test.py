@@ -102,14 +102,14 @@ def get_data(data,ID):
 
 
 # Neighbor
-def similar_ID(ID):
+def get_similar_ID(ID):
     app_id = app.loc[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
     knn_index = knn.kneighbors(app_id,return_distance=False)
     knn_id = app['SK_ID_CURR'][app.index.isin(knn_index[0])].values.tolist()
     return knn_id
 
-def stat_ID(ID):   
-    app_knn = similar_ID(ID)
+def get_stat_ID(ID):   
+    app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna()
     return len(data_knn),len(data_knn[data_knn['TARGET']==1])
 
@@ -177,7 +177,7 @@ class ComplexRadar():
             ax.set_rgrids(grid,labels=gridlabel,angle=angles[i])
             ax.set_ylim(*ranges[i])
             ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
-            ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
+            #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
         self.angle = np.deg2rad(np.r_[angles, angles[0]])
@@ -186,19 +186,19 @@ class ComplexRadar():
         self.ax.set_xticklabels(variables,fontsize=6)
     
     def plot(self,data,*args,**kw):
-        sdata=_scale_data(data,self.ranges)      # Ensure _scale_data function works correctly
-        self.ax.plot(self.angle,np.r_[sdata,sdata[0]],*args, **kw)        
+        scaled_data=_scale_data(data,self.ranges)      # Ensure _scale_data function works correctly
+        self.ax.plot(self.angle,np.r_[scaled_data,scaled_data[0]],*args, **kw)        
     
     def fill(self,data,*args,**kw):
-        sdata=_scale_data(data,self.ranges)
-        self.ax.fill(self.angle,np.r_[sdata, sdata[0]],*args,**kw)
+        scaled_data=_scale_data(data,self.ranges)
+        self.ax.fill(self.angle,np.r_[scaled_data, scaled_data[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,features=features,fill=False):
+def radat_id_plot(ID,fig, features=features,fill=False):
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
-    modified_client = {
+    ranges = {
         'AGE': (client['AGE'] - 5, client['AGE'] + 5),
         'YEARS_EMPLOYED': (client['YEARS_EMPLOYED'] - 1, client['YEARS_EMPLOYED'] + 1),
         'AMT_INCOME_TOTAL': (client['AMT_INCOME_TOTAL'] - 500, client['AMT_INCOME_TOTAL'] + 500),
@@ -206,35 +206,48 @@ def radat_id_plot(ID,features=features,fill=False):
         'AMT_CREDIT': (client['AMT_CREDIT'] - 500, client['AMT_CREDIT'] + 500)
     }
 
-    radar = ComplexRadar(fig, features, list(modified_client.values()))
+    radar = ComplexRadar(fig, features, ranges)
     radar.plot(client, linewidth=3, color='darkseagreen')
 
     if fill:
         radar.fill(client, alpha=0.2)
     
 
-def radat_knn_plot(ID,fig,features,fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
-    app_knn = similar_ID(ID)
+    app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna().copy()
+    
+    data_knn['TARGET'] = data_knn['TARGET'].astype(int)
+    moy_knn = data_knn.groupby('TARGET').mean()
 
+    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
+              (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
+              (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
+              (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
+              (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
+    
      # Calculate ranges for radar plot based on data_id
-    ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
-              (data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
-              (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
-              (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
-              (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
+    #ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
+              #(data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
+              #(data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
+              #(data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
+              #(data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
     
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
+    radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
+    radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
+    radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
+    fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
     
     # Optionally fill radar plot
     if fill:
-        radar.fill(data_id, alpha=0.2)
+        radar.fill(client, alpha=0.2)
     
 def shap_id(ID):
     app_id = get_data(app,ID).loc[:, X_name].copy()
@@ -247,7 +260,7 @@ def shap_id(ID):
 # Loading data
 zip_file = ZipFile('data_selected1.zip')
 df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
-feats = [c for c in df_sel.columns if c not in ['SK_ID_CURR']]
+feats = [c for c in df_sel.columns if c not in ['TARGET', 'SK_ID_CURR']]
 
 # defining Prediction
 def predict_target():
@@ -260,7 +273,7 @@ def predict_target():
         ID_to_predict = ID_data.loc[:, feats]        #feature of data_selected1
 
         # Make predictions
-        #prediction = model.predict(ID_to_predict)
+        prediction = model.predict(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)[0][1]
         best_threshold = 0.54
         
@@ -333,7 +346,7 @@ if page == "Customer":
             with col2:
                 fig = plt.figure(figsize=(2,2))
                 #radat_id_plot(ID,fig,features=features,fill=False)
-                st.pyplot(fig)
+                st.pyplot(radat_id_plot(ID,fig))
                     
         st.markdown("-----")
         
@@ -344,9 +357,9 @@ if page == "Customer":
             with col3:
                 fig = plt.figure(figsize=(3,3))
                 #radat_knn_plot(ID,fig,features=features)
-                st.pyplot(fig)
+                st.pyplot(radat_knn_plot(ID,fig))
             with col4:
-                N_knn, N_knn1 = stat_ID(ID)
+                N_knn, N_knn1 = get_stat_ID(ID)
                 st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
                 st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
                 st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
@@ -386,7 +399,7 @@ if page == 'Customer portfolio':
             col1, col2,col3 = st.columns(3)
             plt.ioff()
             with col1:
-                fig = plt.figure(figsize=(8,6))
+                fig, ax = plt.figure(figsize=(8,6))
                 bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
                 
                 sns.histplot(data=raw_app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5, ax=ax)
@@ -403,7 +416,7 @@ if page == 'Customer portfolio':
                 ax.legend(title='Target', fontsize=8)
                 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
                 plt.setp(ax.get_yticklabels(), fontsize=8)
-                st.pyplot(fig)
+                st.pyplot(fig,ax)
 
             with col3:
                 fig, ax = plt.subplots(figsize=(8, 6))
@@ -414,7 +427,7 @@ if page == 'Customer portfolio':
                 ax.legend(title='Target', fontsize=8)
                 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
                 plt.setp(ax.get_yticklabels(), fontsize=8)
-                st.pyplot(fig)
+                st.pyplot(fig,ax)
 
                 
         st.markdown("-----")
@@ -442,8 +455,8 @@ if page == 'Customer portfolio':
                 tg_1 = tg_df.loc[1]
 
                 fig = plt.figure(figsize=(4, 4))
-                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
-                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
+                sns.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
+                sns.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
 
                 # Customize plot
                 plt.legend(loc='upper left', fontsize=8)
@@ -451,7 +464,9 @@ if page == 'Customer portfolio':
                 plt.ylabel('AMT_CREDIT', fontsize=8)
                 plt.xlim([20000, 40000])
                 plt.ylim([400000, 800000])
-                plt.xticks(fontsize=6)
-                plt.yticks(fontsize=6)
-        
+                plt.setp(pt.get_xticklabels(),fontsize=6)
+                plt.setp(pt.get_yticklabels(),fontsize=6)
                 st.pyplot(fig)
+                #plt.xticks(fontsize=6)
+                #plt.yticks(fontsize=6)
+                #st.pyplot(fig)
