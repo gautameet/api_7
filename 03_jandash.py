@@ -107,27 +107,48 @@ def prediction(client_id, data_test, model):
 		return None, str(e)
 		
 def jauge_score(proba):
-	"""Constructs a gauge indicating the client's score.
- 	:param: proba (float).
-  	"""
-	if proba is not None:  # Check if proba is not None
-		fig = go.Figure(go.Indicator(
-			domain={'x': [0, 1], 'y': [0, 1]},
-			value=proba*100,
-			mode="gauge+number+delta",
-			title={'text': "Score Gauge"},
-			delta={'reference': 54},
-			gauge={'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
-			       'bar': {'color': "MidnightBlue"},
-			       'steps': [
-				       {'range': [0, 20], 'color': "Green"},
-				       {'range': [20, 45], 'color': "LimeGreen"},
-				       {'range': [45, 54], 'color': "Orange"},
-				       {'range': [54, 100], 'color': "Red"}],
-			       'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}}))
-		st.plotly_chart(fig)
-	else:
-		st.write("Unable to construct gauge: Probability value is None.")
+    """Constructs a gauge indicating the client's score.
+    :param proba: Probability of default (float).
+    """
+    if proba is not None:
+        # Define colors for different score ranges
+        color_ranges = [(0, 20, "Green"), (20, 45, "LimeGreen"), (45, 54, "Orange"), (54, 100, "Red")]
+
+        # Create steps for the gauge based on color_ranges
+        steps = []
+        for range_start, range_end, color in color_ranges:
+            steps.append({'range': [range_start, range_end], 'color': color})
+
+        # Define the layout of the gauge
+        layout = go.Layout(
+            title='Score Gauge',
+            margin=dict(l=20, r=20, t=40, b=20),
+            xaxis=dict(visible=False),
+            yaxis=dict(visible=False),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
+
+        # Create the figure with the indicator
+        fig = go.Figure(go.Indicator(
+            domain={'x': [0, 1], 'y': [0, 1]},
+            value=proba * 100,
+            mode="gauge+number+delta",
+            title={'text': "Score Gauge"},
+            delta={'reference': 54},
+            gauge={
+                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
+                'bar': {'color': "MidnightBlue"},
+                'steps': steps,
+                'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}
+            }
+        ), layout=layout)
+
+        # Display the gauge
+        st.plotly_chart(fig)
+    else:
+        st.write("Unable to construct gauge: Probability value is None.")
+
 
 #def data_voisins(client_id: int):
 def df_voisins(client_id: int):
