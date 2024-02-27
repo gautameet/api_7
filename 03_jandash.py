@@ -75,7 +75,8 @@ data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
 
-def prediction(client_id, data_test, model, train_features):
+def prediction(client_id, data_test, model):
+#def prediction(client_id, data_test, model, train_features):
 	"""
  	Calculates the probability of default for a client.
   	:param client_id: Client ID (int)
@@ -86,7 +87,7 @@ def prediction(client_id, data_test, model, train_features):
 		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
 			return None,'Client not found !'
-		train_features = [col for col in data_train.columns if col in train_features]
+		#train_features = [col for col in data_train.columns if col in train_features]
 		#features = [col for col in client.columns if col in train_features]
 		
 		#features = list(data_train.columns)
@@ -330,7 +331,7 @@ if page == "Information du client":
 			
 			# Call the function and assign the return value to a single variable
 		
-			proba_default, decision = prediction(id_client_dash, data_test, model, train_features)
+			proba_default, decision = prediction(id_client_dash, data_test, model)
 			if decision is None:  # Check if only one value is returned (error message)
 				st.write(proba_default)  # Display the error message
 			else:  # Two values returned (probability and decision)
