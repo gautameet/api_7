@@ -500,8 +500,8 @@ if bivar:
 				scatter(id_client_dash, feat1, feat2, data_train)
 			else:
 				scatter(id_client_dash, feat1, feat2, data_voisins)
-        with st.expander("Explication des scatter plot", expanded=False):
-        st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
+        	with st.expander("Explication des scatter plot", expanded=False):
+        	st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
                            "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
                            "accordé. En rouge, sont indiqués les clients faisant défaut et dont le prêt est jugé "
                            "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
