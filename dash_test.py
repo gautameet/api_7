@@ -120,8 +120,8 @@ def _invert(x, limits):
     return limits[1] - (x - limits[0])
 
 #def _scale_data(data, ranges):
-def _scale_data(self, ranges):
-    scaled_data = []
+#def _scale_data(self, ranges):
+    #scaled_data = []
 
     # Extract the first range
    # x1, x2 = ranges[0]
@@ -130,15 +130,15 @@ def _scale_data(self, ranges):
        # x1, x2 = x2, x1  # Swap values if inverted
 
     # Scale each data point to fit within the range
-    for d, (y1, y2) in zip(data, self.ranges):
+    #for d, (y1, y2) in zip(data, self.ranges):
         # Check if the range is inverted
-        if y1 > y2:
-            y1, y2 = y2, y1  # Swap values if inverted
+        #if y1 > y2:
+         #   y1, y2 = y2, y1  # Swap values if inverted
         # Scale the data point to fit within the range
-        scaled_value = (d - y1) / (y2 - y1)             ##* (x2 - x1) + x1
-        scaled_data.append(scaled_value)
+        #scaled_value = (d - y1) / (y2 - y1)             ##* (x2 - x1) + x1
+       # scaled_data.append(scaled_value)
 
-    return scaled_data
+    #return scaled_data
 
 
 class ComplexRadar():
@@ -148,7 +148,7 @@ class ComplexRadar():
     
         axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,label="axes{}".format(i)) 
                 for i in range(len(variables))]
-        l, text = axes[0].set_thetagrids(np.degrees(angles),labels=variables)
+        l, text = axes[0].set_thetagrids(np.degrees(angles),labels=variables)  
         [txt.set_rotation(angle-90) for txt,angle in zip(text, np.degrees(angles))]
         
         for ax in axes[1:]:
@@ -173,7 +173,15 @@ class ComplexRadar():
         self.ranges = ranges
         self.ax = axes[0]
         self.ax.set_xticklabels(variables,fontsize=6)
-    
+
+    def _scale_data(self, data):
+        scaled_data = []
+        for d, (y1, y2) in zip(data, self.ranges):
+            # Scale the data point to fit within the range
+            scaled_value = (d - y1) / (y2 - y1)
+            scaled_data.append(scaled_value)
+        return scaled_data
+        
     def plot(self,data,*args,**kw):
         scaled_data=self._scale_data(data)      
         self.ax.plot(self.angle,np.r_[scaled_data,scaled_data[0]],*args, **kw)        
@@ -183,7 +191,7 @@ class ComplexRadar():
         self.ax.fill(self.angle, np.r_[scaled_data, scaled_data[0]],*args,**kw)
         
 # Graph Radar
-def radat_id_plot(ID,fig, features=features,fill=False):
+def radat_id_plot(ID,fig, features=None,fill=False):
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
 
@@ -195,15 +203,16 @@ def radat_id_plot(ID,fig, features=features,fill=False):
         'AMT_CREDIT': (client['AMT_CREDIT'] - 500, client['AMT_CREDIT'] + 500)
     }
 
-    #radar = ComplexRadar(fig, features, ranges)
-    radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
+    radar = ComplexRadar(fig, features, ranges)
+    #radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
     radar.plot(client, linewidth=3, color='darkseagreen')
 
     if fill:
         radar.fill(client, alpha=0.2)
-    
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+    return fig
+
+def radat_knn_plot(ID,fig,features=None,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
@@ -221,15 +230,16 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
               (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
               (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
     
-     # Calculate ranges for radar plot based on data_id
-    #ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
-              #(data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
-              #(data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
-              #(data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
-              #(data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
+    # Calculate ranges for radar plot based on data_id
+    ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
+              (data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
+              (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
+              (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
+              (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
     
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
+    #radar.plot(client, linewidth=3, color='darkseagreen')
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
     radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
     radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
