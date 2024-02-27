@@ -35,45 +35,44 @@ featss = [c for c in data_test.columns if c not in ['TARGET','SK_ID_CURR']]
 #data = pd.read_csv(zip_file.open('data_selected1.csv'))
 #feats = [c for c in data.columns if c not in ['TARGET','SK_ID_CURR']]
 
-
 # Loading the model
 model = pickle.load(open('model11.pkl', 'rb'))
 
 explainer = shap.TreeExplainer(model)
 
 def check_client_id(client_id: int):
-    """
-    Customer search in the database
-    :param: client_id (int)
-    :return: message (string).
-    """
-    if client_id in list(data_test['SK_ID_CURR']):
-        return True
-    else:
-        return False
+	"""
+ 	Customer search in the database
+  	:param: client_id (int)
+   	:return: message (string).
+	"""
+	if client_id in list(data_test['SK_ID_CURR']):
+		return True
+	else:
+		return False
 
 # Fonctions
 def minmax_scale(df, scaler):
-    """
-    Perform min-max scaling on the DataFrame using the provided scaler.
-    Parameters:
-        df (DataFrame): The DataFrame to be scaled.
-        scaler: The scaler object to be used for scaling (e.g., MinMaxScaler).
-    Returns:
-        DataFrame: The scaled DataFrame.
-    """
-    cols = df.select_dtypes(['float64','int32','int64']).columns
-    df_scaled = df.copy()
-    if scaler == 'minmax':
-        scal = MinMaxScaler()  # Corrected class name
-    else:
-        scal = StandardScaler()
-    df_scaled[cols] = scal.fit_transform(df[cols])
-    return df_scaled
+	"""
+ 	Perform min-max scaling on the DataFrame using the provided scaler.
+  	Parameters:
+   	df (DataFrame): The DataFrame to be scaled.
+	scaler: The scaler object to be used for scaling (e.g., MinMaxScaler).
+ 	Returns:
+  	DataFrame: The scaled DataFrame.
+   	"""
+	cols = df.select_dtypes(['float64','int32','int64']).columns
+	df_scaled = df.copy()
+	if scaler == 'minmax':
+		scal = MinMaxScaler()  # Corrected class name
+	else:
+		scal = StandardScaler()
+	df_scaled[cols] = scal.fit_transform(df[cols])
+	
+	return df_scaled
 
 data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
-
 
 #def prediction(client_id):
 def prediction(client_id:int, data_test, model):
@@ -87,11 +86,10 @@ def prediction(client_id:int, data_test, model):
 		if client.empty:
 			print("Client not found.")
 			return None
-			
+		
 		# Extract features for the client
 		client_features = client.drop('SK_ID_CURR', axis=1)
 		proba_default = model.predict_proba(client_features)[0][1]
-		
 		#proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
 		if proba_default >= best_threshold:
@@ -100,142 +98,141 @@ def prediction(client_id:int, data_test, model):
 			decision = "Accepted"
 		
 		return proba_default, decision
-		
+	
 	except Exception as e:
 		print("An error occurred during prediction:", e)
 		return None, None
 		
 def jauge_score(prob):
-    """Constructs a gauge indicating the client's score.
-    :param proba: Probability of default (float).
-    """
-    if prob is not None:
-        # Define colors for different score ranges
-        color_ranges = [(0, 20, "Green"), (20, 45, "LimeGreen"), (45, 54, "Orange"), (54, 100, "Red")]
+	"""Constructs a gauge indicating the client's score.
+ 	:param proba: Probability of default (float).
+  	"""
+	if prob is not None:
+		# Define colors for different score ranges
+		color_ranges = [(0, 20, "Green"), (20, 45, "LimeGreen"), (45, 54, "Orange"), (54, 100, "Red")]
 
         # Create steps for the gauge based on color_ranges
-        steps = []
-        for range_start, range_end, color in color_ranges:
-            steps.append({'range': [range_start, range_end], 'color': color})
-
-        # Define the layout of the gauge
-        layout = go.Layout(
-            title='Score Gauge',
-            margin=dict(l=20, r=20, t=40, b=20),
-            xaxis=dict(visible=False),
-            yaxis=dict(visible=False),
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)'
-        )
-
-        # Create the figure with the indicator
-        fig = go.Figure(go.Indicator(
-            domain={'x': [0, 1], 'y': [0, 1]},
-            value=proba * 100,
-            mode="gauge+number+delta",
-            title={'text': "Score Gauge"},
-            delta={'reference': 54},
-            gauge={
-                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
-                'bar': {'color': "MidnightBlue"},
-                'steps': steps,
-                'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}
-            }
-        ), layout=layout)
-
-        # Display the gauge
-        st.plotly_chart(fig)
-    else:
-        st.write("Unable to construct gauge: Probability value is None.")
-
+		steps = []
+		for range_start, range_end, color in color_ranges:
+			steps.append({'range': [range_start, range_end], 'color': color})
+		
+		# Define the layout of the gauge
+		layout = go.Layout(
+			title='Score Gauge',
+			margin=dict(l=20, r=20, t=40, b=20),
+			xaxis=dict(visible=False),
+			yaxis=dict(visible=False),
+			paper_bgcolor='rgba(0,0,0,0)',
+			plot_bgcolor='rgba(0,0,0,0)'
+		)
+		
+		# Create the figure with the indicator
+		fig = go.Figure(go.Indicator(
+			domain={'x': [0, 1], 'y': [0, 1]},
+			value=proba * 100,
+			mode="gauge+number+delta",
+			title={'text': "Score Gauge"},
+			delta={'reference': 54},
+			gauge={
+				'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
+				'bar': {'color': "MidnightBlue"},
+				'steps': steps,
+				'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}
+			}
+		), layout=layout)
+		
+		# Display the gauge
+		st.plotly_chart(fig)
+	else:
+		st.write("Unable to construct gauge: Probability value is None.")
 
 #def data_voisins(client_id: int):
-
 def df_voisins(client_id: int, data_train, data_test):
 	"""
  	Calculates the nearest neighbors of the client_id and returns the dataframe of these neighbors
   	:param client_id: Client ID (int)
    	:return: Dataframe of similar clients (DataFrame).
-    """
+	"""
 	try:
 		features = list(data_train.columns)
 		features.remove('SK_ID_CURR')
 		features.remove('TARGET')
 
-    # Creating an instance of NearestNeighbors
-    knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
+    	# Creating an instance of NearestNeighbors
+		knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
+ 		
+		# Training the model on the data
+		knn.fit(data_train[features])
+		
+		reference_id = client_id
+		reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
 
-    # Training the model on the data
-    knn.fit(data_train[features])
-       
-    reference_id = client_id
-    reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
-
-	 # Check if feature names used during fitting match feature names of query data
-    if set(features) != set(data_test.columns):
-        raise ValueError("Feature names used during fitting do not match feature names of query data.")
+		# Check if feature names used during fitting match feature names of query data
+		if set(features) != set(data_test.columns):
+			raise ValueError("Feature names used during fitting do not match feature names of query data.")
 			
-    # Find nearest neighbors only if reference_observation is not empty
-    indices = knn.kneighbors(reference_observation, return_distance=False)
-    data_voisins = data_train.iloc[indices[0], :]
+    	# Find nearest neighbors only if reference_observation is not empty
+    	indices = knn.kneighbors(reference_observation, return_distance=False)
+    	data_voisins = data_train.iloc[indices[0], :]
 
-    return data_voisins
+    	return data_voisins
     
 def shap_values_local(client_id: int, explainer):
 	"""Calculate the SHAP values for a client.
  	:param client_id: Client ID (int)
-    :return: SHAP values for the client (dict)
-    """
+  	:return: SHAP values for the client (dict)
+   	"""
+	
 	client_data = data_test[data_test['SK_ID_CURR'] == client_id]
 	client_data = client_data.drop('SK_ID_CURR', axis=1)
 	
 	# Compute SHAP value
 	shap_val = explainer.shap_values(client_data)[0]
 	
-    # Construct the output dictionary
+	# Construct the output dictionary
 	shap_values_dict = {
 		'shap_values': shap_val.tolist(),
 		'base_value': explainer.expected_value,
 		'data': client_data.values.tolist(),
 		'feature_names': client_data.columns.tolist()
 	}
+	
 	explanation = shap.Explanation(
 		values=shap_val,
 		base_values=explainer.expected_value,
 		data=client_data.values,
 		feature_names=client_data.columns
 	)
+	
 	return shap_values_dict	
 
-	
 def shap_globales(shap_val_glob_0, shap_val_glob_1):
-    """Combine and return the global SHAP values.
-    :param shap_val_glob_0: SHAP values for class 0 (list)
-    :param shap_val_glob_1: SHAP values for class 1 (list)
-    :return: Combined SHAP values as a NumPy array
+	"""Combine and return the global SHAP values.
+ 	:param shap_val_glob_0: SHAP values for class 0 (list)
+  	:param shap_val_glob_1: SHAP values for class 1 (list)
+   	:return: Combined SHAP values as a NumPy array
     """
-    shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
-    return shap_globales
-    
+	
+	shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
+	return shap_globales
+	
 def distribution(feature, id_client, df):
-    """Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
-    Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
-    :param: feature (str), id_client (int), df.
-    """
-    fig, ax = plt.subplots(figsize=(15, 10))
-    ax.hist(df[df['TARGET'] == 0][feature], bins=30, label='accordé')
-    ax.hist(df[df['TARGET'] == 1][feature], bins=30, label='refusé')
-
-    observation_value = data_test.loc[data_test['SK_ID_CURR'] == id_client][feature].values
-    ax.axvline(observation_value, color='green', linestyle='dashed', linewidth=2, label='Client')
-
-    ax.set_xlabel('Feature value', fontsize=20)
-    ax.set_ylabel('Number of occured', fontsize=20)
-    ax.set_title(f'Feature Histogram "{feature}" for approved and refused', fontsize=22)
-    ax.legend(fontsize=15)
-    ax.tick_params(axis='both', which='major', labelsize=15)
-
-    st.pyplot(fig)
+	"""Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
+ 	Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
+  	:param: feature (str), id_client (int), df.
+   	"""
+	fig, ax = plt.subplots(figsize=(15, 10))
+	ax.hist(df[df['TARGET'] == 0][feature], bins=30, label='accordé')
+	ax.hist(df[df['TARGET'] == 1][feature], bins=30, label='refusé')
+	
+	observation_value = data_test.loc[data_test['SK_ID_CURR'] == id_client][feature].values
+	ax.axvline(observation_value, color='green', linestyle='dashed', linewidth=2, label='Client')
+	
+	ax.set_xlabel('Feature value', fontsize=20)
+	ax.set_ylabel('Number of occured', fontsize=20)
+	ax.set_title(f'Feature Histogram "{feature}" for approved and refused', fontsize=22
+	ax.legend(fontsize=15)
+	ax.tick_params(axis='both', which='major', labelsize=15)st.pyplot(fig)
 
 def scatter(id_client, feature_x, feature_y, df):
     """Affiche le nuage de points de la feature_y en focntion de la feature_x.
