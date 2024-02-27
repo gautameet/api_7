@@ -432,9 +432,8 @@ if page == "Interprétation locale":
 if page == "Interprétation globale":
 	st.title("Dashboard Prêt à dépenser - Page Interprétation globale")
 	# Création du dataframe de voisins similaires
-	data_voisin = df_voisins(id_client_dash)
-	#data_voisin = df_voisins(id_client_dash)
-
+	data_voisin = df_voisins(id_client_dash, data_train, data_test)
+	
 	globale = st.checkbox("Importance globale")
 	if globale:
 		st.info("Importance globale")
