@@ -86,7 +86,7 @@ def prediction(client_id, data_test, model, train_features):
 		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
 			return None,'Client not found !'
-		features = [col for col in data_train.columns if col in train_features]
+		train_features = [col for col in data_train.columns if col in train_features]
 		#features = [col for col in client.columns if col in train_features]
 		
 		#features = list(data_train.columns)
