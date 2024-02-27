@@ -454,8 +454,8 @@ if page == 'Customer portfolio':
                 tg_1 = tg_df.loc[1]
 
                 fig = plt.figure(figsize=(4, 4))
-                sns.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
-                sns.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
+                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
+                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
 
                 # Customize plot
                 plt.legend(loc='upper left', fontsize=8)
