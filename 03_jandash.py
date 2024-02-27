@@ -107,20 +107,20 @@ def jauge_score(proba):
     """
 	if proba is not None:  # Check if proba is not None
 		fig = go.Figure(go.Indicator(
-        	domain={'x': [0, 1], 'y': [0, 1]},
-        	#value=0.54*100,
-        	value=proba*100,
-        	mode="gauge+number+delta",
-        	title={'text': "Score Gauge"},
-        	delta={'reference': 54},
-        	gauge={'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
-            	   'bar': {'color': "MidnightBlue"},
-				   'steps': [
-					   {'range': [0, 20], 'color': "Green"},
-					   {'range': [20, 45], 'color': "LimeGreen"},
-					   {'range': [45, 54], 'color': "Orange"},
-					   {'range': [54, 100], 'color': "Red"}],
-				   'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}}))
+			domain={'x': [0, 1], 'y': [0, 1]},
+			#value=0.54*100,
+			value=proba*100,
+			mode="gauge+number+delta",
+			title={'text': "Score Gauge"},
+			delta={'reference': 54},
+			gauge={'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "black"},
+			       'bar': {'color': "MidnightBlue"},
+			       'steps': [
+				       {'range': [0, 20], 'color': "Green"},
+				       {'range': [20, 45], 'color': "LimeGreen"},
+				       {'range': [45, 54], 'color': "Orange"},
+				       {'range': [54, 100], 'color': "Red"}],
+			       'threshold': {'line': {'color': "brown", 'width': 4}, 'thickness': 1, 'value': 54}}))
 		st.plotly_chart(fig)
 	else:
 		st.write("Unable to construct gauge: Probability value is None.")
