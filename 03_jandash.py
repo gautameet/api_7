@@ -75,36 +75,35 @@ data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
 
-def prediction(client_id):
-#def prediction(client_id, data_test, model, train_features):
+#def prediction(client_id):
+def prediction(client_id:int, data_test, model):
 	"""
  	Calculates the probability of default for a client.
   	:param client_id: Client ID (int)
-    	:return: Probability of default (float) and decision (str)
+   	:return: Probability of default (float) and decision (str)
 	"""
-	#ID = st.number_input('Enter client ID:', value=0, step=1) 
 	try :
 		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
-			return None,'Client not found !'
-		#train_features = [col for col in data_train.columns if col in train_features]
-		#features = [col for col in client.columns if col in train_features]
+			print("Client not found.")
+			return None
+			
+		# Extract features for the client
+		client_features = client.drop('SK_ID_CURR', axis=1)
+		proba_default = model.predict_proba(client_features)[0][1]
 		
-		#features = list(data_train.columns)
-		features.remove('SK_ID_CURR')
-		features.remove('TARGET')
-		
-		info_client = client[features]
-		probab = model.predict_proba(info_client)
-		proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
+		#proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
 		if proba_default >= best_threshold:
 			decision = "Rejected"
 		else:
 			decision = "Accepted"
+		
 		return proba_default, decision
-	except Exception as e:
-		return None, str(e)
+		
+    except Exception as e:
+        print("An error occurred during prediction:", e)
+        return None, None
 		
 def jauge_score(prob):
     """Constructs a gauge indicating the client's score.
