@@ -75,7 +75,7 @@ data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
 
-def prediction(client_id):
+def prediction(client_id, data_test, model):
 	"""
  	Calculates the probability of default for a client.
   	:param client_id: Client ID (int)
@@ -85,11 +85,13 @@ def prediction(client_id):
 	try :
 		client = data_test[data_test['SK_ID_CURR']== client_id]
 		if client.empty:
-			return 'Client not found !'
+			return None,'Client not found !'
 			
-		#ID_to_predict = client[featss]
-		#ID_to_predict.fillna(0, inplace = True)
-		info_client = client.drop("'SK_ID_CURR", axis = 1)
+		features = list(data_train.columns)
+    		features.remove('SK_ID_CURR')
+    		features.remove('TARGET')
+		
+		info_client = client[features]
 		probab = model.predict_proba(info_client)
 		proba_default = round(probab[:, 1].mean(), 3) if probab.ndim > 1 else round(probab[0][1], 3)
 		best_threshold = 0.54
@@ -108,7 +110,6 @@ def jauge_score(proba):
 	if proba is not None:  # Check if proba is not None
 		fig = go.Figure(go.Indicator(
 			domain={'x': [0, 1], 'y': [0, 1]},
-			#value=0.54*100,
 			value=proba*100,
 			mode="gauge+number+delta",
 			title={'text': "Score Gauge"},
@@ -327,7 +328,7 @@ if page == "Information du client":
 			
 			# Call the function and assign the return value to a single variable
 		
-			proba_default, decision = prediction(id_client_dash)
+			proba_default, decision = prediction(id_client_dash, data_test, model)
 			if decision is None:  # Check if only one value is returned (error message)
 				st.write(proba_default)  # Display the error message
 			else:  # Two values returned (probability and decision)
