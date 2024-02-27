@@ -101,8 +101,8 @@ def prediction(client_id:int, data_test, model):
 		
 		return proba_default, decision
 		
-    except Exception as e:
-        print("An error occurred during prediction:", e)
+	except Exception as e:
+		print("An error occurred during prediction:", e)
         return None, None
 		
 def jauge_score(prob):
