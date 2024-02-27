@@ -98,9 +98,9 @@ def prediction(client_id):
 		else:
 			decision = "Accepted"
 		return proba_default, decision
-	except:
-		return "Client not found !"
-  
+	except Exception as e:
+		return None, str(e)
+		
 def jauge_score(proba):
     """Constructs a gauge indicating the client's score.
     :param: proba (float).
@@ -325,9 +325,11 @@ if page == "Information du client":
             # Call the function and assign the return value to a single variable
             proba_default, decision = prediction(id_client_dash)
 
-            if proba_default is not None and decision is not None:
-                st.write(f"Probability of Default: {proba_default}")
-                st.write(f"Decision: {decision}")
+            if decision is None:  # Check if only one value is returned (error message)
+    			st.write(proba_default)  # Display the error message
+			else:  # Two values returned (probability and decision)
+    			st.write(f"Probability of Default: {proba_default}")
+    			st.write(f"Decision: {decision}")
 
              # Affichage de la jauge
             jauge_score(proba_default)
