@@ -196,11 +196,11 @@ def shap_values_local(client_id: int, explainer):
     #return shap_values_dict
 
 #def shap_values(explainer, data_scaled):
-    """Calculate the SHAP values for the entire dataset.
-    :param explainer: SHAP explainer object
-    :param data_scaled: Scaled dataset (DataFrame)
-    :return: SHAP values as a dictionary
-    """
+    #"""Calculate the SHAP values for the entire dataset.
+    #:param explainer: SHAP explainer object
+    #:param data_scaled: Scaled dataset (DataFrame)
+    #:return: SHAP values as a dictionary
+    #"""
  #   shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
   #  return {
   #      'shap_values_0': shap_val[0].tolist(),
