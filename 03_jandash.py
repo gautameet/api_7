@@ -242,7 +242,9 @@ def distribution(feature, id_client, df):
 	ax.set_ylabel('Number of occured', fontsize=20)
 	ax.set_title(f'Feature Histogram "{feature}" for approved and refused', fontsize=22)
 	ax.legend(fontsize=15)
-	ax.tick_params(axis='both', which='major', labelsize=15)st.pyplot(fig)
+	ax.tick_params(axis='both', which='major', labelsize=15)
+	
+	st.pyplot(fig)
 
 def scatter(id_client, feature_x, feature_y, df):
     """Affiche le nuage de points de la feature_y en focntion de la feature_x.
