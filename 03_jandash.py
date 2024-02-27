@@ -327,7 +327,7 @@ if page == "Information du client":
 			
 			# Call the function and assign the return value to a single variable
 		
-		proba_default, decision = prediction(id_client)
+		proba_default, decision = prediction(client_id)
 		if decision is None:  # Check if only one value is returned (error message)
 			st.write(proba_default)  # Display the error message
 		else:  # Two values returned (probability and decision)
