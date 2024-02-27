@@ -172,17 +172,16 @@ def df_voisins(client_id: int, data_train, data_test):
 			raise ValueError("Feature names used during fitting do not match feature names of query data.")
 			
     	# Find nearest neighbors only if reference_observation is not empty
-    	indices = knn.kneighbors(reference_observation, return_distance=False)
-    	data_voisins = data_train.iloc[indices[0], :]
+		indices = knn.kneighbors(reference_observation, return_distance=False)
+		data_voisins = data_train.iloc[indices[0], :]
+		
+		return data_voisins
 
-    	return data_voisins
-    
 def shap_values_local(client_id: int, explainer):
 	"""Calculate the SHAP values for a client.
  	:param client_id: Client ID (int)
-  	:return: SHAP values for the client (dict)
-   	"""
-	
+ 	:return: SHAP values for the client (dict)
+  	"""
 	client_data = data_test[data_test['SK_ID_CURR'] == client_id]
 	client_data = client_data.drop('SK_ID_CURR', axis=1)
 	
@@ -196,7 +195,6 @@ def shap_values_local(client_id: int, explainer):
 		'data': client_data.values.tolist(),
 		'feature_names': client_data.columns.tolist()
 	}
-	
 	explanation = shap.Explanation(
 		values=shap_val,
 		base_values=explainer.expected_value,
@@ -211,15 +209,15 @@ def shap_globales(shap_val_glob_0, shap_val_glob_1):
  	:param shap_val_glob_0: SHAP values for class 0 (list)
   	:param shap_val_glob_1: SHAP values for class 1 (list)
    	:return: Combined SHAP values as a NumPy array
-    """
-	
+	"""
+
 	shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
 	return shap_globales
 	
 def distribution(feature, id_client, df):
 	"""Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
  	Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
-  	:param: feature (str), id_client (int), df.
+  	:param: feature (str), id_client (int), df,
    	"""
 	fig, ax = plt.subplots(figsize=(15, 10))
 	ax.hist(df[df['TARGET'] == 0][feature], bins=30, label='accordé')
@@ -238,28 +236,28 @@ def scatter(id_client, feature_x, feature_y, df):
     """Affiche le nuage de points de la feature_y en focntion de la feature_x.
     Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
     :param: id_client (int), feature_x (str), feature_y (str), df.
-    """
-    fig, ax = plt.subplots(figsize=(10, 6))
+	"""
+	fig, ax = plt.subplots(figsize=(10, 6))
 
-    data_accord = df[df['TARGET'] == 0]
-    data_refus = df[df['TARGET'] == 1]
-    ax.scatter(data_accord[feature_x], data_accord[feature_y], color='blue',
+	data_accord = df[df['TARGET'] == 0]
+	data_refus = df[df['TARGET'] == 1]
+	ax.scatter(data_accord[feature_x], data_accord[feature_y], color='blue',
                alpha=0.5, label='accordé')
     ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
-               alpha=0.5, label='refusé')
+			   alpha=0.5, label='refusé')
 
-    #data_client = df.loc[df['SK_ID_CURR'] == id_client]
-    data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
-    observation_x = data_client[feature_x]
-    observation_y = data_client[feature_y]
-    ax.scatter(observation_x, observation_y, marker='*', s=200, color='black', label='Client')
+	#data_client = df.loc[df['SK_ID_CURR'] == id_client]
+	data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
+	observation_x = data_client[feature_x]
+	observation_y = data_client[feature_y]
+	ax.scatter(observation_x, observation_y, marker='*', s=200, color='black', label='Client')
+	
+	ax.set_xlabel(feature_x)
+	ax.set_ylabel(feature_y)
+	ax.set_title(f'Bivaraiate analysis of selected characteristics')
+	ax.legend()
 
-    ax.set_xlabel(feature_x)
-    ax.set_ylabel(feature_y)
-    ax.set_title(f'Bivaraiate analysis of selected characteristics')
-    ax.legend()
-
-    st.pyplot(fig)
+	st.pyplot(fig)
 
 def boxplot_graph(id_client, feat, df_vois):
     """Affiche les boxplot des variables renseignéees en paramètre pour chaque target.
