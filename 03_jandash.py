@@ -150,12 +150,13 @@ def jauge_score(prob):
 
 
 #def data_voisins(client_id: int):
-def df_voisins(client_id: int):
+def df_voisins(client_id: int, data_train, data_test):
     """Calculates the nearest neighbors of the client_id and returns the dataframe of these neighbors.
     :param client_id: Client ID (int)
     :return: Dataframe of similar clients (DataFrame).
     """
-    features = list(data_train.columns)
+    try:
+	features = list(data_train.columns)
     features.remove('SK_ID_CURR')
     features.remove('TARGET')
 
@@ -168,6 +169,10 @@ def df_voisins(client_id: int):
     reference_id = client_id
     reference_observation = data_test[data_test['SK_ID_CURR'] == reference_id][features].values
 
+	 # Check if feature names used during fitting match feature names of query data
+    if set(features) != set(data_test.columns):
+        raise ValueError("Feature names used during fitting do not match feature names of query data.")
+			
     # Find nearest neighbors only if reference_observation is not empty
     indices = knn.kneighbors(reference_observation, return_distance=False)
     data_voisins = data_train.iloc[indices[0], :]
