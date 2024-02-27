@@ -377,7 +377,6 @@ if page == "Information du client":
 			st.markdown("RÉSULTAT DE LA DEMANDE")
 			
 			# Call the function and assign the return value to a single variable
-		
 			proba_default, decision = prediction(id_client_dash, data_test, model)
 			if decision is None:  # Check if only one value is returned (error message)
 				st.write(proba_default)  # Display the error message
@@ -385,8 +384,12 @@ if page == "Information du client":
 				st.write(f"Probability of Default: {proba_default}")
 				st.write(f"Decision: {decision}")
 			
-			# Affichage de la jauge
-			jauge_score(proba_default)
+				# Affichage de la jauge
+				 if proba_default is not None:
+					 jauge_score(proba_default)
+				 else:
+					st.write("Unable to construct gauge: Probability value is None.")
+				
             
     # Affichage des informations client
 with st.expander("Afficher les informations du client", expanded=False):
