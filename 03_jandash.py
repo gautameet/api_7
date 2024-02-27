@@ -410,8 +410,8 @@ if page == "Interprétation locale":
 		if shap_val is not None and len(shap_val)>0:
 			nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
 			# Affichage du waterfall plot : shap local
-            		fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
-            		if fig:
+			fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
+			if fig:
 				st.pyplot(fig)
             		else:
 				st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données.")
