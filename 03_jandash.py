@@ -155,7 +155,7 @@ def df_voisins(client_id: int, data_train, data_test):
     :param client_id: Client ID (int)
     :return: Dataframe of similar clients (DataFrame).
     """
-    try:
+	try:
 		features = list(data_train.columns)
 		features.remove('SK_ID_CURR')
 		features.remove('TARGET')
