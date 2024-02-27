@@ -75,7 +75,7 @@ data_train_mm = minmax_scale(data_train, 'minmax')
 data_test_mm = minmax_scale(data_test, 'minmax')
 
 
-def prediction(client_id, data_test, model):
+def prediction(client_id):
 #def prediction(client_id, data_test, model, train_features):
 	"""
  	Calculates the probability of default for a client.
@@ -106,11 +106,11 @@ def prediction(client_id, data_test, model):
 	except Exception as e:
 		return None, str(e)
 		
-def jauge_score(proba_default):
+def jauge_score(prob):
     """Constructs a gauge indicating the client's score.
     :param proba: Probability of default (float).
     """
-    if proba_default is not None:
+    if prob is not None:
         # Define colors for different score ranges
         color_ranges = [(0, 20, "Green"), (20, 45, "LimeGreen"), (45, 54, "Orange"), (54, 100, "Red")]
 
@@ -352,7 +352,7 @@ if page == "Information du client":
 			
 			# Call the function and assign the return value to a single variable
 		
-			proba_default, decision = prediction(id_client_dash, data_test, model)
+			proba_default, decision = prediction(id_client_dash)
 			if decision is None:  # Check if only one value is returned (error message)
 				st.write(proba_default)  # Display the error message
 			else:  # Two values returned (probability and decision)
