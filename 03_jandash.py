@@ -247,18 +247,19 @@ def distribution(feature, id_client, df):
 	st.pyplot(fig)
 
 def scatter(id_client, feature_x, feature_y, df):
-    """Affiche le nuage de points de la feature_y en focntion de la feature_x.
-    Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
-    :param: id_client (int), feature_x (str), feature_y (str), df.
+	"""Affiche le nuage de points de la feature_y en focntion de la feature_x.
+ 	Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
+  	:param: id_client (int), feature_x (str), feature_y (str), df.
 	"""
+	
 	fig, ax = plt.subplots(figsize=(10, 6))
-
+	
 	data_accord = df[df['TARGET'] == 0]
 	data_refus = df[df['TARGET'] == 1]
 	ax.scatter(data_accord[feature_x], data_accord[feature_y], color='blue',
-               alpha=0.5, label='accordé')
-    ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
-			   alpha=0.5, label='refusé')
+		   alpha=0.5, label='accordé')
+    	ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
+		   alpha=0.5, label='refusé')
 
 	#data_client = df.loc[df['SK_ID_CURR'] == id_client]
 	data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
