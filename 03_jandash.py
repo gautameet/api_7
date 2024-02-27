@@ -385,9 +385,9 @@ if page == "Information du client":
 				st.write(f"Decision: {decision}")
 			
 				# Affichage de la jauge
-				 if proba_default is not None:
-					 jauge_score(proba_default)
-				 else:
+				if proba_default is not None:
+					jauge_score(proba_default)
+				else:
 					st.write("Unable to construct gauge: Probability value is None.")
 				
             
