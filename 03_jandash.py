@@ -431,7 +431,7 @@ if page == "Interprétation globale":
 
 	globale = st.checkbox("Importance globale")
 	if globale:
-		st.info("Importance globale"
+		st.info("Importance globale")
 			shap_values_dict = shap_values_local(id_client_dash, explainer)
    			shap_values = shap.Explanation(
       				values=shap_valus_dict['shap_values'],
