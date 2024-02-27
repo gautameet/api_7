@@ -335,7 +335,7 @@ if page == "Customer":
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
-                rad_plot = radat_id_plot(ID,features=features,fill=False)
+                rad_plot = radat_id_plot(ID,fig,features=features,fill=False)
                 st.pyplot(rad_plot)
                     
         st.markdown("-----")
@@ -402,9 +402,9 @@ if page == 'Customer portfolio':
             
             with col2:
                 fig, ax = plt.subplots(figsize=(8, 6))  # Unpack the axis object
-                pt = sns.barplot(x=raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], y=raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, ci=None, edgecolor='black')
-                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, ci=None, edgecolor='black')
-                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0], raw_app['CNT_CHILDREN'][raw_app['TARGET']==0], color='royalblue', alpha=.5, ci=None, edgecolor='black')
+                pt = sns.barplot(x=raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], y=raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0], raw_app['CNT_CHILDREN'][raw_app['TARGET']==0], color='royalblue', alpha=.5, errorbar=None, edgecolor='black')
                 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)  # Use ax instead of plt
                 plt.setp(ax.get_yticklabels(), fontsize=8)  # Use ax instead of plt
                 st.pyplot(fig)
