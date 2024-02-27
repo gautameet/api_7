@@ -413,12 +413,11 @@ if page == "Interprétation locale":
 			fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
 			if fig:
 				st.pyplot(fig)
-            		else:
+			else:
 				st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données.")
 		else:
 			st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
-    
-        	with st.expander("Explication du graphique", expanded=False):
+		with st.expander("Explication du graphique", expanded=False):
 			st.caption("Ici sont affichées les caractéristiques influençant de manière locale la décision. "
 				   "C'est-à-dire que ce sont les caractéristiques qui ont influençé la décision pour ce client "
 				   "en particulier.")
