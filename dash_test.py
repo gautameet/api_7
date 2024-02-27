@@ -143,6 +143,9 @@ def _invert(x, limits):
 
 class ComplexRadar():
     def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
+        self.variables = variables
+        self.ranges = ranges
+        
         angles = np.linspace(0, 2 * np.pi, len(variables), endpoint=False)
         #angles = np.arange(0,360,360./len(variables))
     
@@ -170,7 +173,6 @@ class ComplexRadar():
         # variables for plotting
         #self.angle = np.deg2rad(np.r_[angles, angles[0]])
         self.angle = angles
-        self.ranges = ranges
         self.ax = axes[0]
         self.ax.set_xticklabels(variables,fontsize=6)
 
@@ -224,11 +226,11 @@ def radat_knn_plot(ID,fig,features=None,fill=False):
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
 
-    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-              (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
-              (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
-              (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
-              (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
+    #ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
+              #(min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
+              #(min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
+              #(min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
+              #(min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
     
     # Calculate ranges for radar plot based on data_id
     ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
@@ -239,7 +241,6 @@ def radat_knn_plot(ID,fig,features=None,fill=False):
     
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
-    #radar.plot(client, linewidth=3, color='darkseagreen')
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
     radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
     radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
@@ -345,7 +346,7 @@ if page == "Customer":
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
-                rad_plot = radat_id_plot(ID,fig,features=features,fill=False)
+                rad_plot = radat_id_plot(ID,fig,features=None,fill=False)
                 st.pyplot(rad_plot)
                     
         st.markdown("-----")
