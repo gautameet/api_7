@@ -479,9 +479,9 @@ if distrib:
 
 
 
-    bivar = st.checkbox("Analyse bivariée")
-    if bivar:
-        st.info("Analyse bivariée")
+bivar = st.checkbox("Analyse bivariée")
+if bivar:
+	st.info("Analyse bivariée")
         # Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
         bivar_compa = st.radio("Choisissez un type de comparaison :", ('Tous', 'Clients similaires'), key='bivar')
 
@@ -508,17 +508,16 @@ if distrib:
                            "comme refusé. L'étoile noire correspond au client et permet donc de le situer par rapport "
                            "à la base de données clients.")
 
-    boxplot = st.checkbox("Analyse des boxplot")
-    if boxplot:
-        st.info("Comparaison des distributions de plusieurs variables de l'ensemble de données à l'aide de boxplot.")
-
+boxplot = st.checkbox("Analyse des boxplot")
+if boxplot:
+	st.info("Comparaison des distributions de plusieurs variables de l'ensemble de données à l'aide de boxplot.")
         feat_quanti = data_train.select_dtypes(['float64','int32','int64']).columns
         # Selection des features à afficher
-default_features = ['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3']
-features = st.multiselect("Sélectionnez les caractéristiques à visualiser:",
+	default_features = ['AMT_CREDIT', 'AMT_ANNUITY', 'EXT_SOURCE_2', 'EXT_SOURCE_3']
+	features = st.multiselect("Sélectionnez les caractéristiques à visualiser:",
 			  sorted(feat_quanti), default=default_features)
 
-        # Affichage des boxplot
+# Affichage des boxplot
 boxplot_graph(id_client_dash, features, data_voisins)
 with st.expander("Explication des boxplot", expanded=False):
 	st.caption("Les boxplot permettent d'observer les distributions des variables renseignées. "
