@@ -419,8 +419,11 @@ if page == 'Customer portfolio':
 
             with col3:
                 fig = plt.subplots(figsize=(8, 6))
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-                pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
+                
+                pt = sns.barplot(x=raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1], y=raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
+
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
                 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
                 plt.setp(ax.get_yticklabels(), fontsize=8)
                 st.pyplot(fig,ax)
