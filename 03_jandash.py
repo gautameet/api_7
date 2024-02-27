@@ -178,13 +178,13 @@ def df_voisins(client_id: int, data_train, data_test):
 		return data_voisins
 
 def shap_values_local(client_id: int, explainer):
-    """
-    Calculate the SHAP values for a client.
+	"""
+ 	Calculate the SHAP values for a client.
     :param client_id: Client ID (int)
     :param explainer: SHAP explainer object
     :return: SHAP values for the client (dict)
     """
-    try:
+	try:
         # Assuming data_test is accessible inside the function
         client_data = data_test[data_test['SK_ID_CURR'] == client_id]
         client_data = client_data.drop('SK_ID_CURR', axis=1)
