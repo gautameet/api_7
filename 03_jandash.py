@@ -158,7 +158,7 @@ def df_voisins(client_id: int, data_train, data_test):
 		features.remove('SK_ID_CURR')
 		features.remove('TARGET')
 
-    	# Creating an instance of NearestNeighbors
+    		# Creating an instance of NearestNeighbors
 		knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
  		
 		# Training the model on the data
@@ -171,22 +171,16 @@ def df_voisins(client_id: int, data_train, data_test):
 		if set(features) != set(data_test.columns):
 			raise ValueError("Feature names used during fitting do not match feature names of query data.")
 			
-    	# Find nearest neighbors only if reference_observation is not empty
+    		# Find nearest neighbors only if reference_observation is not empty
 		indices = knn.kneighbors(reference_observation, return_distance=False)
 		data_voisins = data_train.iloc[indices[0], :]
 		
 		return data_voisins
+	 except Exception as e:
+        	print("An error occurred during nearest neighbors computation:", e)
+        	return None
 
-def shap_globales(shap_val_glob_0, shap_val_glob_1):
-	"""Combine and return the global SHAP values.
- 	:param shap_val_glob_0: SHAP values for class 0 (list)
-  	:param shap_val_glob_1: SHAP values for class 1 (list)
-   	:return: Combined SHAP values as a NumPy array
-	"""
 
-	shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
-	return shap_globales
-	
 def shap_values_local(client_id: int, explainer):
 	"""Calculate the SHAP values for a client.
     	:param client_id: Client ID (int)
@@ -222,7 +216,16 @@ def shap_values_local(client_id: int, explainer):
 		print("An error occurred during SHAP computation:", e)
         	return None
 
-	
+def shap_globales(shap_val_glob_0, shap_val_glob_1):
+	"""Combine and return the global SHAP values.
+ 	:param shap_val_glob_0: SHAP values for class 0 (list)
+  	:param shap_val_glob_1: SHAP values for class 1 (list)
+   	:return: Combined SHAP values as a NumPy array
+	"""
+
+	shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
+	return shap_globales
+		
 def distribution(feature, id_client, df):
 	"""Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
  	Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
