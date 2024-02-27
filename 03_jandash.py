@@ -258,9 +258,9 @@ def scatter(id_client, feature_x, feature_y, df):
 	data_refus = df[df['TARGET'] == 1]
 	ax.scatter(data_accord[feature_x], data_accord[feature_y], color='blue',
 		   alpha=0.5, label='accordé')
-    	ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
+	ax.scatter(data_refus[feature_x], data_refus[feature_y], color='red',
 		   alpha=0.5, label='refusé')
-
+	
 	#data_client = df.loc[df['SK_ID_CURR'] == id_client]
 	data_client = data_test.loc[data_test['SK_ID_CURR'] == id_client]
 	observation_x = data_client[feature_x]
@@ -271,7 +271,7 @@ def scatter(id_client, feature_x, feature_y, df):
 	ax.set_ylabel(feature_y)
 	ax.set_title(f'Bivaraiate analysis of selected characteristics')
 	ax.legend()
-
+	
 	st.pyplot(fig)
 
 def boxplot_graph(id_client, feat, df_vois):
