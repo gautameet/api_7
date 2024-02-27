@@ -487,13 +487,13 @@ if bivar:
 	list_features = list(data_train.columns)
 	list_features.remove('SK_ID_CURR')
 	list_features.insert(0, '<Select>')
-
+	
 	# Selection des features à afficher
-        c1, c2 = st.columns(2)
+	c1, c2 = st.columns(2)
         with c1:
-        feat1 = st.selectbox("Sélectionner une caractéristique X ", list_features)
+		feat1 = st.selectbox("Sélectionner une caractéristique X ", list_features)
 	with c2:
-        feat2 = st.selectbox("Sélectionner une caractéristique Y", list_features)
+		feat2 = st.selectbox("Sélectionner une caractéristique Y", list_features)
         # Affichage des nuages de points de la feature 2 en fonction de la feature 1
         if (feat1 != '<Select>') & (feat2 != '<Select>'):
 		if bivar_compa == 'Tous':
