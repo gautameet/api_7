@@ -390,38 +390,38 @@ if page == "Information du client":
 				else:
 					st.write("Unable to construct gauge: Probability value is None.")
 				
-            
-    # Affichage des informations client
+# Affichage des informations client
 with st.expander("Afficher les informations du client", expanded=False):
-	st.info("Voici les informations du client:", icon='ℹ️')
-	st.write(pd.DataFrame(data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]))
+	client_info = data_test.loc[data_test['SK_ID_CURR'] == id_client_dash]
+	if not client_info.empty:
+		st.info("Voici les informations du client:", icon='ℹ️')
+		st.write(pd.DataFrame(client_info))
+	else:
+		st.warning("Aucune information trouvée pour le client avec l'ID spécifié".)
 
 if page == "Interprétation locale":
-    st.title("Dashboard Prêt à dépenser - Page Interprétation locale")
+	st.title("Dashboard Prêt à dépenser - Page Interprétation locale")
+	
+	locale = st.checkbox("Interprétation locale")
+	if locale:
+		st.info("Interprétation locale de la prédiction")
+		shap_val = shap_values_local(id_client_dash, explainer)
 
-    locale = st.checkbox("Interprétation locale")
-    if locale:
-        st.info("Interprétation locale de la prédiction")
-        shap_val = shap_values_local(id_client_dash, explainer)
-        #shap_val = shap_val_local(id_client_dash)
-        #shap_val = shap_val()     
-        nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
-
-        if shap_val is not None and len(shap_val) == nb_features:
-        #if shap_val is not None and shap_val.shape[0] == nb_features:
-        # Affichage du waterfall plot : shap local
-            fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
-            if fig:
-                st.pyplot(fig)
-            else:
-                st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données.")
-        else:
-             st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
+		if shap_val is not None and len(shap_val)>0:
+			nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
+			# Affichage du waterfall plot : shap local
+            		fig = shap.waterfall_plot(shap_val, max_display=nb_features, show=False)
+            		if fig:
+				st.pyplot(fig)
+            		else:
+				st.error("Erreur lors de la création du waterfall plot. Veuillez vérifier vos données.")
+		else:
+			st.error("Erreur lors du calcul des valeurs SHAP locales. Veuillez vérifier vos données d'entrée.")   
     
-        with st.expander("Explication du graphique", expanded=False):
-            st.caption("Ici sont affichées les caractéristiques influençant de manière locale la décision. "
-                       "C'est-à-dire que ce sont les caractéristiques qui ont influençé la décision pour ce client "
-                       "en particulier.")
+        	with st.expander("Explication du graphique", expanded=False):
+			st.caption("Ici sont affichées les caractéristiques influençant de manière locale la décision. "
+				   "C'est-à-dire que ce sont les caractéristiques qui ont influençé la décision pour ce client "
+				   "en particulier.")
 
 
 if page == "Interprétation globale":
