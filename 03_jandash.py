@@ -497,9 +497,9 @@ if bivar:
         # Affichage des nuages de points de la feature 2 en fonction de la feature 1
 		if (feat1 != '<Select>') & (feat2 != '<Select>'):
 			if bivar_compa == 'Tous':
-			scatter(id_client_dash, feat1, feat2, data_train)
+				scatter(id_client_dash, feat1, feat2, data_train)
 			else:
-			scatter(id_client_dash, feat1, feat2, data_voisins)
+				scatter(id_client_dash, feat1, feat2, data_voisins)
         with st.expander("Explication des scatter plot", expanded=False):
         st.caption("Vous pouvez ici afficher une caractéristique en fonction d'une autre. "
                            "En bleu sont indiqués les clients ne faisant pas défaut et dont le prêt est jugé comme "
