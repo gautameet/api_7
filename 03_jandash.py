@@ -203,19 +203,18 @@ def shap_values_local(client_id: int, explainer):
 			'feature_names': client_data.columns.tolist()
 		}
         
-        	# Create an Explanation object for further analysis or visualization if needed
-        	explanation = shap.Explanation(
+		# Create an Explanation object for further analysis or visualization if needed
+		explanation = shap.Explanation(
 			values=shap_val,
-            		base_values=explainer.expected_value,
-            		data=client_data.values,
-            		feature_names=client_data.columns
+			base_values=explainer.expected_value,
+			data=client_data.values,
+			feature_names=client_data.columns
 		)
 		
 		return shap_values_dict
-	
 	except Exception as e:
 		print("An error occurred during SHAP computation:", e)
-        	return None
+		return None
 
 def shap_globales(shap_val_glob_0, shap_val_glob_1):
 	"""Combine and return the global SHAP values.
