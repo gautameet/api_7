@@ -396,7 +396,7 @@ if page == 'Customer portfolio':
                 sns.histplot(data=raw_app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5, ax=ax)
                 ax.set(xlabel='AGE', ylabel='Frequency')
                 ax.legend(['Having difficulty', 'Without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35), fancybox=True, shadow=True, ncol=5)
-                st.pyplot(fig)
+                st.pyplot(fig, ax)
             
             with col2:
                 fig, ax = plt.subplots(figsize=(8, 6))
