@@ -332,8 +332,8 @@ if page == "Information du client":
 			st.write(f"Probability of Default: {proba_default}")
 			st.write(f"Decision: {decision}")
 			
-	# Affichage de la jauge
-	jauge_score(proba_default)
+		# Affichage de la jauge
+		jauge_score(proba_default)
             
     # Affichage des informations client
 with st.expander("Afficher les informations du client", expanded=False):
