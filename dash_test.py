@@ -426,7 +426,7 @@ if page == 'Customer portfolio':
                 #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
                 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
                 plt.setp(ax.get_yticklabels(), fontsize=8)
-                st.pyplot(fig,ax)
+                st.pyplot(fig)
 
                 
         st.markdown("-----")
