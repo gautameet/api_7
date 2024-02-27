@@ -439,9 +439,9 @@ if page == "Interprétation globale":
 			data=shap_values_dict['data'],
 		feature_names=shap_values_dict['feature_names']
 	   	)    
-      			data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
-	 		nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
-    			fig, ax = plt.subplos()
+      		data_test_std = minmax_scale(data_test.drop('SK_ID_CURR', axis=1), 'std')
+	 	nb_features = st.slider('Nombre de variables à visualiser', 0, 20, 10)
+    		fig, ax = plt.subplos()
     
     # Affichage du summary plot : shap global
     ax = shap.summary_plot(shap_values, data_test_std, plot_type='bar', max_display=nb_features)
