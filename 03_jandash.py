@@ -150,10 +150,12 @@ def jauge_score(prob):
 
 
 #def data_voisins(client_id: int):
+
 def df_voisins(client_id: int, data_train, data_test):
-    """Calculates the nearest neighbors of the client_id and returns the dataframe of these neighbors.
-    :param client_id: Client ID (int)
-    :return: Dataframe of similar clients (DataFrame).
+	"""
+ 	Calculates the nearest neighbors of the client_id and returns the dataframe of these neighbors
+  	:param client_id: Client ID (int)
+   	:return: Dataframe of similar clients (DataFrame).
     """
 	try:
 		features = list(data_train.columns)
