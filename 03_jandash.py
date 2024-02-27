@@ -102,9 +102,9 @@ def prediction(client_id):
 		return None, str(e)
 		
 def jauge_score(proba):
-    """Constructs a gauge indicating the client's score.
-    :param: proba (float).
-    """
+	"""Constructs a gauge indicating the client's score.
+ 	:param: proba (float).
+  	"""
 	if proba is not None:  # Check if proba is not None
 		fig = go.Figure(go.Indicator(
 			domain={'x': [0, 1], 'y': [0, 1]},
