@@ -196,7 +196,7 @@ def shap_values_local(client_id: int, explainer):
 		shap_val = explainer.shap_values(client_data)[0]
         
         	# Construct the output dictionary
-       		shap_values_dict = {
+		shap_values_dict = {
 			'shap_values': shap_val.tolist(),
 			'base_value': explainer.expected_value,
 			'data': client_data.values.tolist(),
