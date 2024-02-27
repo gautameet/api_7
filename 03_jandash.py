@@ -157,8 +157,8 @@ def df_voisins(client_id: int, data_train, data_test):
     """
     try:
 	features = list(data_train.columns)
-    features.remove('SK_ID_CURR')
-    features.remove('TARGET')
+    	features.remove('SK_ID_CURR')
+    	features.remove('TARGET')
 
     # Creating an instance of NearestNeighbors
     knn = NearestNeighbors(n_neighbors=10, metric='euclidean')
