@@ -484,10 +484,9 @@ if bivar:
 	st.info("Analyse bivariée")
 	# Possibilité de choisir de comparer le client sur l'ensemble de données ou sur un groupe de clients similaires
 	bivar_compa = st.radio("Choisissez un type de comparaison :", ('Tous', 'Clients similaires'), key='bivar')
-
 	list_features = list(data_train.columns)
-        list_features.remove('SK_ID_CURR')
-        list_features.insert(0, '<Select>')
+	list_features.remove('SK_ID_CURR')
+	list_features.insert(0, '<Select>')
 
 	# Selection des features à afficher
         c1, c2 = st.columns(2)
