@@ -397,7 +397,7 @@ with st.expander("Afficher les informations du client", expanded=False):
 		st.info("Voici les informations du client:", icon='ℹ️')
 		st.write(pd.DataFrame(client_info))
 	else:
-		st.warning("Aucune information trouvée pour le client avec l'ID spécifié".)
+		st.warning("Aucune information trouvée pour le client avec ID spécifié".)
 
 if page == "Interprétation locale":
 	st.title("Dashboard Prêt à dépenser - Page Interprétation locale")
