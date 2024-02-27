@@ -173,28 +173,9 @@ def shap_values_local(client_id: int, explainer):
 		data=client_data.values,
 		feature_names=client_data.columns
 	)
-	return explanation	
+	return shap_values_dict	
 
-	#explanation = shap.Explanation(np.reshape(np.array(shap_values_local, dtype='float'), (1, -1)),
-     #                              base_value,
-      #                             data=np.reshape(np.array(feat_values, dtype='float'), (1, -1)),
-       #                            feature_names=feat_names)
-
-    
-    #return shap_values_dict
-
-#def shap_values(explainer, data_scaled):
-    #"""Calculate the SHAP values for the entire dataset.
-    #:param explainer: SHAP explainer object
-    #:param data_scaled: Scaled dataset (DataFrame)
-    #:return: SHAP values as a dictionary
-    #"""
- #   shap_val = explainer.shap_values(data_test_scaled.drop('SK_ID_CURR', axis=1))
-  #  return {
-  #      'shap_values_0': shap_val[0].tolist(),
-  #      'shap_values_1': shap_val[1].tolist()
-  #  }
-
+	
 def shap_globales(shap_val_glob_0, shap_val_glob_1):
     """Combine and return the global SHAP values.
     :param shap_val_glob_0: SHAP values for class 0 (list)
@@ -204,16 +185,6 @@ def shap_globales(shap_val_glob_0, shap_val_glob_1):
     shap_globales = np.array([shap_val_glob_0, shap_val_glob_1])
     return shap_globales
     
-#def shap_val():
-    """ Calcul les shap values de l'ensemble du jeu de données
-    :param:
-    :return: shap values
-    """
-   # explainer = shap.TreeExplainer(model)
-   # shap_val = explainer.shap_values(data_test.drop('SK_ID_CURR', axis=1))
-   # return {'shap_values_0_list': shap_val[0].tolist(),
-    #        'shap_values_1': shap_val[1].tolist()}
-
 def distribution(feature, id_client, df):
     """Affiche la distribution de la feature indiquée en paramètre et ce pour les 2 target.
     Affiche également la position du client dont l'ID est renseigné en paramètre dans ce graphique.
