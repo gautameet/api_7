@@ -71,8 +71,8 @@ def minmax_scale(df, scaler):
 	
 	return df_scaled
 
-data_train_mm = minmax_scale(data_train, 'minmax')
-data_test_mm = minmax_scale(data_test, 'minmax')
+	data_train_mm = minmax_scale(data_train, 'minmax')
+	data_test_mm = minmax_scale(data_test, 'minmax')
 
 #def prediction(client_id):
 def prediction(client_id:int, data_test, model):
@@ -177,36 +177,40 @@ def df_voisins(client_id: int, data_train, data_test):
 		
 		return data_voisins
 
-def shap_values_local(client_id:int, explainer):
-	"""
- 	Calculate the SHAP values for a client.
-  	:param client_id: Client ID (int)
-   	:return: SHAP values for the client (dict)
-	"""
-	try:
-		client_data = data_test[data_test['SK_ID_CURR'] == client_id]
-		client_data = client_data.drop('SK_ID_CURR', axis=1)
-	
-		# Compute SHAP value
-		shap_val = explainer.shap_values(client_data)[0]
-		
-		# Construct the output dictionary
-		shap_values_dict = {
-			'shap_values': shap_val.tolist(),
-			'base_value': explainer.expected_value,
-			'data': client_data.values.tolist(),
-			'feature_names': client_data.columns.tolist()
-		}
-		explanation = shap.Explanation(
-			values=shap_val,
-			base_values=explainer.expected_value,
-			data=client_data.values,
-			feature_names=client_data.columns
-		)
-		
-		return shap_values_dict
-	
-	except Exception as e:
+def shap_values_local(client_id: int, explainer):
+    """
+    Calculate the SHAP values for a client.
+    :param client_id: Client ID (int)
+    :param explainer: SHAP explainer object
+    :return: SHAP values for the client (dict)
+    """
+    try:
+        # Assuming data_test is accessible inside the function
+        client_data = data_test[data_test['SK_ID_CURR'] == client_id]
+        client_data = client_data.drop('SK_ID_CURR', axis=1)
+        
+        # Compute SHAP values
+        shap_val = explainer.shap_values(client_data)[0]
+        
+        # Construct the output dictionary
+        shap_values_dict = {
+            'shap_values': shap_val.tolist(),
+            'base_value': explainer.expected_value,
+            'data': client_data.values.tolist(),
+            'feature_names': client_data.columns.tolist()
+        }
+        
+        # Create an Explanation object for further analysis or visualization if needed
+        explanation = shap.Explanation(
+            values=shap_val,
+            base_values=explainer.expected_value,
+            data=client_data.values,
+            feature_names=client_data.columns
+        )
+        
+        return shap_values_dict
+    
+    except Exception as e:
         print("An error occurred during SHAP computation:", e)
         return None
 
