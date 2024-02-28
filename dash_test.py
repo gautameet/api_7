@@ -216,8 +216,7 @@ class ComplexRadar():
       #      scaled_data.append(scaled_value)
      #   return scaled_data
         
-    
-        
+           
 # Graph Radar
 def radat_id_plot(ID,fig, features,fill=False):
     app_id = get_data(raw_app,ID)[features]
