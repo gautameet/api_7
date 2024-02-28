@@ -176,8 +176,8 @@ class ComplexRadar():
         self.ax.set_xticklabels(variables,fontsize=6)
         
     def plot(self,data,*args,**kw):
-        sdata=self._scale_data(data)      
-        self.ax.plot(self.angle,np.r_[sdata,sdata[0]],*args, **kw)        
+        sdata=_scale_data(data, self.ranges)      
+        self.ax.plot(self.angle,np.r_[sdata, sdata[0]],*args, **kw)        
     
     def fill(self,data,*args,**kw):
         sdata=self._scale_data(data, self.ranges)
@@ -230,7 +230,7 @@ def radat_id_plot(ID,fig, features=features,fill=False):
     radar = ComplexRadar(fig, features, ranges)
     #radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
     radar.plot(client, linewidth=3, color='darkseagreen')
-
+     
     if fill:
         radar.fill(client, alpha=0.2)
 
@@ -366,8 +366,7 @@ if page == "Customer":
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
-                rad_plot = radat_id_plot(ID,fig,features=features,fill=False)
-                st.pyplot(rad_plot)
+                st.pyplot(radat_id_plot(ID,fig)
                     
         st.markdown("-----")
         
