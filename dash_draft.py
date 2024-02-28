@@ -358,6 +358,6 @@ if page == "Customer":
                         st.pyplot(shap_id(ID))
                     else:
                         st.warning(result)
-            except Exception as e:
-                st.warning(f'Programme error:{str(e)}') 
-                st.write(':dizzy_face:') 
+                except Exception as e:
+                    st.warning(f'Programme error:{str(e)}') 
+                    st.write(':dizzy_face:') 
