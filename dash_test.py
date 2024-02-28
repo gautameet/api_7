@@ -16,7 +16,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import os
-from zipfile import ZipFile, BadZipFile
+from zipfile import ZipFile
 import joblib
 import pickle
 import math
