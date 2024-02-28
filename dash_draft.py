@@ -334,7 +334,6 @@ if page == "Customer":
                     st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Similar clients in difficulties to pay)_")
         
         st.markdown("""---""")
-
         with st.container():
             st.write("#### Customer solvability prediction ")
         prediction_button = st.button('Predict solvability')
