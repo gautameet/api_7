@@ -404,4 +404,39 @@ if page == 'Customer portfolio':
 
                 
         st.markdown("-----")
-        
+
+        with st.container():
+            st.write("#### Loan Payment")
+            tg_n = np.array([len(raw_app.loc[raw_app['TARGET']==1]), len(raw_app.loc[raw_app['TARGET']==0]), len(raw_app.loc[raw_app['TARGET'].isnull()])])            
+            col4, col5 = st.columns(2)
+    
+            with col4:
+                fig = plt.figure(figsize=(4, 4))
+                labels = ['Having difficulty', 'Without difficulty', 'No Loan outstanding']
+                colors = ['red', 'royalblue', 'honeydew']
+                plt.pie(tg_n, labels=labels, colors=colors, autopct='%1.2f%%', startangle=140)
+                plt.axis('equal')
+                st.pyplot(fig)
+
+            with col5:
+                df = raw_app[['TARGET', 'NAME_INCOME_TYPE', 'AMT_ANNUITY', 'AMT_CREDIT']]
+                df.loc[:, 'COUNT_TG'] = df['TARGET']
+
+                tg_df = pd.concat((df.groupby(['TARGET', 'NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY', 'AMT_CREDIT']],
+                                   df.groupby(['TARGET', 'NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis=1)
+                tg_0 = tg_df.loc[0]
+                tg_1 = tg_df.loc[1]
+
+                fig = plt.figure(figsize=(4, 4))
+                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
+                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
+
+                # Customize plot
+                plt.legend(loc='upper left', fontsize=8)
+                plt.xlabel('AMT_ANNUITY', fontsize=8)
+                plt.ylabel('AMT_CREDIT', fontsize=8)
+                plt.xlim([20000, 40000])
+                plt.ylim([400000, 800000])
+                plt.setp(pt.get_xticklabels(),fontsize=6)
+                plt.setp(pt.get_yticklabels(),fontsize=6)
+                st.pyplot(fig)
