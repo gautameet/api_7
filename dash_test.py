@@ -160,7 +160,10 @@ class ComplexRadar():
             ax.xaxis.set_visible(False)
         
         for i, ax in enumerate(axes):
-            lower_bound, upper_bound = ranges[i]
+            if isinstance(ranges, dict):
+                lower_bound, upper_bound = ranges[variables[i]]
+            else:
+                lower_bound, upper_bound = ranges[i]
             grid = np.linspace(lower_bound, upper_bound, num=n_ordinate_levels)
             gridlabel = ["{}".format(round(x,2)) for x in grid]
             if lower_bound > upper_bound:
