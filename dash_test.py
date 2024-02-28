@@ -218,8 +218,8 @@ class ComplexRadar():
     
         
 # Graph Radar
-def radat_id_plot(ID,fig, features=features,fill=False):
-    app_id = get_data(raw_app,ID).loc[:,features]
+def radat_id_plot(ID,fig, features,fill=False):
+    app_id = get_data(raw_app,ID)[features]
     client = app_id.iloc[0]
     ranges = [(client['AGE']-5, client['AGE']+5),
               (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
@@ -236,14 +236,14 @@ def radat_id_plot(ID,fig, features=features,fill=False):
 
     #return fig
 
-def radat_knn_plot(ID,fig,features=features,fill=False):
+def radat_knn_plot(ID,fig,features,fill=False):
     # Get data for the specified client ID
-    app_id = get_data(raw_app,ID).loc[:,features]
+    app_id = get_data(raw_app,ID)[features]
     data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
-    data_knn = get_data(raw_app,app_knn).dropna().copy()
+    data_knn = get_data(raw_app,app_knn).dropna()
     #data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     data_knn['TARGET'] = pd.to_numeric(data_knn['TARGET'],errors='coerce')
     median_value = data_knn['TARGET'].median()
