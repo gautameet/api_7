@@ -100,7 +100,6 @@ def get_data(data,ID):
     else:
         return data.loc[data['SK_ID_CURR']==ID].head(1)
 
-
 # Neighbor
 def get_similar_ID(ID):
     app_id = app.loc[app['SK_ID_CURR']==ID].drop(['SK_ID_CURR','TARGET'], axis=1)
@@ -119,35 +118,33 @@ def get_stat_ID(ID):
 def _invert(x, limits):
     return limits[1] - (x - limits[0])
 
-#def _scale_data(data, ranges):
-#def _scale_data(self, ranges):
-    #scaled_data = []
-
-    # Extract the first range
-   # x1, x2 = ranges[0]
-    # Check if the range is inverted
-    #if x1 > x2:
-       # x1, x2 = x2, x1  # Swap values if inverted
-
-    # Scale each data point to fit within the range
-    #for d, (y1, y2) in zip(data, self.ranges):
-        # Check if the range is inverted
-        #if y1 > y2:
-         #   y1, y2 = y2, y1  # Swap values if inverted
-        # Scale the data point to fit within the range
-        #scaled_value = (d - y1) / (y2 - y1)             ##* (x2 - x1) + x1
-       # scaled_data.append(scaled_value)
-
-    #return scaled_data
+def _scale_data(data, ranges):
+    """scales data[1:] to ranges[0],
+    inverts if the scale is reversed"""
+    for d, (y1, y2) in zip(data[1:], ranges[1:]):
+        assert (y1 <= d <= y2) or (y2 <= d <= y1)
+    x1, x2 = ranges[0]
+    d = data[0]
+    if x1 > x2:
+        d = _invert(d, (x1, x2))
+        x1, x2 = x2, x1
+    sdata = [d]
+    for d, (y1, y2) in zip(data[1:], ranges[1:]):
+        if y1 > y2:
+            d = _invert(d, (y1, y2))
+            y1, y2 = y2, y1
+        sdata.append((d-y1) / (y2-y1) 
+                     * (x2 - x1) + x1)
+    return sdata
 
 
 class ComplexRadar():
     def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
         #self.variables = variables
-        self.ranges = ranges
+        #self.ranges = ranges
+        #angles = np.linspace(0, 2 * np.pi, len(variables), endpoint=False)
         
-        angles = np.linspace(0, 2 * np.pi, len(variables), endpoint=False)
-        #angles = np.arange(0,360,360./len(variables))
+        angles = np.arange(0,360,360./len(variables))
     
         axes = [fig.add_axes([0.1,0.1,0.9,0.9],polar=True,label="axes{}".format(i)) 
                 for i in range(len(variables))]
@@ -160,43 +157,65 @@ class ComplexRadar():
             ax.xaxis.set_visible(False)
         
         for i, ax in enumerate(axes):
-            if isinstance(ranges, dict):
-                lower_bound, upper_bound = ranges[variables[i]]
-            else:
-                lower_bound, upper_bound = ranges[i]
-            grid = np.linspace(lower_bound, upper_bound, num=n_ordinate_levels)
-            gridlabel = ["{}".format(round(x,2)) for x in grid]
-            if lower_bound > upper_bound:
-                grid = grid[::-1]
+            grid = np.linspace(*ranges[i], 
+                               num=n_ordinate_levels)
+            gridlabel = ["{}".format(round(x,2)) 
+                         for x in grid]
+            if ranges[i][0] > ranges[i][1]:
+                grid = grid[::-1] # hack to invert grid
+                          # gridlabels aren't reversed
+            gridlabel[0] = "" # clean up origin
+            ax.set_rgrids(grid, labels=gridlabel,
+                         angle=angles[i])
+            ax.set_ylim(*ranges[i])
+            ax.set_yticklabels(ax.get_yticklabels(),fontsize=4)                       
+        # variables for plotting
+        self.angle = np.deg2rad(np.r_[angles, angles[0]])
+        self.ranges = ranges
+        self.ax = axes[0]
+        self.ax.set_xticklabels(variables,fontsize=6)
+        
+    def plot(self,data,*args,**kw):
+        sdata=self._scale_data(data)      
+        self.ax.plot(self.angle,np.r_[sdata,sdata[0]],*args, **kw)        
+    
+    def fill(self,data,*args,**kw):
+        sdata=self._scale_data(data, self.ranges)
+        self.ax.fill(self.angle, np.r_[sdata, sdata[0]],*args,**kw)
+
+
+        #for i, ax in enumerate(axes):        
+         #   if isinstance(ranges, dict):
+               # lower_bound, upper_bound = ranges[variables[i]]
+            #else:
+           #     lower_bound, upper_bound = ranges[i]
+          #  grid = np.linspace(lower_bound, upper_bound, num=n_ordinate_levels)
+           # gridlabel = ["{}".format(round(x,2)) for x in grid]
+          #  if lower_bound > upper_bound:
+          #      grid = grid[::-1]
             #if ranges[variables[i]][0]>ranges[variables[i]][1]:
                 #grid = grid[::-1] # hack to invert grid
-            gridlabel[0] = "" # clean up origin
-            ax.set_rgrids(grid,labels=gridlabel, angle=np.degrees(angles[i]))
-            ax.set_ylim(lower_bound, upper_bound)
-            ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
+          #  gridlabel[0] = "" # clean up origin
+          #  ax.set_rgrids(grid,labels=gridlabel, angle=np.degrees(angles[i]))
+          #  ax.set_ylim(lower_bound, upper_bound)
+          #  ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
             #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
         
         # variables for plotting
         #self.angle = np.deg2rad(np.r_[angles, angles[0]])
-        self.angle = angles
-        self.ax = axes[0]
-        self.ax.set_xticklabels(variables,fontsize=6)
+        #self.angle = angles
+      #  self.ax = axes[0]
+       # self.ax.set_xticklabels(variables,fontsize=6)
 
-    def _scale_data(self, data):
-        scaled_data = []
-        for d, (y1, y2) in zip(data, self.ranges):
-            # Scale the data point to fit within the range
-            scaled_value = (d - y1) / (y2 - y1)
-            scaled_data.append(scaled_value)
-        return scaled_data
+    #def _scale_data(self, data):
+     #   scaled_data = []
+     #   for d, (y1, y2) in zip(data, self.ranges):
+       #     # Scale the data point to fit within the range
+       ##     scaled_value = (d - y1) / (y2 - y1)
+      #      scaled_data.append(scaled_value)
+     #   return scaled_data
         
-    def plot(self,data,*args,**kw):
-        scaled_data=self._scale_data(data)      
-        self.ax.plot(self.angle,np.r_[scaled_data,scaled_data[0]],*args, **kw)        
     
-    def fill(self,data,*args,**kw):
-        scaled_data=self._scale_data(data)
-        self.ax.fill(self.angle, np.r_[scaled_data, scaled_data[0]],*args,**kw)
         
 # Graph Radar
 def radat_id_plot(ID,fig, features=features,fill=False):
@@ -220,7 +239,7 @@ def radat_id_plot(ID,fig, features=features,fill=False):
 
     return fig
 
-def radat_knn_plot(ID,fig,features=None,fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID).loc[:,features]
     data_id = app_id.iloc[0]    
@@ -232,18 +251,18 @@ def radat_knn_plot(ID,fig,features=None,fill=False):
     data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     moy_knn = data_knn.groupby('TARGET').mean()
 
-    #ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-              #(min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
-              #(min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
-              #(min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
-              #(min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
+    ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
+              (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
+              (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
+              (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
+              (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
     
     # Calculate ranges for radar plot based on data_id
-    ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
-              (data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
-              (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
-              (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
-              (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
+    #ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
+              #(data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
+             # (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
+             # (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
+             # (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
     
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
@@ -259,11 +278,9 @@ def radat_knn_plot(ID,fig,features=None,fill=False):
 def shap_id(ID):
     app_id = get_data(app,ID).loc[:, X_name].copy()
     shap_vals = explainer.shap_values(app_id)
-    shap_plot = shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
+    shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
-    # Return the plot object
-    return shap_plot
-
+   
 # Loading data
 zip_file = ZipFile('data_selected1.zip')
 df_sel = pd.read_csv(zip_file.open('data_selected1.csv'))
@@ -426,14 +443,7 @@ if page == 'Customer portfolio':
                 plt.setp(ax.get_yticklabels(), fontsize=8)  # Use ax instead of plt
                 st.pyplot(fig)
             
-            #with col2:
-             #   fig = plt.subplots(figsize=(8, 6))
-              #  pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1],raw_app['CNT_CHILDREN'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
-               # pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0],raw_app['CNT_CHILDREN'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
-               # plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
-               # plt.setp(ax.get_yticklabels(), fontsize=8)
-                st.pyplot(fig)
-
+           
             with col3:
                 fig, ax = plt.subplots(figsize=(8, 6))
                 
