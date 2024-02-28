@@ -295,3 +295,27 @@ if page == "Home":
                                     
                 "\nThis dashboard is composed of following pages :\n"
                 "- **Customer**: to find out all the information related to the customer.\n")
+
+if page == "Customer":
+    st.title("💵 Welcome to the Customer Page")
+    ".\n"
+    st.sidebar.markdown("Please select your ID:")
+    #st.markdown("Your ID:")
+    ID=st.sidebar.number_input(" ", min_value=100002, max_value=456255)
+    print("debug", ID)
+    raw_app_id = get_data(raw_app,ID)
+    with st.spinner('Custumer details....'):
+        st.write('## Customer details.....')
+        with st.container():
+            col1, col2 = st.columns([1.5,2.5])      
+            with col1:
+                st.write("#### Customer detail " + str(ID))
+                st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
+                st.markdown("* **Number of children) : " + str(raw_app_id['CNT_CHILDREN'].values[0]) + "**")
+                st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
+                st.markdown("* **Current Loan : " + str(raw_app_id['AMT_CREDIT'].values[0]) + "**")
+            
+            with col2:
+                fig = plt.figure(figsize=(3,3))
+                st.pyplot(radat_id_plot(ID,fig,features))
+                    
