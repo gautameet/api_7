@@ -183,40 +183,7 @@ class ComplexRadar():
     def fill(self,data,*args,**kw):
         sdata=self._scale_data(data, self.ranges)
         self.ax.fill(self.angle, np.r_[sdata, sdata[0]],*args,**kw)
-
-
-        #for i, ax in enumerate(axes):        
-         #   if isinstance(ranges, dict):
-               # lower_bound, upper_bound = ranges[variables[i]]
-            #else:
-           #     lower_bound, upper_bound = ranges[i]
-          #  grid = np.linspace(lower_bound, upper_bound, num=n_ordinate_levels)
-           # gridlabel = ["{}".format(round(x,2)) for x in grid]
-          #  if lower_bound > upper_bound:
-          #      grid = grid[::-1]
-            #if ranges[variables[i]][0]>ranges[variables[i]][1]:
-                #grid = grid[::-1] # hack to invert grid
-          #  gridlabel[0] = "" # clean up origin
-          #  ax.set_rgrids(grid,labels=gridlabel, angle=np.degrees(angles[i]))
-          #  ax.set_ylim(lower_bound, upper_bound)
-          #  ax.set_yticklabels(ax.get_yticklabels(),fontsize=6)   # Increased fontsize for y tick labels
-            #ax.set_xticklabels(variables,fontsize=6)    # Adjusted fontsize for x tick labels
-        
-        # variables for plotting
-        #self.angle = np.deg2rad(np.r_[angles, angles[0]])
-        #self.angle = angles
-      #  self.ax = axes[0]
-       # self.ax.set_xticklabels(variables,fontsize=6)
-
-    #def _scale_data(self, data):
-     #   scaled_data = []
-     #   for d, (y1, y2) in zip(data, self.ranges):
-       #     # Scale the data point to fit within the range
-       ##     scaled_value = (d - y1) / (y2 - y1)
-      #      scaled_data.append(scaled_value)
-     #   return scaled_data
-        
-           
+    
 # Graph Radar
 def radat_id_plot(ID,fig, features,fill=False):
     app_id = get_data(raw_app,ID)[features]
@@ -225,7 +192,7 @@ def radat_id_plot(ID,fig, features,fill=False):
               (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
               (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
               (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
-              (client['CREDIT']-500, client['CREDIT']+500)]
+              (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
 
     radar = ComplexRadar(fig, features, ranges)
     #radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
