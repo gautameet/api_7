@@ -372,11 +372,35 @@ if page == 'Customer portfolio':
             plt.ioff()
             with col1:
                 fig = plt.figure(figsize=(8,6))
-                bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
+                #bins = int((raw_app['AGE'].max() - raw_app['AGE'].min()) // 5)
                 
                 pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET', palette=['royalblue', 'red'], alpha=0.5)
-                pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5)
+                #pt = sns.histplot(data=raw_app, x='AGE', hue='TARGET', bins=bins, palette=['royalblue', 'red'], alpha=0.5)
                 plt.xlabel('AGE', fontsize=10) 
                 plt.ylabel('')
                 plt.legend(['Having difficulty', 'Without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35), fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
+             with col2:
+                fig, ax = plt.subplots(figsize=(8, 6))  # Unpack the axis object
+                pt = sns.barplot(x=raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], y=raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==0], raw_app['CNT_CHILDREN'][raw_app['TARGET']==0], color='royalblue', alpha=.5, errorbar=None, edgecolor='black')
+                plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)  # Use ax instead of plt
+                plt.setp(ax.get_yticklabels(), fontsize=8)  # Use ax instead of plt
+                st.pyplot(fig)
+            
+           
+            with col3:
+                fig, ax = plt.subplots(figsize=(8, 6))
+                
+                pt = sns.barplot(x=raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1], y=raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
+
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==1],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==1],color='red',alpha=.5,ci=None,edgecolor='black')
+                #pt = sns.barplot(raw_app['NAME_INCOME_TYPE'][raw_app['TARGET']==0],raw_app['AMT_INCOME_TOTAL'][raw_app['TARGET']==0],color='royalblue',alpha=.5,ci=None,edgecolor='black')
+                plt.setp(ax.get_xticklabels(), rotation=45, ha="right", fontsize=10)
+                plt.setp(ax.get_yticklabels(), fontsize=8)
+                st.pyplot(fig, ax)
+
+                
+        st.markdown("-----")
+        
