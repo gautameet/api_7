@@ -307,7 +307,7 @@ if page == "Customer":
     with st.spinner('Custumer details....'):
         st.write('## Customer details.....')
         with st.container():
-            col1, col2 = st.columns([2.5,3.5])      
+            col1, col2 = st.columns([.5,3.5])      
             with col1:
                 st.write("#### Customer detail " + str(ID))
                 st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
