@@ -144,7 +144,7 @@ def _invert(x, limits):
 class ComplexRadar():
     def __init__(self,fig,variables,ranges,n_ordinate_levels=6):
         #self.variables = variables
-        #self.ranges = ranges
+        self.ranges = ranges
         
         angles = np.linspace(0, 2 * np.pi, len(variables), endpoint=False)
         #angles = np.arange(0,360,360./len(variables))
