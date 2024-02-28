@@ -221,14 +221,11 @@ class ComplexRadar():
 def radat_id_plot(ID,fig, features=features,fill=False):
     app_id = get_data(raw_app,ID).loc[:,features]
     client = app_id.iloc[0]
-
-    ranges = {
-        'AGE': (client['AGE'] - 5, client['AGE'] + 5),
-        'YEARS_EMPLOYED': (client['YEARS_EMPLOYED'] - 1, client['YEARS_EMPLOYED'] + 1),
-        'AMT_INCOME_TOTAL': (client['AMT_INCOME_TOTAL'] - 500, client['AMT_INCOME_TOTAL'] + 500),
-        'AMT_ANNUITY': (client['AMT_ANNUITY'] - 100, client['AMT_ANNUITY'] + 100),
-        'AMT_CREDIT': (client['AMT_CREDIT'] - 500, client['AMT_CREDIT'] + 500)
-    }
+    ranges = [(client['AGE']-5, client['AGE']+5),
+              (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
+              (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
+              (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
+              (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
 
     radar = ComplexRadar(fig, features, ranges)
     #radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
@@ -237,7 +234,7 @@ def radat_id_plot(ID,fig, features=features,fill=False):
     if fill:
         radar.fill(client, alpha=0.2)
 
-    return fig
+    #return fig
 
 def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
@@ -252,10 +249,10 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     moy_knn = data_knn.groupby('TARGET').mean()
 
     ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
-              (min(data_knn['YEARS_EMPLOYED']),  max(data_knn['YEARS_EMPLOYED'])),
-              (min(data_knn['AMT_INCOME_TOTAL']),  max(data_knn['AMT_INCOME_TOTAL'])),
-              (min(data_knn['AMT_ANNUITY']),  max(data_knn['AMT_ANNUITY'])),
-              (min(data_knn['AMT_CREDIT']),  max(data_knn['AMT_CREDIT']))]
+              (min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
+              (min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
+              (min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
+              (min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
     
     # Calculate ranges for radar plot based on data_id
     #ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
