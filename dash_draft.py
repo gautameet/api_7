@@ -329,9 +329,9 @@ if page == "Customer":
                     st.pyplot(radat_knn_plot(ID,fig))
                 with col4:
                     N_knn, N_knn1 = get_stat_ID(ID)
-                    st.markdown("* **Clients similaires : " + str(N_knn) + "**")
-                    st.markdown("* **Avec difficultés de paiements : " + str(N_knn1) + "**")                
-                    st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Clients similaires en difficultés de paiements)_")
+                    st.markdown("* **Similar clients : " + str(N_knn) + "**")
+                    st.markdown("* **Clients having difficult to pay : " + str(N_knn1) + "**")                
+                    st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Similar clients in difficulties to pay)_")
             except:
-                st.info('**_Aucun Client Similaire_**')
+                st.info('**_Client not similar_**')
         st.markdown("""---""")
