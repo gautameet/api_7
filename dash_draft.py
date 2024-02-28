@@ -206,7 +206,7 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     data_knn = get_data(raw_app,app_knn).dropna()
     data_knn['TARGET'] = pd.to_numeric(data_knn['TARGET'],errors='coerce')
     median_value = data_knn['TARGET'].median()
-    data_knn['TARGET'].fillna(median_value, inplace=True)
+    data_knn['TARGET'] = data_knn['TARGET'].fillna(median_value)
    #moy_knn = data_knn.groupby('TARGET').mean()
 
     ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
