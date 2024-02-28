@@ -334,7 +334,7 @@ if page == "Customer":
                 st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
                 st.markdown("* **Customer having payment problem : " + str(N_knn1) + "**")                
                 st.markdown("_(either " + str(N_knn1*100/N_knn) + "% clients with similar payment problems)_")
-st.markdown("-----")
+        st.markdown("-----")
         with st.container():
             st.write("#### Customer solvability prediction ")
         prediction_button = st.button('Predict solvability')
