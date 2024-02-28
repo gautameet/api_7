@@ -226,7 +226,7 @@ def radat_id_plot(ID,fig, features,fill=False):
               (client['YEARS_EMPLOYED']-1, client['YEARS_EMPLOYED']+1),
               (client['AMT_INCOME_TOTAL']-500, client['AMT_INCOME_TOTAL']+500),
               (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
-              (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
+              (client['CREDIT']-500, client['CREDIT']+500)]
 
     radar = ComplexRadar(fig, features, ranges)
     #radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
@@ -380,7 +380,7 @@ if page == "Customer":
             with col3:
                 fig = plt.figure(figsize=(3,3))
                 #radat_knn_plot(ID,fig,features=features)
-                st.pyplot(radat_knn_plot(ID))
+                st.pyplot(radat_knn_plot(ID,fig,features))
             with col4:
                 N_knn, N_knn1 = get_stat_ID(ID)
                 st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
