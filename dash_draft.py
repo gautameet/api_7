@@ -380,7 +380,8 @@ if page == 'Customer portfolio':
                 plt.ylabel('')
                 plt.legend(['Having difficulty', 'Without difficulty'], loc='lower center', bbox_to_anchor=(0.5, -0.35), fancybox=True, shadow=True, ncol=5)
                 st.pyplot(fig)
-             with col2:
+             
+            with col2:
                 fig, ax = plt.subplots(figsize=(8, 6))  # Unpack the axis object
                 pt = sns.barplot(x=raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], y=raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
                 #pt = sns.barplot(raw_app['NAME_FAMILY_STATUS'][raw_app['TARGET']==1], raw_app['CNT_CHILDREN'][raw_app['TARGET']==1], color='red', alpha=.5, errorbar=None, edgecolor='black')
