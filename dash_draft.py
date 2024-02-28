@@ -307,7 +307,7 @@ if page == "Customer":
     with st.spinner('Custumer details....'):
         st.write('## Customer details.....')
         with st.container():
-            col1, col2 = st.columns([1,3.5])      
+            col1, col2 = st.columns([1.5,4.5])      
             with col1:
                 st.write("#### Customer detail " + str(ID))
                 st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
@@ -323,7 +323,7 @@ if page == "Customer":
         with st.container():
             st.write("#### Client(s) similaires ")
             try:
-                col3, col4 = st.columns([3,1])
+                col3, col4 = st.columns([3,1.5])
                 with col3:
                     fig = plt.figure(figsize=(3,3))
                     st.pyplot(radat_knn_plot(ID,fig))
