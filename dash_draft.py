@@ -259,7 +259,7 @@ def predict_target():
         return proba, decision
     
     except Exception as e:
-        return f"Error occurred: {str(e)}"
+        return f"Error occurred YYY {str(e)}"
 
 ###############################################
 ## DASH BOARD
@@ -359,7 +359,7 @@ if page == "Customer":
                     else:
                         st.warning(result)
                 except Exception as e:
-                    st.warning(f'Programme error:{str(e)}') 
+                    st.warning(f'Programme error XXX {str(e)}') 
                     st.write(':dizzy_face:') 
 
 # Customer portfolio analysis        
