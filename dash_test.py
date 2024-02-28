@@ -224,8 +224,8 @@ def radat_knn_plot(ID,fig,features=features,fill=False):
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
     radar.plot(data_id,linewidth=3,label='Client '+str(ID),color='darkseagreen')
-    radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
-    radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
+    #radar.plot(moy_knn.iloc[1][features],linewidth=3,label='Client similaire moyen avec difficultés',color='red')
+    #radar.plot(moy_knn.iloc[0][features],linewidth=3,label='Client similaire moyen sans difficultés',color='royalblue')
     fig.legend(fontsize=5,loc='upper center',bbox_to_anchor=(0.5, -0.05),fancybox=True, shadow=True, ncol=5)
     
     # Optionally fill radar plot
