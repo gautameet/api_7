@@ -318,7 +318,8 @@ if page == "Customer":
             with col2:
                 fig = plt.figure(figsize=(3,3))
                 st.pyplot(radat_id_plot(ID,fig,features))
-                    st.markdown("""---""")
+        
+        st.markdown("""---""")
         with st.container():
             st.write("#### Client(s) similaires ")
             try:
@@ -332,7 +333,7 @@ if page == "Customer":
                     st.markdown("* **Clients having difficult to pay : " + str(N_knn1) + "**")                
                     st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Similar clients in difficulties to pay)_")
 
-st.markdown("""---""")
+        st.markdown("""---""")
         with st.container():
             st.write("#### Customer solvability prediction ")
         prediction_button = st.button('Predict solvability')
