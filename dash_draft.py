@@ -332,6 +332,31 @@ if page == "Customer":
                     st.markdown("* **Similar clients : " + str(N_knn) + "**")
                     st.markdown("* **Clients having difficult to pay : " + str(N_knn1) + "**")                
                     st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Similar clients in difficulties to pay)_")
-            except:
-                st.info('**_Client not similar_**')
+          
         st.markdown("""---""")
+
+        with st.container():
+            st.write("#### Customer solvability prediction ")
+        prediction_button = st.button('Predict solvability')
+        
+        if prediction_button:
+            with st.spinner('Calculating...'):
+                try:
+                    proba, decision = predict_target()
+                    #result = predict_target()
+                    #if isinstance(result, tuple) and len(result) == 2:
+                        #proba, decision = result
+                    if decision=="Approved":                            
+                        st.write(':smiley:')
+                        st.success(f'Client solvable (Target = 0), prediction difficulty level at **{proba * 100:.2f}%**')
+                    elif decision=="Refused":
+                        st.write(':confused:')
+                        st.error(f'Client non solvable (Target = 1), prediction difficult level at **{proba * 100:.2f}%**')  
+                        st.write('**Interpretability**')
+                        fig = plt.figure(figsize=(2,2))
+                        st.pyplot(shap_id(ID))
+                    else:
+                        st.warning(result)
+                except Exception as e:
+                    st.warning(f'Programme error:{str(e)}') 
+                    st.write(':dizzy_face:') 
