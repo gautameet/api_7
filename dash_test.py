@@ -206,7 +206,7 @@ def radat_id_plot(ID,fig, features,fill=False):
 def radat_knn_plot(ID,fig,features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
-    data_id = app_id.iloc[raw_app, ID, features, ]    
+    data_id = app_id.iloc[0]    
 
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
@@ -222,13 +222,6 @@ def radat_knn_plot(ID,fig,features,fill=False):
               (min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
               (min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
               (min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
-    
-    # Calculate ranges for radar plot based on data_id
-    #ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
-              #(data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
-             # (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
-             # (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
-             # (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
     
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
