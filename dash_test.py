@@ -10,6 +10,7 @@ from matplotlib.ticker import FixedLocator
 import requests
 import plotly
 import matplotlib.pyplot as plt
+st.set_option('deprecation.showPyplotGlobalUse', False)
 import shap
 import seaborn as sns
 import pandas as pd
