@@ -241,13 +241,13 @@ def predict_target():
     ID=st.number_input("Enter Client ID:", min_value=100002, max_value=456255)
     
     try:
-        ID_data = df_sel.loc[df_sel['SK_ID_CURR'] == ID]
+        ID_to_predict = df_sel.loc[df_sel['SK_ID_CURR'] == ID, feats]
         print(ID_data)
-        """
-        if ID_data.empty:
+        
+        if ID_to_predict.empty:
             return "Client not found!"
-        ID_to_predict = ID_data.loc[:, feats]        #feature of data_selected1
-
+        
+        """
         # Make predictions
         prediction = model.predict(ID_to_predict)
         proba = model.predict_proba(ID_to_predict)[0][1]
