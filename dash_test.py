@@ -92,7 +92,7 @@ del X_train_sm_3
 del X_train_sm
 
 # Features
-features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'CREDIT']
+features =['AGE', 'YEARS_EMPLOYED', 'AMT_INCOME_TOTAL', 'AMT_ANNUITY', 'AMT_CREDIT']
 
 # Data
 def get_data(data,ID):
@@ -221,14 +221,14 @@ def radat_knn_plot(ID,fig,features,fill=False):
               (min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
               (min(data_knn['AMT_INCOME_TOTAL']), max(data_knn['AMT_INCOME_TOTAL'])),
               (min(data_knn['AMT_ANNUITY']), max(data_knn['AMT_ANNUITY'])),
-              (min(data_knn['AMT_CREDIT']), max(data_knn['CREDIT']))]
+              (min(data_knn['AMT_CREDIT']), max(data_knn['AMT_CREDIT']))]
     
     # Calculate ranges for radar plot based on data_id
     #ranges = [(data_id['AGE'] - 5, data_id['AGE'] + 5),
               #(data_id['YEARS_EMPLOYED'] - 1, data_id['YEARS_EMPLOYED'] + 1),
              # (data_id['AMT_INCOME_TOTAL'] - 500, data_id['AMT_INCOME_TOTAL'] + 500),
              # (data_id['AMT_ANNUITY'] - 100, data_id['AMT_ANNUITY'] + 100),
-             # (data_id['AMT_CREDIT'] - 500, data_id['CREDIT'] + 500)]
+             # (data_id['AMT_CREDIT'] - 500, data_id['AMT_CREDIT'] + 500)]
     
     # Perform radar plot using ranges
     radar = ComplexRadar(fig, features, ranges)
@@ -331,7 +331,7 @@ if page == "Customer":
                 st.markdown("* **Status : " + str(raw_app_id['NAME_FAMILY_STATUS'].values[0]) + "**")
                 st.markdown("* **Number of children) : " + str(raw_app_id['CNT_CHILDREN'].values[0]) + "**")
                 st.markdown("* **Employment: " + str(raw_app_id['NAME_INCOME_TYPE'].values[0]) + "**")
-                st.markdown("* **Current Loan : " + str(raw_app_id['CREDIT'].values[0]) + "**")
+                st.markdown("* **Current Loan : " + str(raw_app_id['AMT_CREDIT'].values[0]) + "**")
             
             with col2:
                 fig = plt.figure(figsize=(2,2))
@@ -440,19 +440,19 @@ if page == 'Customer portfolio':
                 df = raw_app[['TARGET', 'NAME_INCOME_TYPE', 'AMT_ANNUITY', 'AMT_CREDIT']]
                 df.loc[:, 'COUNT_TG'] = df['TARGET']
 
-                tg_df = pd.concat((df.groupby(['TARGET', 'NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY', 'CREDIT']],
+                tg_df = pd.concat((df.groupby(['TARGET', 'NAME_INCOME_TYPE']).mean()[['AMT_ANNUITY', 'AMT_CREDIT']],
                                    df.groupby(['TARGET', 'NAME_INCOME_TYPE']).count()[['COUNT_TG']]), axis=1)
                 tg_0 = tg_df.loc[0]
                 tg_1 = tg_df.loc[1]
 
                 fig = plt.figure(figsize=(4, 4))
-                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
-                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
+                plt.scatter(tg_1['AMT_ANNUITY'], tg_1['AMT_CREDIT'], s=tg_1['COUNT_TG'].values/100, label='With difficulty', color='red')
+                plt.scatter(tg_0['AMT_ANNUITY'], tg_0['AMT_CREDIT'], s=tg_0['COUNT_TG'].values/100, label='Without difficulty', color='royalblue', alpha=.3)
 
                 # Customize plot
                 plt.legend(loc='upper left', fontsize=8)
                 plt.xlabel('AMT_ANNUITY', fontsize=8)
-                plt.ylabel('CREDIT', fontsize=8)
+                plt.ylabel('AMT_CREDIT', fontsize=8)
                 plt.xlim([20000, 40000])
                 plt.ylim([400000, 800000])
                 plt.setp(pt.get_xticklabels(),fontsize=6)
