@@ -346,7 +346,7 @@ if page == "Customer":
             with col3:
                 fig = plt.figure(figsize=(3,3))
                 #radat_knn_plot(ID,fig,features=features)
-                st.pyplot(radat_knn_plot())
+                st.pyplot(radat_knn_plot(ID,fig))
             with col4:
                 N_knn, N_knn1 = get_stat_ID(ID)
                 st.markdown("* **Similar type of customers : " + str(N_knn) + "**")
