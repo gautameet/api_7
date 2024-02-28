@@ -185,7 +185,7 @@ class ComplexRadar():
         self.ax.fill(self.angle, np.r_[sdata, sdata[0]],*args,**kw)
     
 # Graph Radar
-def radat_id_plot(ID,fig, features,fill=False):
+def radat_id_plot(ID,fig,features=features,fill=False):
     app_id = get_data(raw_app,ID)[features]
     client = app_id.iloc[0]
     ranges = [(client['AGE']-5, client['AGE']+5),
@@ -194,8 +194,7 @@ def radat_id_plot(ID,fig, features,fill=False):
               (client['AMT_ANNUITY']-100, client['AMT_ANNUITY']+100),
               (client['AMT_CREDIT']-500, client['AMT_CREDIT']+500)]
 
-    radar = ComplexRadar(fig, features, ranges)
-    #radar = ComplexRadar(fig, list(ranges.keys()), ranges)   
+    radar = ComplexRadar(fig,features,ranges)
     radar.plot(client, linewidth=3, color='darkseagreen')
      
     if fill:
@@ -203,7 +202,7 @@ def radat_id_plot(ID,fig, features,fill=False):
 
     #return fig
 
-def radat_knn_plot(ID,fig,features,fill=False):
+def radat_knn_plot(ID,fig,features=features,fill=False):
     # Get data for the specified client ID
     app_id = get_data(raw_app,ID)[features]
     data_id = app_id.iloc[0]    
@@ -211,11 +210,10 @@ def radat_knn_plot(ID,fig,features,fill=False):
     # Get similar IDs using KNN
     app_knn = get_similar_ID(ID)
     data_knn = get_data(raw_app,app_knn).dropna()
-    #data_knn['TARGET'] = data_knn['TARGET'].astype(int)
     data_knn['TARGET'] = pd.to_numeric(data_knn['TARGET'],errors='coerce')
     median_value = data_knn['TARGET'].median()
     data_knn['TARGET'].fillna(median_value, inplace=True)
-    moy_knn = data_knn.groupby('TARGET').mean()
+    #moy_knn = data_knn.groupby('TARGET').mean()
 
     ranges = [(min(data_knn['AGE']), max(data_knn['AGE'])),
               (min(data_knn['YEARS_EMPLOYED']), max(data_knn['YEARS_EMPLOYED'])),
@@ -235,7 +233,7 @@ def radat_knn_plot(ID,fig,features,fill=False):
         radar.fill(client, alpha=0.2)
     
 def shap_id(ID):
-    app_id = get_data(app,ID).loc[:, X_name].copy()
+    app_id = get_data(app,ID)[X_name]
     shap_vals = explainer.shap_values(app_id)
     shap.bar_plot(shap_vals[1][0],feature_names=X_name,max_display=10)
 
