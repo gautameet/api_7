@@ -325,7 +325,7 @@ if page == "Customer":
             st.write("#### Client(s) similaires ")
             
             col3, col4 = st.columns([3,1.5])
-           with col3:
+            with col3:
                fig = plt.figure(figsize=(3,3))
                st.pyplot(radat_knn_plot(ID,fig))
             with col4:
@@ -338,7 +338,7 @@ if page == "Customer":
         
         with st.container():
             st.write("#### Customer solvability prediction ")
-        prediction_button = st.button('Predict solvability')
+            prediction_button = st.button('Predict solvability')
         
         if prediction_button:
             with st.spinner('Calculating...'):
