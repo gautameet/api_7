@@ -319,21 +319,23 @@ if page == "Customer":
                 fig = plt.figure(figsize=(3,3))
                 st.pyplot(radat_id_plot(ID,fig,features))
         
+        
         st.markdown("""---""")
         with st.container():
             st.write("#### Client(s) similaires ")
-            try:
-                col3, col4 = st.columns([3,1.5])
-                with col3:
-                    fig = plt.figure(figsize=(3,3))
-                    st.pyplot(radat_knn_plot(ID,fig))
-                with col4:
-                    N_knn, N_knn1 = get_stat_ID(ID)
-                    st.markdown("* **Similar clients : " + str(N_knn) + "**")
-                    st.markdown("* **Clients having difficult to pay : " + str(N_knn1) + "**")                
-                    st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Similar clients in difficulties to pay)_")
+            
+            col3, col4 = st.columns([3,1.5])
+           with col3:
+               fig = plt.figure(figsize=(3,3))
+               st.pyplot(radat_knn_plot(ID,fig))
+            with col4:
+                N_knn, N_knn1 = get_stat_ID(ID)
+                st.markdown("* **Similar clients : " + str(N_knn) + "**")
+                st.markdown("* **Clients having difficult to pay : " + str(N_knn1) + "**")                
+                st.markdown("_(soit " + str(N_knn1*100/N_knn) + "% des Similar clients in difficulties to pay)_")
 
         st.markdown("""---""")
+        
         with st.container():
             st.write("#### Customer solvability prediction ")
         prediction_button = st.button('Predict solvability')
@@ -356,6 +358,6 @@ if page == "Customer":
                         st.pyplot(shap_id(ID))
                     else:
                         st.warning(result)
-                except Exception as e:
-                    st.warning(f'Programme error:{str(e)}') 
-                    st.write(':dizzy_face:') 
+            except Exception as e:
+                st.warning(f'Programme error:{str(e)}') 
+                st.write(':dizzy_face:') 
