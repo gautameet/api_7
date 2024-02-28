@@ -243,6 +243,7 @@ def predict_target():
     try:
         ID_data = df_sel.loc[df_sel['SK_ID_CURR'] == ID]
         print(ID_data)
+        """
         if ID_data.empty:
             return "Client not found!"
         ID_to_predict = ID_data.loc[:, feats]        #feature of data_selected1
@@ -256,6 +257,9 @@ def predict_target():
             decision = "Approved"
         else:
             decision = "Refused"
+        """ 
+        proba = 0.55
+        decision = "Approved"
         
         return proba, decision
     
